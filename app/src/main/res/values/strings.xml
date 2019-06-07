@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyMot</string>
+    <string name="app_subname">Каталог мотоциклов и все объявления об их продаже в одном приложении</string>
+
+    <string name="title_catalog">Каталог</string>
+    <string name="title_search">Поиск</string>
+    <string name="title_favourites">Избранное</string>
+    <string name="title_info">Информация</string>
+
+</resources>
