@@ -1,4 +1,4 @@
-package ru.michanic.mymot;
+package ru.michanic.mymot.UI.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -8,12 +8,13 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Frames.Catalog.CatalogHomeFragment;
 import ru.michanic.mymot.UI.Frames.Favourites.FavouritesHomeFragment;
 import ru.michanic.mymot.UI.Frames.Info.InfoHomeFragment;
 import ru.michanic.mymot.UI.Frames.Search.SearchHomeFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UniversalActivity {
     //private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
