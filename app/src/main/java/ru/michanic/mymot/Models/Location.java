@@ -19,4 +19,7 @@ public class Location extends RealmObject {
     private Location region;
     private RealmList<Location> cities;
 
+    public String getName() {
+        return name;
+    }
 }

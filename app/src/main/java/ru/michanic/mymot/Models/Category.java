@@ -9,7 +9,7 @@ public class Category extends RealmObject {
     @PrimaryKey
     private int id;
 
-    private String about;
+    private String description;
     private String code;
     private String image;
     private String name;

@@ -5,100 +5,214 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.michanic.mymot.Models.AppAbout;
+import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.JsonResult;
+import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingInterface;
 import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
+import ru.michanic.mymot.Utils.ConfigStorage;
 
 public class ApiInteractor {
 
     private Gson gson = new GsonBuilder().create();
     private Retrofit retrofit = new Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(Const.API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
     private ApiInterface apiInterface = retrofit.create(ApiInterface.class);
+    private Realm realm;
 
+    public ApiInteractor() {
+        Realm.init(MyMotApplication.appContext);
+        realm = Realm.getDefaultInstance();
+    }
 
     public void loadData(final LoadingInterface loadingInterface) {
 
-
         loadExteptedWords(new LoadingInterface() {
+
             @Override
             public void onLoaded() {
+                loadAboutText(new LoadingInterface() {
 
-                loadingInterface.onLoaded();
+                    @Override
+                    public void onLoaded() {
+                        loadRegions(new LoadingInterface() {
+
+                            @Override
+                            public void onLoaded() {
+                                loadClasses(new LoadingInterface() {
+
+                                    @Override
+                                    public void onLoaded() {
+                                        loadModels(new LoadingInterface() {
+
+                                            @Override
+                                            public void onLoaded() {
+                                                loadingInterface.onLoaded();
+                                            }
+                                            @Override
+                                            public void onFailed() {
+                                                loadingInterface.onFailed();
+                                            }
+                                        });
+
+                                    }
+                                    @Override
+                                    public void onFailed() {
+                                        loadingInterface.onFailed();
+                                    }
+
+                                });
+
+                            }
+                            @Override
+                            public void onFailed() {
+                                loadingInterface.onFailed();
+                            }
+
+                        });
+                    }
+                    @Override
+                    public void onFailed() {
+                        loadingInterface.onFailed();
+                    }
+
+                });
+            }
+            @Override
+            public void onFailed() {
+                loadingInterface.onFailed();
             }
         });
-
-        /*new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //loadingInterface.onLoaded();
-
-
-            }
-        }, 2000);*/
 
     }
 
     private void loadExteptedWords(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadExteptedWords");
 
-        Log.e("response", "loadExteptedWords");
-
-        //Log.e("response", response.toString());
-        //Log.e("response", t.toString());
-
-        apiInterface.loadExteptedWords().enqueue(new Callback<Gson>() {
+        apiInterface.loadExteptedWords().enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<Gson> call, Response<Gson> response) {
-                Log.e("response", response.toString());
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                MyMotApplication.getConfigStorage().exteptedWords = response.body();
+                loadingInterface.onLoaded();
+                Log.e("loadData", "words loaded");
             }
 
             @Override
-            public void onFailure(Call<Gson> call, Throwable t) {
-                Log.e("response", t.toString());
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("loadData", t.toString());
             }
         });
 
     }
 
     private void loadAboutText(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadAboutText");
+
+        apiInterface.loadAboutText().enqueue(new Callback<AppAbout>() {
+            @Override
+            public void onResponse(Call<AppAbout> call, Response<AppAbout> response) {
+                MyMotApplication.getConfigStorage().aboutText = response.body().getText();
+                loadingInterface.onLoaded();
+                Log.e("loadData", "about loaded");
+            }
+
+            @Override
+            public void onFailure(Call<AppAbout> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
 
     }
 
 
     private void loadRegions(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadRegions");
 
-        apiInterface.loadRegions().enqueue(new Callback<JsonResult>() {
+        apiInterface.loadRegions().enqueue(new Callback<List<Location>>() {
             @Override
-            public void onResponse(Call<JsonResult> call, Response<JsonResult> response) {
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
 
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(response.body());
+                realm.commitTransaction();
+
+                loadingInterface.onLoaded();
+                Log.e("loadData", "regions loaded");
             }
 
             @Override
-            public void onFailure(Call<JsonResult> call, Throwable t) {
-
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
             }
         });
     }
 
     private void loadClasses(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadClasses");
+
+        apiInterface.loadClasses().enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(response.body());
+                realm.commitTransaction();
+
+                loadingInterface.onLoaded();
+                Log.e("loadData", "classes loaded");
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
 
     }
 
     private void loadModels(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadModels");
+
+        apiInterface.loadModels().enqueue(new Callback<List<Manufacturer>>() {
+            @Override
+            public void onResponse(Call<List<Manufacturer>> call, Response<List<Manufacturer>> response) {
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(response.body());
+                realm.commitTransaction();
+
+                loadingInterface.onLoaded();
+                Log.e("loadData", "models loaded");
+            }
+
+            @Override
+            public void onFailure(Call<List<Manufacturer>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
 
     }
 

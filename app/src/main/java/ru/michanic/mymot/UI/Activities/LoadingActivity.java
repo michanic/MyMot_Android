@@ -10,6 +10,7 @@ import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Interactors.ApiInteractor;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.LoadingInterface;
+import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
 import ru.michanic.mymot.R;
 
 public class LoadingActivity extends UniversalActivity {
@@ -29,19 +30,31 @@ public class LoadingActivity extends UniversalActivity {
         TextView subtitle = (TextView) findViewById(R.id.subtitle);
         subtitle.setText("Синхронизация каталога");
 
+        loadData();
+    }
+
+    private void loadData() {
+
         ApiInteractor apiInteractor = new ApiInteractor();
+
         apiInteractor.loadData(new LoadingInterface() {
             @Override
             public void onLoaded() {
-
                 Intent mainActivity = new Intent(MyMotApplication.appContext, MainActivity.class);
                 mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(mainActivity);
+            }
 
+            @Override
+            public void onFailed() {
+                showNoConnectionDialog(new NoConnectionRepeatInterface() {
+                    @Override
+                    public void repeatPressed() {
+                        loadData();
+                    }
+                });
             }
         });
-    }
 
-    private void loadCities() {
     }
 }

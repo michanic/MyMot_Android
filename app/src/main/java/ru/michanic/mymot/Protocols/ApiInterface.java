@@ -2,37 +2,44 @@ package ru.michanic.mymot.Protocols;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import ru.michanic.mymot.Models.AppAbout;
+import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.JsonResult;
+import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.Models.Manufacturer;
 
 public interface ApiInterface {
 
     @POST("config.php?type=word_exceptions")
-    Call<Gson> loadExteptedWords();
+    Call<List<String>> loadExteptedWords();
 
     @POST("config.php?type=about")
-    Call<JsonResult> loadAboutText();
+    Call<AppAbout> loadAboutText();
 
     @POST("config.php?type=agreement")
     Call<JsonResult> loadAgreementText();
 
 
     @POST("catalog.php?type=only_regions")
-    Call<JsonResult> loadRegions();
+    Call<List<Location>> loadRegions();
 
     @POST("catalog.php?type=cities")
     Call<JsonResult> loadRegionCities(@Query("id") int regionId);
 
     @POST("catalog.php?type=classes")
-    Call<JsonResult> loadClasses();
+    Call<List<Category>> loadClasses();
 
     @POST("catalog.php?type=models")
-    Call<JsonResult> loadModels();
+    Call<List<Manufacturer>> loadModels();
 
     @POST("catalog.php?type=model_details")
     Call<JsonResult> loadModelDetails(@Query("id") int modelId);
