@@ -1,17 +1,11 @@
 package ru.michanic.mymot.Protocols;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Array;
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import ru.michanic.mymot.Models.AppAbout;
+import ru.michanic.mymot.Models.AppPageText;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.JsonResult;
 import ru.michanic.mymot.Models.Location;
@@ -23,10 +17,10 @@ public interface ApiInterface {
     Call<List<String>> loadExteptedWords();
 
     @POST("config.php?type=about")
-    Call<AppAbout> loadAboutText();
+    Call<AppPageText> loadAboutText();
 
     @POST("config.php?type=agreement")
-    Call<JsonResult> loadAgreementText();
+    Call<AppPageText> loadAgreementText();
 
 
     @POST("catalog.php?type=only_regions")

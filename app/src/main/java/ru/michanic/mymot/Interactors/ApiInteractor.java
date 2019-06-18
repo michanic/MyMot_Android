@@ -6,27 +6,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import io.realm.Realm;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.michanic.mymot.Models.AppAbout;
+import ru.michanic.mymot.Models.AppPageText;
 import ru.michanic.mymot.Models.Category;
-import ru.michanic.mymot.Models.JsonResult;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingInterface;
-import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
-import ru.michanic.mymot.Utils.ConfigStorage;
+import ru.michanic.mymot.Protocols.LoadingTextInterface;
 
 public class ApiInteractor {
 
@@ -127,16 +122,16 @@ public class ApiInteractor {
     private void loadAboutText(final LoadingInterface loadingInterface) {
         Log.e("loadData", "loadAboutText");
 
-        apiInterface.loadAboutText().enqueue(new Callback<AppAbout>() {
+        apiInterface.loadAboutText().enqueue(new Callback<AppPageText>() {
             @Override
-            public void onResponse(Call<AppAbout> call, Response<AppAbout> response) {
+            public void onResponse(Call<AppPageText> call, Response<AppPageText> response) {
                 MyMotApplication.getConfigStorage().aboutText = response.body().getText();
                 loadingInterface.onLoaded();
                 Log.e("loadData", "about loaded");
             }
 
             @Override
-            public void onFailure(Call<AppAbout> call, Throwable t) {
+            public void onFailure(Call<AppPageText> call, Throwable t) {
                 loadingInterface.onFailed();
                 Log.e("response", t.toString());
             }
@@ -215,5 +210,20 @@ public class ApiInteractor {
         });
 
     }
+
+    public void loadAgreementText(final LoadingTextInterface loadingTextInterface) {
+        apiInterface.loadAgreementText().enqueue(new Callback<AppPageText>() {
+            @Override
+            public void onResponse(Call<AppPageText> call, Response<AppPageText> response) {
+                loadingTextInterface.onLoaded(response.body().getText());
+            }
+
+            @Override
+            public void onFailure(Call<AppPageText> call, Throwable t) {
+                loadingTextInterface.onLoaded(t.toString());
+            }
+        });
+    }
+
 
 }

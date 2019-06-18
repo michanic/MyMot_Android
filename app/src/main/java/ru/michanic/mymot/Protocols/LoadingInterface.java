@@ -4,3 +4,4 @@ public interface LoadingInterface {
     void onLoaded();
     void onFailed();
 }
+
