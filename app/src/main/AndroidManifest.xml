@@ -24,7 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".UI.Activities.MainActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.TextActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".UI.Activities.CatalogByClassActivity" android:screenOrientation="portrait" android:parentActivityName=".UI.Activities.MainActivity"/>
+        <activity android:name=".UI.Activities.CatalogByManufacturerActivity" android:screenOrientation="portrait" android:parentActivityName=".UI.Activities.MainActivity"/>
+        <activity android:name=".UI.Activities.TextActivity" android:screenOrientation="portrait" android:parentActivityName=".UI.Activities.MainActivity"/>
     </application>
 
 </manifest>

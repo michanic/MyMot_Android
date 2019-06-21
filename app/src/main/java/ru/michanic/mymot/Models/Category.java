@@ -18,4 +18,15 @@ public class Category extends RealmObject {
     // связи
     private RealmList<Model> models;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

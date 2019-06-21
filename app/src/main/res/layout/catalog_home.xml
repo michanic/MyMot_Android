@@ -3,13 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/title_catalog"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/classesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="По классам"
+                android:textSize="22sp"
+                android:textColor="@color/textGray"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="4dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/classesSlider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/manufacturersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="По производителю"
+                android:textSize="22sp"
+                android:textColor="@color/textGray"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="4dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/manufacturersSlider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
