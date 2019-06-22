@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        card_view:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="10dp">
+
+        <ImageView
+            android:id="@+id/cell_image"
+            android:scaleType="centerCrop"
+            android:layout_width="60dp"
+            android:layout_height="50dp"/>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/model_title"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:text="Model"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="9dp"
+        android:layout_toEndOf="@+id/card_view"
+        android:layout_toRightOf="@+id/card_view"
+        android:gravity="center_vertical"
+        android:textColor="@color/textGray"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/model_years"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_below="@+id/model_title"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/card_view"
+        android:layout_toRightOf="@+id/card_view"
+        android:gravity="center_vertical"
+        android:text="2002"
+        android:textColor="@color/textLightGray"
+        android:textSize="12sp" />
+
+</RelativeLayout>

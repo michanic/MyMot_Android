@@ -2,9 +2,12 @@ package ru.michanic.mymot.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import io.realm.RealmList;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Manufacturer;
+import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.Utils.DataManager;
 
@@ -22,6 +25,13 @@ public class CatalogByManufacturerActivity extends UniversalActivity {
         Manufacturer manufacturer = dataManager.getManufacturerById(manufacturerId);
 
         setNavigationTitle(manufacturer.getName());
+
+        RealmList<Model> models = manufacturer.getModels();
+        Log.e("models count", String.valueOf(models.size()));
+
+        for (Model model : models) {
+            Log.e("model", model.getName() + " - " + model.getCategory().getName());
+        }
 
     }
 

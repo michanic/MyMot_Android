@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
@@ -17,11 +18,13 @@ import ru.michanic.mymot.Models.AppPageText;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
+import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingInterface;
 import ru.michanic.mymot.Protocols.LoadingTextInterface;
+import ru.michanic.mymot.Utils.DataManager;
 
 public class ApiInteractor {
 
@@ -60,6 +63,8 @@ public class ApiInteractor {
 
                                             @Override
                                             public void onLoaded() {
+                                                DataManager dataManager = new DataManager();
+                                                dataManager.assignCategories();
                                                 loadingInterface.onLoaded();
                                             }
                                             @Override

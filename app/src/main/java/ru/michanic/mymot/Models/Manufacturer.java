@@ -28,4 +28,8 @@ public class Manufacturer extends RealmObject {
     public String getImage() {
         return image;
     }
+
+    public RealmList<Model> getModels() {
+        return models;
+    }
 }

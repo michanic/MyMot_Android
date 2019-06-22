@@ -9,9 +9,8 @@
     <TextView
         android:id="@+id/section_title"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="25dp"
         android:gravity="center_vertical"
-        android:text="Title"
         android:textColor="@android:color/white"
         android:textSize="12sp"/>
 

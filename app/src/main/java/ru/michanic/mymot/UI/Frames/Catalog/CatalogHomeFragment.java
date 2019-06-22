@@ -46,7 +46,7 @@ public class CatalogHomeFragment extends Fragment {
         classesLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         classesRecyclerView.setLayoutManager(classesLayoutManager);
 
-        final List<Category> classes = dataManager.getCategories();
+        final List<Category> classes = dataManager.getCategories(true);
         ClickListener classPressed = new ClickListener() {
             @Override
             public void onClick(int section, int row) {
@@ -66,7 +66,7 @@ public class CatalogHomeFragment extends Fragment {
         manufacturersLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         manufacturersRecyclerView.setLayoutManager(manufacturersLayoutManager);
 
-        final List<Manufacturer> manufacturers = dataManager.getManufacturers();
+        final List<Manufacturer> manufacturers = dataManager.getManufacturers(true);
         ClickListener manufacturerPressed = new ClickListener() {
             @Override
             public void onClick(int section, int row) {

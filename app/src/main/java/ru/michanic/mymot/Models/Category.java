@@ -29,4 +29,12 @@ public class Category extends RealmObject {
     public String getImage() {
         return image;
     }
+
+    public void setModels(RealmList<Model> models) {
+        this.models = models;
+    }
+
+    public RealmList<Model> getModels() {
+        return models;
+    }
 }

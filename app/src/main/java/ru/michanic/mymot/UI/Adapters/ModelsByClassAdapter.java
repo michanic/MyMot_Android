@@ -8,21 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.halfbit.pinnedsection.PinnedSectionListView;
 import ru.michanic.mymot.Models.Category;
+import ru.michanic.mymot.Models.Model;
+import ru.michanic.mymot.Models.SectionModelItem;
+import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.CatalogSliderCell;
 
 public class ModelsByClassAdapter extends BaseAdapter implements PinnedSectionListView.PinnedSectionListAdapter {
 
-    List<Category> categories;
+    List<SectionModelItem> items;
 
-    public ModelsByClassAdapter(List<Category> categories) {
-        this.categories = categories;
+    public ModelsByClassAdapter(List<SectionModelItem> items) {
+        this.items = items;
     }
 
     @Override
@@ -32,12 +38,12 @@ public class ModelsByClassAdapter extends BaseAdapter implements PinnedSectionLi
 
     @Override
     public int getCount() {
-        return categories.size();
+        return items.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return categories.get(position);
+        return items.get(position);
     }
 
     @Override
@@ -50,18 +56,39 @@ public class ModelsByClassAdapter extends BaseAdapter implements PinnedSectionLi
     }
 
     @Override public int getItemViewType(int position) {
-        return position == 1 ? 0 : 1;
+        SectionModelItem item = items.get(position);
+        if (item.getSectionTitle() != null) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = View.inflate(parent.getContext(), R.layout.cell_section_title, null);
-        }
-        return view;
-    }
+        SectionModelItem item = items.get(position);
 
+        if (item.getSectionTitle() != null) {
+            View view = View.inflate(parent.getContext(), R.layout.cell_section_title, null);
+            TextView title = (TextView) view.findViewById(R.id.section_title);
+
+            title.setText(item.getSectionTitle());
+
+            return view;
+        } else {
+            View view = View.inflate(parent.getContext(), R.layout.cell_models_list, null);
+            ImageView imageView = (ImageView) view.findViewById(R.id.cell_image);
+            TextView title = (TextView) view.findViewById(R.id.model_title);
+            TextView years = (TextView) view.findViewById(R.id.model_years);
+
+            Model model = item.getModel();
+            Picasso.get().load(Const.DOMAIN + model.getPreview_picture()).into(imageView);
+            title.setText(model.getName());
+            years.setText("2001");
+
+            return view;
+        }
+    }
 
 
 }
