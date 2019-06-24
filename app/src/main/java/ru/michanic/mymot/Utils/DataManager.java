@@ -61,6 +61,12 @@ public class DataManager {
 
 
 
+    public Model getModelById(int id) {
+        return realm.where(Model.class).equalTo("id", id).findFirst();
+    }
+
+
+
     public Category getCategoryById(int id) {
         return realm.where(Category.class).equalTo("id", id).findFirst();
     }

@@ -24,12 +24,12 @@ public class CatalogSliderCell extends RecyclerView.ViewHolder {
     }
 
     public void fillWithCategory(Category category) {
-        Picasso.get().load(Const.DOMAIN + category.getImage()).into(imageView);
+        Picasso.get().load(Const.DOMAIN + category.getImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
         titleLabel.setText(category.getName());
     }
 
     public void fillWithManufacturer(Manufacturer manufacturer) {
-        Picasso.get().load(Const.DOMAIN + manufacturer.getImage()).into(imageView);
+        Picasso.get().load(Const.DOMAIN + manufacturer.getImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
         titleLabel.setText(manufacturer.getName());
     }
 

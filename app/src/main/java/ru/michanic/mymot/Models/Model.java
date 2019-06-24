@@ -22,6 +22,10 @@ public class Model extends RealmObject {
     private Category category;
     private Manufacturer manufacturer;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -52,5 +56,9 @@ public class Model extends RealmObject {
 
     public String getPreview_picture() {
         return preview_picture;
+    }
+
+    public String getYears() {
+        return first_year + " - " + (last_year == 0 ? "настоящее время" : last_year);
     }
 }

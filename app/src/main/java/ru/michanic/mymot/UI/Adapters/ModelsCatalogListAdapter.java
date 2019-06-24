@@ -23,11 +23,11 @@ import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.CatalogSliderCell;
 
-public class ModelsByClassAdapter extends BaseAdapter implements PinnedSectionListView.PinnedSectionListAdapter {
+public class ModelsCatalogListAdapter extends BaseAdapter implements PinnedSectionListView.PinnedSectionListAdapter {
 
     List<SectionModelItem> items;
 
-    public ModelsByClassAdapter(List<SectionModelItem> items) {
+    public ModelsCatalogListAdapter(List<SectionModelItem> items) {
         this.items = items;
     }
 
@@ -82,9 +82,9 @@ public class ModelsByClassAdapter extends BaseAdapter implements PinnedSectionLi
             TextView years = (TextView) view.findViewById(R.id.model_years);
 
             Model model = item.getModel();
-            Picasso.get().load(Const.DOMAIN + model.getPreview_picture()).into(imageView);
+            Picasso.get().load(Const.DOMAIN + model.getPreview_picture()).placeholder(R.drawable.ic_placeholder).into(imageView);
             title.setText(model.getName());
-            years.setText("2001");
+            years.setText(model.getYears());
 
             return view;
         }
