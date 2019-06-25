@@ -1,9 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ScrollView
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageViewSlider"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:srcCompat="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/modelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageViewSlider"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="26dp"
+                android:text="MODEL"
+                android:textColor="@color/textGray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/manufacturerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/modelLabel"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="11dp"
+                android:text="Производитель"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/classLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/modelLabel"
+                android:layout_alignEnd="@+id/imageViewSlider"
+                android:layout_alignRight="@+id/imageViewSlider"
+                android:layout_gravity="right"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginRight="26dp"
+                android:text="Спорт-турист"
+                android:textColor="@color/textGray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/yearsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/manufacturerLabel"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="26dp"
+                android:text="2000 - 2001"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/yearsLabel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"
+                android:text="Поиск объявлений"
+                android:background="@drawable/button_red"
+                android:textColor="@android:color/white"/>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/searchButton"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp"
+                android:background="@color/separatorGray"/>
+
+            <TextView
+                android:id="@+id/aboutLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separator"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="26dp"
+                android:text="About text"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/parametersTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutLabel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="57dp"
+                android:layout_marginRight="20dp"
+                android:text="Технические характеристики:"
+                android:textColor="@color/textGray"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/parametersView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="vertical"
+                android:layout_below="@+id/parametersTitle"
+                android:layout_marginTop="16dp">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/reviewsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/parametersView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:text="Обзоры:"
+                android:textColor="@color/textGray"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reviewsSlider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/reviewsTitle"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="112dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/separatorGray"/>
+
+</RelativeLayout>

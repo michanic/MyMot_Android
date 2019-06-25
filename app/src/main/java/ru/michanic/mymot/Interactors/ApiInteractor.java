@@ -19,10 +19,12 @@ import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
+import ru.michanic.mymot.Models.ModelDetails;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingInterface;
+import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface;
 import ru.michanic.mymot.Protocols.LoadingTextInterface;
 import ru.michanic.mymot.Utils.DataManager;
 
@@ -216,6 +218,23 @@ public class ApiInteractor {
 
     }
 
+    public void loadModelDetails(int modelId, final LoadingModelDetailsInterface loadingInterface) {
+        Log.e("loadData", "loadModelDetails");
+
+        apiInterface.loadModelDetails(modelId).enqueue(new Callback<ModelDetails>() {
+            @Override
+            public void onResponse(Call<ModelDetails> call, Response<ModelDetails> response) {
+                loadingInterface.onLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ModelDetails> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
+    }
+
     public void loadAgreementText(final LoadingTextInterface loadingTextInterface) {
         apiInterface.loadAgreementText().enqueue(new Callback<AppPageText>() {
             @Override
@@ -229,6 +248,8 @@ public class ApiInteractor {
             }
         });
     }
+
+
 
 
 }

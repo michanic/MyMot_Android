@@ -10,6 +10,7 @@ import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.JsonResult;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
+import ru.michanic.mymot.Models.ModelDetails;
 
 public interface ApiInterface {
 
@@ -36,6 +37,6 @@ public interface ApiInterface {
     Call<List<Manufacturer>> loadModels();
 
     @POST("catalog.php?type=model_details")
-    Call<JsonResult> loadModelDetails(@Query("id") int modelId);
+    Call<ModelDetails> loadModelDetails(@Query("id") int modelId);
 
 }
