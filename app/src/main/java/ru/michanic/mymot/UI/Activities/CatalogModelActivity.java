@@ -5,15 +5,24 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.shivam.library.imageslider.ImageSlider;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import ru.michanic.mymot.Extensions.Font;
@@ -22,10 +31,14 @@ import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.ModelDetails;
 import ru.michanic.mymot.Models.YoutubeVideo;
 import ru.michanic.mymot.Protocols.ClickListener;
+import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface;
 import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
 import ru.michanic.mymot.R;
+import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter;
+import ru.michanic.mymot.UI.Adapters.ParametersListAdapter;
 import ru.michanic.mymot.UI.Adapters.ReviewsSliderAdapter;
+import ru.michanic.mymot.UI.NonScrollListView;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class CatalogModelActivity extends UniversalActivity {
@@ -80,6 +93,7 @@ public class CatalogModelActivity extends UniversalActivity {
     }
 
     private void fillProperties() {
+        ImageSlider imagesSlider = (ImageSlider)findViewById(R.id.imagesSlider);
         TextView modelLabel = (TextView) findViewById(R.id.modelLabel);
         TextView manufacturerLabel = (TextView) findViewById(R.id.manufacturerLabel);
         TextView classLabel = (TextView) findViewById(R.id.classLabel);
@@ -87,8 +101,15 @@ public class CatalogModelActivity extends UniversalActivity {
         Button searchButton = (Button) findViewById(R.id.searchButton);
         TextView aboutLabel = (TextView) findViewById(R.id.aboutLabel);
         TextView parametersTitle = (TextView) findViewById(R.id.parametersTitle);
+        NonScrollListView parametersListView  = (NonScrollListView) findViewById(R.id.parametersView);
         TextView reviewsTitle = (TextView) findViewById(R.id.reviewsTitle);
         RecyclerView reviewsSlider = (RecyclerView) findViewById(R.id.reviewsSlider);
+
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        imagesSlider.getLayoutParams().height = (int) ((float)width * 0.75);
 
         modelLabel.setTypeface(Font.suzuki);
         searchButton.setTypeface(Font.progress);
@@ -102,7 +123,17 @@ public class CatalogModelActivity extends UniversalActivity {
         aboutLabel.setText(modelDetails.getPreview_text());
 
 
+        List<String> images = modelDetails.getImages();
+        if (images != null) {
+            ImagesSliderAdapter  mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
+            imagesSlider.setAdapter(mSectionsPagerAdapter);
+        }
 
+        List<LinkedTreeMap<String,String>> parameters = modelDetails.getParameters();
+        ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
+
+        parametersListView.setAdapter(parametersListAdapter);
+        parametersListView.setEnabled(false);
 
 
         List<String> videoIDs = modelDetails.getVideo_reviews();
@@ -130,6 +161,7 @@ public class CatalogModelActivity extends UniversalActivity {
             reviewsTitle.setVisibility(View.GONE);
             reviewsSlider.setVisibility(View.GONE);
         }
+
     }
 
 }

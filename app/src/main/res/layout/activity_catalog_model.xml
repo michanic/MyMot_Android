@@ -11,21 +11,22 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp">
 
-            <ImageView
-                android:id="@+id/imageViewSlider"
+            <com.shivam.library.imageslider.ImageSlider
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                app:srcCompat="@color/colorAccent" />
+                android:id="@+id/imagesSlider"
+                />
 
             <TextView
                 android:id="@+id/modelLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageViewSlider"
+                android:layout_below="@+id/imagesSlider"
                 android:layout_marginLeft="26dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="26dp"
                 android:text="MODEL"
                 android:textColor="@color/textGray"
@@ -47,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/modelLabel"
-                android:layout_alignEnd="@+id/imageViewSlider"
-                android:layout_alignRight="@+id/imageViewSlider"
+                android:layout_alignEnd="@+id/imagesSlider"
+                android:layout_alignRight="@+id/imagesSlider"
                 android:layout_gravity="right"
                 android:layout_marginTop="11dp"
                 android:layout_marginEnd="26dp"
@@ -116,15 +117,15 @@
                 android:textColor="@color/textGray"
                 android:textSize="16sp" />
 
-            <LinearLayout
+            <ru.michanic.mymot.UI.NonScrollListView
                 android:id="@+id/parametersView"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_below="@+id/parametersTitle"
-                android:layout_marginTop="16dp">
-
-            </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:dividerHeight="0.25dp">
+            </ru.michanic.mymot.UI.NonScrollListView>
 
             <TextView
                 android:id="@+id/reviewsTitle"
@@ -143,8 +144,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/reviewsTitle"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="112dp"/>
+                android:layout_marginTop="16dp"/>
 
         </RelativeLayout>
 

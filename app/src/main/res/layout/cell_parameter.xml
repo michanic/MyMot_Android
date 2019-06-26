@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/parameter_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Параметр"
+        android:layout_marginLeft="26dp"
+        android:layout_weight="0.6"
+        android:textColor="@color/textGray"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/parameter_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="26dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="0.4"
+        android:text="2002"
+        android:textColor="@color/textLightGray"
+        android:textSize="14sp"/>
+
+</LinearLayout>
