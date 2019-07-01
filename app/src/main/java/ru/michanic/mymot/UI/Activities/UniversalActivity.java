@@ -17,6 +17,22 @@ import ru.michanic.mymot.Utils.TypefaceSpan;
 
 public class UniversalActivity extends AppCompatActivity {
 
+    boolean rootActivity = false;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!rootActivity) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
+
     public void setNavigationTitle(String title) {
         SpannableString s = new SpannableString(" " + title + " ");
         s.setSpan(new TypefaceSpan(this, "Progress.ttf"), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

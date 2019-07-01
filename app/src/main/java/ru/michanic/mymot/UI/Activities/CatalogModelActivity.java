@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,13 +50,12 @@ public class CatalogModelActivity extends UniversalActivity {
     ApiInteractor apiInteractor = new ApiInteractor();
     Model model;
     ModelDetails modelDetails;
+    DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog_model);
-
-        DataManager dataManager = new DataManager();
 
         Intent intent = getIntent();
         int modelId = intent.getIntExtra("modelId", 0);
@@ -67,6 +68,30 @@ public class CatalogModelActivity extends UniversalActivity {
         loadingIndicator.setVisibility(View.VISIBLE);
 
         loadModelDetails(modelId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favourite_menu, menu);
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), model.isFavourite());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.favourite_icon) {
+            dataManager.setModelFavourite(model, !model.isFavourite());
+            switchFavouriteButton(item, model.isFavourite());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void switchFavouriteButton(MenuItem menuItem, boolean active) {
+        if (model.isFavourite()) {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_active);
+        } else {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive);
+        }
     }
 
 
@@ -91,6 +116,7 @@ public class CatalogModelActivity extends UniversalActivity {
             }
         });
     }
+
 
     private void fillProperties() {
         ImageSlider imagesSlider = (ImageSlider)findViewById(R.id.imagesSlider);

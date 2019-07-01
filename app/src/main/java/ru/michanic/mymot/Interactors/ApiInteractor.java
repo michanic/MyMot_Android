@@ -37,6 +37,7 @@ public class ApiInteractor {
             .build();
     private ApiInterface apiInterface = retrofit.create(ApiInterface.class);
     private Realm realm;
+    private DataManager dataManager = new DataManager();
 
     public ApiInteractor() {
         Realm.init(MyMotApplication.appContext);
@@ -65,7 +66,6 @@ public class ApiInteractor {
 
                                             @Override
                                             public void onLoaded() {
-                                                DataManager dataManager = new DataManager();
                                                 dataManager.assignCategories();
                                                 loadingInterface.onLoaded();
                                             }
@@ -201,8 +201,14 @@ public class ApiInteractor {
             @Override
             public void onResponse(Call<List<Manufacturer>> call, Response<List<Manufacturer>> response) {
 
+                List<Integer> favoriteModels = dataManager.getFavouriteModels();
+
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(response.body());
+                for (Integer modelId: favoriteModels) {
+                    Model model = dataManager.getModelById(modelId);
+                    model.setFavourite(true);
+                }
                 realm.commitTransaction();
 
                 loadingInterface.onLoaded();

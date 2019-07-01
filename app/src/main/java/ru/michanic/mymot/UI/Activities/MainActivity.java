@@ -57,6 +57,7 @@ public class MainActivity extends UniversalActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        rootActivity = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

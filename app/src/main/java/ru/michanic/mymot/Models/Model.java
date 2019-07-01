@@ -61,4 +61,12 @@ public class Model extends RealmObject {
     public String getYears() {
         return first_year + " - " + (last_year == 0 ? "настоящее время" : last_year);
     }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
 }
