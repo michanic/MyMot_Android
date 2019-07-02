@@ -23,7 +23,7 @@ public class InfoHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.info_home, null);
+        View rootView = inflater.inflate(R.layout.fragment_info_home, null);
 
         TextView aboutText = (TextView) rootView.findViewById(R.id.aboutText);
         Spanned htmlText = Html.fromHtml(MyMotApplication.getConfigStorage().aboutText);

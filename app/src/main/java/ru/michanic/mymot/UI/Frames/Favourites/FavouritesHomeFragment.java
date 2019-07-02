@@ -17,7 +17,7 @@ public class FavouritesHomeFragment extends Fragment {
 
 
 
-        return inflater.inflate(R.layout.favourites_home, null);
+        return inflater.inflate(R.layout.fragment_favourites_home, null);
     }
 
 }

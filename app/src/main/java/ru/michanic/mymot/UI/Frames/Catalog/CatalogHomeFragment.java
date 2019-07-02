@@ -29,7 +29,7 @@ public class CatalogHomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.catalog_home, null);
+        View rootView = inflater.inflate(R.layout.fragment_catalog_home, null);
 
         DataManager dataManager = new DataManager();
 
