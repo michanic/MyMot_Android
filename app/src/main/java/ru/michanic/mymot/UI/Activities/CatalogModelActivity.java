@@ -1,6 +1,7 @@
 package ru.michanic.mymot.UI.Activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -168,16 +169,17 @@ public class CatalogModelActivity extends UniversalActivity {
             reviewsLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             reviewsSlider.setLayoutManager(reviewsLayoutManager);
 
-            List<YoutubeVideo> videos = new ArrayList();
+            final List<YoutubeVideo> videos = new ArrayList();
             for (String videoId: videoIDs) {
                 videos.add(new YoutubeVideo(videoId));
             }
             ClickListener reviewPressed = new ClickListener() {
                 @Override
                 public void onClick(int section, int row) {
-                    /*Intent catalogByClassActivity = new Intent(r, CatalogByClassActivity.class);
-                    catalogByClassActivity.putExtra("classId", classes.get(row).getId());
-                    getActivity().startActivity(catalogByClassActivity);*/
+                    YoutubeVideo video = videos.get(row);
+                    Intent videoActivity = new Intent(getApplicationContext(), VideoViewActivity.class);
+                    videoActivity.putExtra("videoId", video.getVideoId());
+                    startActivity(videoActivity);
                 }
             };
             ReviewsSliderAdapter reviewsAdapter = new ReviewsSliderAdapter(this, videos, reviewPressed);

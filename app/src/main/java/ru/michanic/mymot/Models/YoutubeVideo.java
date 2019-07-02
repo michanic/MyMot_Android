@@ -5,8 +5,11 @@ public class YoutubeVideo {
     String videoId;
 
     public YoutubeVideo(String videoId) {
-
         this.videoId = videoId;
+    }
+
+    public String getVideoId() {
+        return videoId;
     }
 
     public String getPreviewPath() {

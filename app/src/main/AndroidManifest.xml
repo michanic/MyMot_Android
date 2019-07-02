@@ -28,6 +28,7 @@
         <activity android:name=".UI.Activities.CatalogByManufacturerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.CatalogModelActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.TextActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".UI.Activities.VideoViewActivity" android:screenOrientation="portrait"/>
 
     </application>
 
