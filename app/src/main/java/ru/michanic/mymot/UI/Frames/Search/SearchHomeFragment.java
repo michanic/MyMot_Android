@@ -1,17 +1,23 @@
 package ru.michanic.mymot.UI.Frames.Search;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +66,30 @@ public class SearchHomeFragment extends Fragment {
         SearchMainAdapter searchAdapter = new SearchMainAdapter(getActivity(), adverts, advertPressed);
         resultsGridView.setAdapter(searchAdapter);
 
+        new AsyncRequest().execute("123", "/ajax", "foo=bar");
+
         return rootView;
+    }
+
+    class AsyncRequest extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... arg) {
+            Document doc = null;
+            try {
+                doc = Jsoup.connect("http://my-mot.ru/").get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String text = doc.html();
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String text) {
+            super.onPostExecute(text);
+            Log.e("Jsoup", text);
+        }
     }
 
 }

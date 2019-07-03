@@ -39,6 +39,9 @@ dependencies {
     // pinned-section-listview
     implementation "de.halfbit:pinned-section-listview:1.0.0"
 
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.12.1'
+
     //Retrofit 2
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"

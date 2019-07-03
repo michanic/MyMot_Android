@@ -2,6 +2,7 @@ package ru.michanic.mymot.Models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.michanic.mymot.Protocols.Const;
 
 public class Advert extends RealmObject {
 
@@ -21,11 +22,23 @@ public class Advert extends RealmObject {
     public Advert() {
     }
 
+    public String getPreviewImage() {
+        return previewImage;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPriceString() {
+        return price + Const.RUB;
+    }
+
+    public String getDetails() {
+        return city + "\n" + date;
     }
 }

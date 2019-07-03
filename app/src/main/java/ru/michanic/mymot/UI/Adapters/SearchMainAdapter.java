@@ -8,14 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Protocols.ClickListener;
+import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.SearchMainCell;
 
@@ -51,49 +54,19 @@ public class SearchMainAdapter extends BaseAdapter {
         }
 
         Advert advert = adverts.get(position);
-        TextView advertTitle = (TextView) convertView.findViewById(R.id.cell_title);
-        advertTitle.setText(advert.getTitle());
+
+        ImageView previewImage = (ImageView) convertView.findViewById(R.id.cell_image);
+        TextView advertText = (TextView) convertView.findViewById(R.id.cell_title);
+        TextView priceText = (TextView) convertView.findViewById(R.id.cell_price);
+        TextView detailsText = (TextView) convertView.findViewById(R.id.cell_details);
+
+        Picasso.get().load(Const.DOMAIN + advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(previewImage);
+        advertText.setText(advert.getTitle());
+        priceText.setText(advert.getPriceString());
+        detailsText.setText(advert.getDetails());
 
         return convertView;
     }
 
 
-
-    /*
-    public SearchMainAdapter(Context context, List<Advert> adverts, ClickListener clickListener) {
-        this.context = context;
-        this.adverts = adverts;
-        this.clickListener = clickListener;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        RecyclerView.ViewHolder viewHolder = null;
-        if (position == 0) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_advert_main, viewGroup, false);
-            viewHolder = new SearchMainCell(view);
-        }
-        return viewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof SearchMainCell) {
-            ((SearchMainCell) holder).fillWithAdvert(adverts.get(position));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onClick(0, position);
-                }
-            });
-        }
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return adverts.size();
-    }
-    */
 }
