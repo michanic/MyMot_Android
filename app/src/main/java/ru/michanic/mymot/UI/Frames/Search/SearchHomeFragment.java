@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,29 +68,54 @@ public class SearchHomeFragment extends Fragment {
         SearchMainAdapter searchAdapter = new SearchMainAdapter(getActivity(), adverts, advertPressed);
         resultsGridView.setAdapter(searchAdapter);
 
-        new AsyncRequest().execute("123", "/ajax", "foo=bar");
+        new AsyncRequest().execute("https://www.avito.ru/rossiya/mototsikly_i_mototehnika/mototsikly");
 
         return rootView;
     }
 
-    class AsyncRequest extends AsyncTask<String, Integer, String> {
+    class AsyncRequest extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... arg) {
+            String path = arg[0];
             Document doc = null;
             try {
-                doc = Jsoup.connect("http://my-mot.ru/").get();
+                doc = Jsoup.connect(path).get();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             String text = doc.html();
+            Log.e("Jsoup", "show elements");
+
+            Elements elements = doc.getElementsByClass("js-catalog-item-enum");
+
+            for (Element element: elements) {
+
+                String id = element.attr("data-item-id");
+                String title = element.select("a.item-description-title-link span").text();
+                //TODO
+                //guard title.checkForExteption() else { return nil }
+
+                String city = element.select(".item_table-description .data p:eq(1)").text();
+                String link = element.select(".item-description-title-link").attr("href");
+                String priceText = element.select("span.price").text();
+                String previewImage = element.selectFirst("img.large-picture-img").attr("src");
+
+                Log.e("Jsoup", city + " - " + title);
+                Log.e("Jsoup", priceText);
+                Log.e("Jsoup", previewImage);
+                Log.e("Jsoup", "-------------------------------");
+            }
+
+
             return text;
         }
 
         @Override
         protected void onPostExecute(String text) {
             super.onPostExecute(text);
-            Log.e("Jsoup", text);
+            //Log.e("Jsoup", text);
         }
     }
 
