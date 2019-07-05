@@ -16,6 +16,22 @@ public class Source {
         this.type = type;
     }
 
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public void setpMin(Integer pMin) {
+        this.pMin = pMin;
+    }
+
+    public void setpMax(Integer pMax) {
+        this.pMax = pMax;
+    }
+
+    public SourceType getType() {
+        return type;
+    }
+
     public String getFeedPath() {
         String urlPage = "";
 
@@ -36,8 +52,6 @@ public class Source {
     }
 
     public String getSearchPath() {
-
-
         return null;
     }
 

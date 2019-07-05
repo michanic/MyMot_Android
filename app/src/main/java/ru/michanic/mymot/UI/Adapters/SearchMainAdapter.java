@@ -60,7 +60,7 @@ public class SearchMainAdapter extends BaseAdapter {
         TextView priceText = (TextView) convertView.findViewById(R.id.cell_price);
         TextView detailsText = (TextView) convertView.findViewById(R.id.cell_details);
 
-        Picasso.get().load(Const.DOMAIN + advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(previewImage);
+        Picasso.get().load(advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(previewImage);
         advertText.setText(advert.getTitle());
         priceText.setText(advert.getPriceString());
         detailsText.setText(advert.getDetails());
