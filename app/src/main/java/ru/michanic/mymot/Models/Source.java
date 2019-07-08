@@ -32,6 +32,10 @@ public class Source {
         return type;
     }
 
+    public void setType(SourceType type) {
+        this.type = type;
+    }
+
     public String getFeedPath() {
         String urlPage = "";
 

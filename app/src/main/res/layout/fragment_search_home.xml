@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/resultsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Все мотоциклы"
-        android:textSize="22sp"
-        android:textColor="@color/textGray"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/resultsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Все мотоциклы"
+            android:textSize="22sp"
+            android:textColor="@color/textGray"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"/>
 
-    <GridView
-        android:id="@+id/resultsView"
-        android:layout_width="match_parent"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/resultsTitle"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/resultsView"
+            android:numColumns="auto_fit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/resultsTitle"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
 
 </RelativeLayout>

@@ -36,7 +36,7 @@ public class HtmlParser {
             String previewImage = "https:" + element.selectFirst("img.large-picture-img").attr("src");
             String date = element.select(".js-item-date").text();
 
-            Log.e("Jsoup", city + " - " + title);
+            //Log.e("Jsoup", city + " - " + title);
             //Log.e("Jsoup", priceText);
             //Log.e("Jsoup", previewImage);
             //Log.e("Jsoup", "-------------------------------");

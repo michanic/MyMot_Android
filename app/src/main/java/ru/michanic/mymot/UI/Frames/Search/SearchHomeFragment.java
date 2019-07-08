@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,50 +42,112 @@ public class SearchHomeFragment extends Fragment {
 
     private Source currentSource;
     private boolean avitoLoadMoreAvailable = true;
+    private boolean loadMoreAvailable = false;
+    private DataManager dataManager = new DataManager();
+
     private SitesInteractor sitesInteractor = new SitesInteractor();
+    private SearchMainAdapter searchAdapter;
+    private LinearLayoutManager mLayoutManager;
+    private GridLayoutManager glm;
+
+    private Boolean loading = false;
+    private Boolean isLastPage = false;
+
+    private List<Advert> loadedAdverts = new ArrayList<Advert>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_home, null);
 
-        DataManager dataManager = new DataManager();
-
         TextView titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
-        final GridView resultsGridView = (GridView) rootView.findViewById(R.id.resultsView);
+        final RecyclerView resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
         titleView.setTypeface(Font.suzuki);
 
-        /*LinearLayoutManager classesLayoutManager = new LinearLayoutManager(getActivity());
-        classesLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        resultsRecyclerView.setLayoutManager(classesLayoutManager);*/
+        glm = new GridLayoutManager(getActivity(), 2);
+        resultView.setLayoutManager(glm);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        //resultView.setLayoutManager(mLayoutManager);
+        resultView.setHasFixedSize(false);
+
+
+
+        ClickListener advertPressed = new ClickListener() {
+            @Override
+            public void onClick(int section, int row) {
+                Intent adveryActivity = new Intent(getActivity(), AdvertActivity.class);
+                //adveryActivity.putExtra("advertId", classes.get(row).getId());
+                getActivity().startActivity(adveryActivity);
+            }
+        };
+
+        searchAdapter = new SearchMainAdapter(getActivity(), loadedAdverts, advertPressed);
+        resultView.setAdapter(searchAdapter);
+
+        resultView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+
+                int lastvisibleitemposition = glm.findLastVisibleItemPosition();
+
+                Log.e("load more", String.valueOf(lastvisibleitemposition));
+
+                if (lastvisibleitemposition == searchAdapter.getItemCount() - 1) {
+
+                    if (!loading && !isLastPage) {
+                        loading = true;
+                        loadMore();
+                    }
+                }
+            }
+        });
+
+
+        loadMore();
+
+        return rootView;
+    }
+
+    private void loadMore() {
+        loading = true;
 
         if (currentSource == null) {
             currentSource = new Source(SourceType.AVITO);
+            currentSource.page = 1;
         } else {
-            if (currentSource.getType() == SourceType.AVITO) {
-                currentSource = new Source(SourceType.AUTO_RU);
+            currentSource.page += 1;
+            /*if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
+                currentSource.setType(SourceType.AUTO_RU);
             } else {
-                currentSource = new Source(SourceType.AVITO);
-            }
+                if (avitoLoadMoreAvailable) {
+                    currentSource.page += 1;
+                    currentSource.setType(SourceType.AVITO);
+                } else {
+                    currentSource.setType(SourceType.AUTO_RU);
+                    currentSource.page += 1;
+                }
+            }*/
         }
-        //currentSource.setRegion("");
-
 
         sitesInteractor.loadFeedAdverts(currentSource, new LoadingAdvertsInterface() {
             @Override
             public void onLoaded(List<Advert> adverts, boolean loadMore) {
 
-                ClickListener advertPressed = new ClickListener() {
-                    @Override
-                    public void onClick(int section, int row) {
-                        Intent adveryActivity = new Intent(getActivity(), AdvertActivity.class);
-                        //adveryActivity.putExtra("advertId", classes.get(row).getId());
-                        getActivity().startActivity(adveryActivity);
-                    }
-                };
+                Log.e("onLoaded", String.valueOf(adverts.size()));
 
-                SearchMainAdapter searchAdapter = new SearchMainAdapter(getActivity(), adverts, advertPressed);
-                resultsGridView.setAdapter(searchAdapter);
+                loadedAdverts.addAll(adverts);
+                searchAdapter.notifyDataSetChanged();
+                loading = false;
+
+                if (currentSource.getType() == SourceType.AVITO) {
+                    avitoLoadMoreAvailable = loadMore;
+                    loadMoreAvailable = true;
+                } else {
+                    loadMoreAvailable = loadMore;
+                }
 
             }
 
@@ -93,7 +157,6 @@ public class SearchHomeFragment extends Fragment {
             }
         });
 
-        return rootView;
     }
 
 }

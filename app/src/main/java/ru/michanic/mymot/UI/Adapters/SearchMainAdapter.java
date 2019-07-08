@@ -22,7 +22,7 @@ import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.SearchMainCell;
 
-public class SearchMainAdapter extends BaseAdapter {
+public class SearchMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Advert> adverts;
@@ -34,39 +34,49 @@ public class SearchMainAdapter extends BaseAdapter {
         this.clickListener = clickListener;
     }
 
-    public int getCount() {
-        return adverts.size();
-    }
-
-    public Object getItem(int position) {
-        return adverts.get(position);
-    }
-
-    public long getItemId(int position) {
-        return position;
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_advert_main, viewGroup, false);
+        return new SearchMainCell(view);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_advert_main, parent, false);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof SearchMainCell) {
+            ((SearchMainCell) holder).fillWithAdvert(adverts.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onClick(0, position);
+                }
+            });
+        } else if (holder instanceof HeaderViewHolder) {
+            ((HeaderViewHolder) holder).setTitle("Заголовок");
         }
-
-        Advert advert = adverts.get(position);
-
-        ImageView previewImage = (ImageView) convertView.findViewById(R.id.cell_image);
-        TextView advertText = (TextView) convertView.findViewById(R.id.cell_title);
-        TextView priceText = (TextView) convertView.findViewById(R.id.cell_price);
-        TextView detailsText = (TextView) convertView.findViewById(R.id.cell_details);
-
-        Picasso.get().load(advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(previewImage);
-        advertText.setText(advert.getTitle());
-        priceText.setText(advert.getPriceString());
-        detailsText.setText(advert.getDetails());
-
-        return convertView;
     }
 
+    @Override
+    public int getItemCount() {
+        return adverts.size();
+    }
+
+
+    class HeaderViewHolder extends RecyclerView.ViewHolder {
+        public View View;
+        private final TextView headerTitle;
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+            View = itemView;
+            // Добавьте свои компоненты ui здесь, как показано ниже
+            headerTitle = (TextView) View.findViewById(R.id.headerTitle);
+
+        }
+
+        public void setTitle(String title) {
+            headerTitle.setText(title);
+        }
+    }
 
 }
