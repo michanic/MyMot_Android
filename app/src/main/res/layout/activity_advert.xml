@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp">
+
+            <com.shivam.library.imageslider.ImageSlider
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/imagesSlider"
+                />
+
+            <TextView
+                android:id="@+id/titleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imagesSlider"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="26dp"
+                android:text="MODEL"
+                android:textColor="@color/textGray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/cityLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleLabel"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="11dp"
+                android:text="Город"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/priceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/titleLabel"
+                android:layout_alignEnd="@+id/imagesSlider"
+                android:layout_alignRight="@+id/imagesSlider"
+                android:layout_gravity="right"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="26dp"
+                android:layout_marginRight="26dp"
+                android:text="200 000 р."
+                android:textColor="@color/textGray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cityLabel"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="26dp"
+                android:text="2000 - 2001"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@+id/dateLabel"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp"
+                android:background="@color/separatorGray"/>
+
+            <TextView
+                android:id="@+id/aboutLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separator"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="26dp"
+                android:text="About text"
+                android:textColor="@color/textLightGray"
+                android:textSize="14sp" />
+
+            <ru.michanic.mymot.UI.NonScrollListView
+                android:id="@+id/parametersView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/aboutLabel"
+                android:layout_marginTop="16dp"
+                android:dividerHeight="0.25dp">
+            </ru.michanic.mymot.UI.NonScrollListView>
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/parametersView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:textSize="20sp"
+                android:text="Позвонить"
+                android:background="@drawable/button_red"
+                android:textColor="@android:color/white"/>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/separatorGray"/>
+
+</RelativeLayout>

@@ -62,6 +62,8 @@ public class CatalogModelActivity extends UniversalActivity {
         int modelId = intent.getIntExtra("modelId", 0);
         model = dataManager.getModelById(modelId);
 
+        setNavigationTitle(model.getName());
+
         contentView = (ScrollView) findViewById(R.id.content_view);
         contentView.setVisibility(View.GONE);
 

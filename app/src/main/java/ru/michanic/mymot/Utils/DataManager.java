@@ -3,6 +3,7 @@ package ru.michanic.mymot.Utils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
@@ -23,7 +25,6 @@ public class DataManager {
         Realm.init(MyMotApplication.appContext);
         realm = Realm.getDefaultInstance();
     }
-
 
     public void assignCategories() {
 
@@ -113,6 +114,16 @@ public class DataManager {
         RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("class_id", category.getId()).findAll().sort("sort");
         Log.e("getManufacturerModels", String.valueOf(models.size()));
         return realm.copyFromRealm(models);
+    }
+
+    public void saveAdverts(Collection<Advert> adverts) {
+        realm.beginTransaction();
+        realm.insertOrUpdate(adverts);
+        realm.commitTransaction();
+    }
+
+    public Advert getAdvertById(String id) {
+        return realm.where(Advert.class).equalTo("id", id).findFirst();
     }
 
 }

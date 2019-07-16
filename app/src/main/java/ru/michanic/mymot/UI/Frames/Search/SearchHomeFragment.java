@@ -71,13 +71,11 @@ public class SearchHomeFragment extends Fragment {
         //resultView.setLayoutManager(mLayoutManager);
         resultView.setHasFixedSize(false);
 
-
-
         ClickListener advertPressed = new ClickListener() {
             @Override
             public void onClick(int section, int row) {
                 Intent adveryActivity = new Intent(getActivity(), AdvertActivity.class);
-                //adveryActivity.putExtra("advertId", classes.get(row).getId());
+                adveryActivity.putExtra("advertId", loadedAdverts.get(row).getId());
                 getActivity().startActivity(adveryActivity);
             }
         };
@@ -115,7 +113,7 @@ public class SearchHomeFragment extends Fragment {
         loading = true;
 
         if (currentSource == null) {
-            currentSource = new Source(SourceType.AVITO);
+            currentSource = new Source(SourceType.AUTO_RU);
             currentSource.page = 1;
         } else {
             currentSource.page += 1;
