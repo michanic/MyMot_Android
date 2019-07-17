@@ -27,7 +27,7 @@ public class ImagesSliderSlide extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cell_images_slide, container, false);
         ImageView imageView=(ImageView)rootView.findViewById(R.id.image);
-        Picasso.get().load(Const.DOMAIN + imagePath).into(imageView);
+        Picasso.get().load(imagePath).into(imageView);
         return rootView;
     }
 

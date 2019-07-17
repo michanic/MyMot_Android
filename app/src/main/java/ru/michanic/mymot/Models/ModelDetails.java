@@ -2,9 +2,12 @@ package ru.michanic.mymot.Models;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ru.michanic.mymot.Protocols.Const;
 
 public class ModelDetails {
 
@@ -18,7 +21,11 @@ public class ModelDetails {
     }
 
     public List<String> getImages() {
-        return images;
+        List<String> fullImages = new ArrayList<>();
+        for (String path: images) {
+            fullImages.add(Const.DOMAIN + path);
+        }
+        return fullImages;
     }
 
     public List<String> getVideo_reviews() {

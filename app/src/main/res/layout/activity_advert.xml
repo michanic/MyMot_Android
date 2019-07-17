@@ -103,7 +103,7 @@
             </ru.michanic.mymot.UI.NonScrollListView>
 
             <Button
-                android:id="@+id/searchButton"
+                android:id="@+id/callButton"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/parametersView"

@@ -5,28 +5,26 @@ import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
 import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
 
-public class HtmlAsyncRequest extends AsyncTask<String, Void, ParseAdvertsResult> {
+public class HtmlAdvertAsyncRequest extends AsyncTask<String, Void, AdvertDetails> {
 
     public AsyncRequestCompleted delegate = null;
     private HtmlParser htmlParser = new HtmlParser();
     private SourceType sourceType;
 
-    public HtmlAsyncRequest(AsyncRequestCompleted asyncResponse, SourceType sourceType) {
+    public HtmlAdvertAsyncRequest(AsyncRequestCompleted asyncResponse, SourceType sourceType) {
         this.delegate = asyncResponse;
         this.sourceType = sourceType;
     }
 
 
     @Override
-    protected ParseAdvertsResult doInBackground(String... arg) {
+    protected AdvertDetails doInBackground(String... arg) {
         String path = arg[0];
         Document doc = null;
         try {
@@ -34,12 +32,12 @@ public class HtmlAsyncRequest extends AsyncTask<String, Void, ParseAdvertsResult
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ParseAdvertsResult parsedAdverts = htmlParser.parseAdverts(doc, sourceType);
-        return parsedAdverts;
+        AdvertDetails advertDetails = htmlParser.parseAdvertDetails(doc, sourceType);
+        return advertDetails;
     }
 
     @Override
-    protected void onPostExecute(ParseAdvertsResult result) {
+    protected void onPostExecute(AdvertDetails result) {
         //super.onPostExecute(result);
         delegate.processFinish(result);
     }

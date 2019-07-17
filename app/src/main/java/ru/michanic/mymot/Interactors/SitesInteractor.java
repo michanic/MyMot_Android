@@ -6,13 +6,14 @@ import java.util.List;
 
 import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Models.Advert;
-import ru.michanic.mymot.Models.HtmlAsyncRequest;
-import ru.michanic.mymot.Models.HtmlParser;
+import ru.michanic.mymot.Models.AdvertDetails;
+import ru.michanic.mymot.Models.HtmlAdvertAsyncRequest;
+import ru.michanic.mymot.Models.HtmlAdvertsAsyncRequest;
 import ru.michanic.mymot.Models.ParseAdvertsResult;
 import ru.michanic.mymot.Models.Source;
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
+import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
-import ru.michanic.mymot.UI.Frames.Search.SearchHomeFragment;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class SitesInteractor {
@@ -23,7 +24,7 @@ public class SitesInteractor {
 
         Log.e("loadFeedAdverts", source.getFeedPath());
 
-        new HtmlAsyncRequest(new AsyncRequestCompleted() {
+        new HtmlAdvertsAsyncRequest(new AsyncRequestCompleted() {
             @Override
             public void processFinish(Object output) {
                 ParseAdvertsResult result = (ParseAdvertsResult) output;
@@ -34,8 +35,18 @@ public class SitesInteractor {
         }, source.getType()).execute(source.getFeedPath());
     }
 
-    private void loadSourceAdverts(SourceType sourceType, String url) {
+
+    public void loadAdvertDetails(Advert advert, final LoadingAdvertDetailsInterface loadingInterface) {
+
+        Log.e("loadAdvertDetails", advert.getLink());
+
+        new HtmlAdvertAsyncRequest(new AsyncRequestCompleted() {
+            @Override
+            public void processFinish(Object output) {
+                AdvertDetails advertDetails = (AdvertDetails) output;
+                loadingInterface.onLoaded(advertDetails);
+            }
+        }, advert.getSourceType()).execute(advert.getLink());
 
     }
-
 }

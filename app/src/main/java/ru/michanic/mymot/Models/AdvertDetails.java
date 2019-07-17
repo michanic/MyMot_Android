@@ -13,4 +13,51 @@ public class AdvertDetails {
     private String saleHash;
     private String warning;
 
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<LinkedTreeMap<String, String>> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<LinkedTreeMap<String, String>> parameters) {
+        this.parameters = parameters;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getSaleHash() {
+        return saleHash;
+    }
+
+    public void setSaleHash(String saleHash) {
+        this.saleHash = saleHash;
+    }
+
+    public String getWarning() {
+        return warning;
+    }
+
+    public void setWarning(String warning) {
+        this.warning = warning;
+    }
 }

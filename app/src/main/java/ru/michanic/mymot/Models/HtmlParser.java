@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class HtmlParser {
                 for (Element element: elements) {
                     adverts.add(createOrUpdateFromAvito(element));
                 }
+                break;
             case AUTO_RU:
                 for (Element element: elements) {
                     adverts.add(createOrUpdateFromAutoRu(element));
@@ -52,7 +54,7 @@ public class HtmlParser {
         //guard title.checkForExteption() else { return nil }
 
         String city = element.select(".item_table-description .data p:eq(1)").text();
-        String link = element.select(".item-description-title-link").attr("href");
+        String link = SourceType.AVITO.domain() + element.select(".item-description-title-link").attr("href");
         String previewImage = "https:" + element.selectFirst("img.large-picture-img").attr("src");
         String date = element.select(".js-item-date").text();
 
@@ -111,6 +113,65 @@ public class HtmlParser {
         advert.setDate(date);
 
         return advert;
+    }
+
+
+    public AdvertDetails parseAdvertDetails(Document document, SourceType sourceType) {
+        AdvertDetails advertDetails = new AdvertDetails();
+        switch (sourceType) {
+            case AVITO:
+                advertDetails = parseFromAvito(document, advertDetails);
+                break;
+            case AUTO_RU:
+                advertDetails = parseFromAutoRu(document, advertDetails);
+                break;
+        }
+        return advertDetails;
+    }
+
+    private AdvertDetails parseFromAvito(Document document, AdvertDetails advertDetails) {
+
+        String text = document.select(".item-description-text p").html();
+        String date = document.select(".title-info-actions-item .title-info-metadata-item-redesign").text();
+        String warning = document.select(".item-view-warning-content .has-bold").text();
+
+        List<String> images = new ArrayList<>();
+        Elements elements = document.select(".js-gallery-img-frame");
+        for (Element element: elements) {
+            images.add("https:" + element.attr("data-url"));
+        }
+
+        advertDetails.setText(text);
+        advertDetails.setDate(date);
+        advertDetails.setWarning(warning);
+        advertDetails.setImages(images);
+
+        return advertDetails;
+    }
+
+    private AdvertDetails parseFromAutoRu(Document document, AdvertDetails advertDetails) {
+
+        String text = document.select(".seller-details__text").html();
+        String date = document.select(".card__stat .card__stat-item:eq(1)").text();
+        String warning = document.select(".card__sold-message-header").text();
+
+        // TODO: load parameters
+
+        List<String> images = new ArrayList<>();
+        Elements elements = document.select(".gallery__thumb-item");
+        for (Element element: elements) {
+            images.add("https:" + element.attr("data-img"));
+        }
+
+        String saleHash = jsonParser.parse(document.select(".stat-publicapi").attr("data-bem")).getAsJsonObject().getAsJsonObject("card").get("sale_hash").getAsString();
+
+        advertDetails.setText(text);
+        advertDetails.setDate(date);
+        advertDetails.setWarning(warning);
+        advertDetails.setImages(images);
+        advertDetails.setSaleHash(saleHash);
+
+        return advertDetails;
     }
 
 }

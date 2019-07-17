@@ -1,7 +1,13 @@
 package ru.michanic.mymot.Models;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Protocols.Const;
 
 public class Advert extends RealmObject {
@@ -29,8 +35,6 @@ public class Advert extends RealmObject {
     public String getId() {
         return id;
     }
-
-
 
     public String getTitle() {
         return title;
@@ -77,10 +81,24 @@ public class Advert extends RealmObject {
     }
 
     public String getPriceString() {
-        return price + Const.RUB;
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        formatter.setDecimalFormatSymbols(symbols);
+        String str = formatter.format(price);
+        return str + Const.RUB;
     }
 
     public String getDetails() {
         return city + "\n" + date;
     }
+
+    public SourceType getSourceType() {
+        if (link.contains("avito")) {
+            return SourceType.AVITO;
+        } else {
+            return SourceType.AUTO_RU;
+        }
+    }
+
 }
