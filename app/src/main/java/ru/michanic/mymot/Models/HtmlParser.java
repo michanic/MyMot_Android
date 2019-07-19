@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 import org.jsoup.nodes.Document;
@@ -12,14 +13,18 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import ru.michanic.mymot.Enums.SourceType;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class HtmlParser {
 
-    JsonParser jsonParser = new JsonParser();
+    private JsonParser jsonParser = new JsonParser();
+    private List<String> exteptedWords = MyMotApplication.getConfigStorage().exteptedWords;
 
     public ParseAdvertsResult parseAdverts(Document document, SourceType sourceType) {
         boolean loadMore = false;
@@ -29,12 +34,22 @@ public class HtmlParser {
         switch (sourceType) {
             case AVITO:
                 for (Element element: elements) {
-                    adverts.add(createOrUpdateFromAvito(element));
+                    Advert advert = createOrUpdateFromAvito(element);
+                    if (advert != null) {
+                        adverts.add(advert);
+                    }
                 }
+                loadMore = document.select(".pagination-page.js-pagination-next").hasText();
                 break;
             case AUTO_RU:
                 for (Element element: elements) {
-                    adverts.add(createOrUpdateFromAutoRu(element));
+                    Advert advert = createOrUpdateFromAutoRu(element);
+                    if (advert != null) {
+                        adverts.add(advert);
+                    }
+                }
+                if (document.select(".pager__next.button__control .button__text").hasText()) {
+                    loadMore = !document.select(".pager__next.button__control").hasClass("button_disabled");
                 }
                 break;
         }
@@ -42,20 +57,24 @@ public class HtmlParser {
     }
 
     private Advert createOrUpdateFromAvito(Element element) {
-        Advert advert = new Advert();
 
-        String id = element.attr("data-item-id");
         String title = element.select("a.item-description-title-link span").text();
         if (title == null || title.length() == 0) {
             title = element.select("a.description-title-link span").text();
         }
+        if (!checkForException(title)) {
+            return null;
+        }
+        String id = element.attr("data-item-id");
 
-        //TODO
-        //guard title.checkForExteption() else { return nil }
+        Advert advert = new Advert();
 
         String city = element.select(".item_table-description .data p:eq(1)").text();
         String link = SourceType.AVITO.domain() + element.select(".item-description-title-link").attr("href");
-        String previewImage = "https:" + element.selectFirst("img.large-picture-img").attr("src");
+        String previewImage = element.selectFirst("img.large-picture-img").attr("src");
+        if (!previewImage.contains("http")) {
+            previewImage = "https:" + previewImage;
+        }
         String date = element.select(".js-item-date").text();
 
         String priceText = element.select("span.price").text();
@@ -82,10 +101,15 @@ public class HtmlParser {
     }
 
     private Advert createOrUpdateFromAutoRu(Element element) {
+
+        String title = element.select(".listing-item__link").text();
+        if (!checkForException(title)) {
+            return null;
+        }
+        String id = jsonParser.parse(element.attr("data-bem")).getAsJsonObject().getAsJsonObject("listing-item").get("id").getAsString();
+
         Advert advert = new Advert();
 
-        String id = jsonParser.parse(element.attr("data-bem")).getAsJsonObject().getAsJsonObject("listing-item").get("id").getAsString();
-        String title = element.select(".listing-item__link").text();
         String city = element.select(".listing-item__place").text();
         String link = element.select(".listing-item__link").attr("href");
         String previewImage = "https:" + element.selectFirst(".image.tile__image").attr("data-original");
@@ -114,6 +138,17 @@ public class HtmlParser {
 
         return advert;
     }
+
+    private boolean checkForException(String title) {
+        for (String word: exteptedWords) {
+            if (title.toLowerCase().contains(word.toLowerCase())) {
+                //Log.e("except", title);
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 
     public AdvertDetails parseAdvertDetails(Document document, SourceType sourceType) {
@@ -155,13 +190,22 @@ public class HtmlParser {
         String date = document.select(".card__stat .card__stat-item:eq(1)").text();
         String warning = document.select(".card__sold-message-header").text();
 
-        // TODO: load parameters
-
         List<String> images = new ArrayList<>();
         Elements elements = document.select(".gallery__thumb-item");
         for (Element element: elements) {
             images.add("https:" + element.attr("data-img"));
         }
+
+        List<LinkedTreeMap<String,String>> parametersArray = new ArrayList<>();
+        Elements parameters = document.select(".card__info .card__info-label");
+        for (Element element: parameters) {
+            String title = element.text();
+            String value = element.nextElementSibling().text();
+            LinkedTreeMap<String,String> parameter = new LinkedTreeMap<>();
+            parameter.put(title, value);
+            parametersArray.add(parameter);
+        }
+        advertDetails.setParameters(parametersArray);
 
         String saleHash = jsonParser.parse(document.select(".stat-publicapi").attr("data-bem")).getAsJsonObject().getAsJsonObject("card").get("sale_hash").getAsString();
 

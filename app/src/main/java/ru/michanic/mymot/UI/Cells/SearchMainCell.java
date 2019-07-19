@@ -1,6 +1,7 @@
 package ru.michanic.mymot.UI.Cells;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ public class SearchMainCell extends RecyclerView.ViewHolder  {
     }
 
     public void fillWithAdvert(Advert advert) {
+        Log.e("getPreviewImage", advert.getPreviewImage());
+
         Picasso.get().load(advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
         titleLabel.setText(advert.getTitle());
         priceText.setText(advert.getPriceString());

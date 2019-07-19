@@ -112,9 +112,10 @@ public class DataManager {
 
     public List<Model> getManufacturerModels(Manufacturer manufacturer, Category category) {
         RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("class_id", category.getId()).findAll().sort("sort");
-        Log.e("getManufacturerModels", String.valueOf(models.size()));
+        //Log.e("getManufacturerModels", String.valueOf(models.size()));
         return realm.copyFromRealm(models);
     }
+
 
     public void saveAdverts(Collection<Advert> adverts) {
         realm.beginTransaction();
@@ -124,6 +125,24 @@ public class DataManager {
 
     public Advert getAdvertById(String id) {
         return realm.where(Advert.class).equalTo("id", id).findFirst();
+    }
+
+    public void setAdvertFavourite(Advert advert, boolean favourite) {
+        realm.beginTransaction();
+        advert.setFavourite(favourite);
+        realm.commitTransaction();
+    }
+
+    public List<Advert> getFavouriteAdverts() {
+        RealmResults<Advert> adverts = realm.where(Advert.class)/*.equalTo("favourite", true)*/.findAll();
+        return realm.copyFromRealm(adverts);
+    }
+
+    public void cleanAdverts() {
+        realm.beginTransaction();
+        realm.where(Advert.class).equalTo("favourite", false).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+        Log.e("cleanAdverts", "cleanAdverts");
     }
 
 }

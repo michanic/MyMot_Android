@@ -2,9 +2,11 @@ package ru.michanic.mymot;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import io.realm.Realm;
 import ru.michanic.mymot.Utils.ConfigStorage;
+import ru.michanic.mymot.Utils.DataManager;
 
 public class MyMotApplication extends Application {
 

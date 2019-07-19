@@ -6,12 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.shivam.library.imageslider.ImageSlider;
 
 import java.util.List;
@@ -25,6 +28,7 @@ import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
 import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter;
+import ru.michanic.mymot.UI.Adapters.ParametersListAdapter;
 import ru.michanic.mymot.UI.NonScrollListView;
 import ru.michanic.mymot.Utils.DataManager;
 
@@ -55,6 +59,30 @@ public class AdvertActivity extends UniversalActivity {
         loadingIndicator.setVisibility(View.VISIBLE);
 
         loadAdvertDetails();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favourite_menu, menu);
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), advert.isFavourite());
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.favourite_icon) {
+            dataManager.setAdvertFavourite(advert, !advert.isFavourite());
+            switchFavouriteButton(item, advert.isFavourite());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void switchFavouriteButton(MenuItem menuItem, boolean active) {
+        if (advert.isFavourite()) {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_active);
+        } else {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive);
+        }
     }
 
     private void loadAdvertDetails() {
@@ -113,6 +141,12 @@ public class AdvertActivity extends UniversalActivity {
             ImagesSliderAdapter mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
             imagesSlider.setAdapter(mSectionsPagerAdapter);
         }
+
+        List<LinkedTreeMap<String,String>> parameters = advertDetails.getParameters();
+        ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
+        parametersListView.setAdapter(parametersListAdapter);
+        parametersListView.setEnabled(false);
+
 
     }
 

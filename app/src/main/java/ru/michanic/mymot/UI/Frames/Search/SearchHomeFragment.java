@@ -60,6 +60,8 @@ public class SearchHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_home, null);
 
+        Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
+
         TextView titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
         final RecyclerView resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
         titleView.setTypeface(Font.suzuki);
@@ -87,12 +89,7 @@ public class SearchHomeFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-
                 int lastvisibleitemposition = glm.findLastVisibleItemPosition();
-
-                Log.e("load more", String.valueOf(lastvisibleitemposition));
-
                 if (lastvisibleitemposition == searchAdapter.getItemCount() - 1) {
 
                     if (!loading && !isLastPage) {
@@ -102,10 +99,7 @@ public class SearchHomeFragment extends Fragment {
                 }
             }
         });
-
-
         loadMore();
-
         return rootView;
     }
 
@@ -113,11 +107,11 @@ public class SearchHomeFragment extends Fragment {
         loading = true;
 
         if (currentSource == null) {
-            currentSource = new Source(SourceType.AUTO_RU);
+            currentSource = new Source(SourceType.AVITO);
             currentSource.page = 1;
         } else {
-            currentSource.page += 1;
-            /*if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
+            //currentSource.page += 1;
+            if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
                 currentSource.setType(SourceType.AUTO_RU);
             } else {
                 if (avitoLoadMoreAvailable) {
@@ -127,7 +121,7 @@ public class SearchHomeFragment extends Fragment {
                     currentSource.setType(SourceType.AUTO_RU);
                     currentSource.page += 1;
                 }
-            }*/
+            }
         }
 
         sitesInteractor.loadFeedAdverts(currentSource, new LoadingAdvertsInterface() {

@@ -46,6 +46,8 @@ public class ApiInteractor {
 
     public void loadData(final LoadingInterface loadingInterface) {
 
+        dataManager.cleanAdverts();
+
         loadExteptedWords(new LoadingInterface() {
 
             @Override

@@ -10,25 +10,30 @@ import android.widget.TextView;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.List;
+import java.util.Map;
 
 import ru.michanic.mymot.R;
 
 public class ParametersListAdapter extends BaseAdapter {
 
-    private List<LinkedTreeMap<String,String>> parameters;
+    private List<LinkedTreeMap<String,String>> parametersTree;
 
     public ParametersListAdapter(List<LinkedTreeMap<String,String>> parameters) {
-        this.parameters = parameters;
+        this.parametersTree = parameters;
     }
 
     @Override
     public int getCount() {
-        return parameters.size();
+        if (parametersTree != null) {
+            return parametersTree.size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public Object getItem(int position) {
-        return parameters.get(position);
+        return parametersTree.get(position);
     }
 
     @Override
@@ -43,7 +48,7 @@ public class ParametersListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cell_parameter, parent, false);
         }
 
-        LinkedTreeMap<String,String> parameter = parameters.get(position);
+        LinkedTreeMap<String,String> parameter = parametersTree.get(position);
         String title = parameter.keySet().iterator().next();
         String value = parameter.values().iterator().next();
 

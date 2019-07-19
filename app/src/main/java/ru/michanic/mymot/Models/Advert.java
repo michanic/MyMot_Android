@@ -101,4 +101,11 @@ public class Advert extends RealmObject {
         }
     }
 
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
 }

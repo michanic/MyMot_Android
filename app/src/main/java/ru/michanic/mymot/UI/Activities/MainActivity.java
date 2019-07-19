@@ -23,6 +23,7 @@ import ru.michanic.mymot.UI.Frames.Catalog.CatalogHomeFragment;
 import ru.michanic.mymot.UI.Frames.Favourites.FavouritesHomeFragment;
 import ru.michanic.mymot.UI.Frames.Info.InfoHomeFragment;
 import ru.michanic.mymot.UI.Frames.Search.SearchHomeFragment;
+import ru.michanic.mymot.Utils.DataManager;
 import ru.michanic.mymot.Utils.TypefaceSpan;
 
 public class MainActivity extends UniversalActivity {

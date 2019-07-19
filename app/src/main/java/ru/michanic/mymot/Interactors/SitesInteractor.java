@@ -2,6 +2,7 @@ package ru.michanic.mymot.Interactors;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.michanic.mymot.Enums.SourceType;
@@ -28,9 +29,18 @@ public class SitesInteractor {
             @Override
             public void processFinish(Object output) {
                 ParseAdvertsResult result = (ParseAdvertsResult) output;
-                List<Advert> adverts = result.getAdvetrs();
-                dataManager.saveAdverts(adverts);
-                loadingInterface.onLoaded(adverts, result.loadMore());
+                List<Advert> newAdverts = result.getAdvetrs();
+                List<Advert> resultAdvetrs = new ArrayList<>();
+                for (Advert newAdvert: newAdverts) {
+                    Advert savedAdvert = dataManager.getAdvertById(newAdvert.getId());
+                    if (savedAdvert != null) {
+                        resultAdvetrs.add(savedAdvert);
+                    } else {
+                        resultAdvetrs.add(newAdvert);
+                    }
+                }
+                dataManager.saveAdverts(resultAdvetrs);
+                loadingInterface.onLoaded(resultAdvetrs, result.loadMore());
             }
         }, source.getType()).execute(source.getFeedPath());
     }
