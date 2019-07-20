@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -49,6 +50,7 @@ public class SearchHomeFragment extends Fragment {
     private SearchMainAdapter searchAdapter;
     private LinearLayoutManager mLayoutManager;
     private GridLayoutManager glm;
+    private ProgressBar progressBar;
 
     private Boolean loading = false;
     private Boolean isLastPage = false;
@@ -62,6 +64,7 @@ public class SearchHomeFragment extends Fragment {
 
         Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
 
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         TextView titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
         final RecyclerView resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
         titleView.setTypeface(Font.suzuki);
@@ -99,6 +102,7 @@ public class SearchHomeFragment extends Fragment {
                 }
             }
         });
+        progressBar.setVisibility(View.VISIBLE);
         loadMore();
         return rootView;
     }
@@ -127,7 +131,7 @@ public class SearchHomeFragment extends Fragment {
         sitesInteractor.loadFeedAdverts(currentSource, new LoadingAdvertsInterface() {
             @Override
             public void onLoaded(List<Advert> adverts, boolean loadMore) {
-
+                progressBar.setVisibility(View.GONE);
                 Log.e("onLoaded", String.valueOf(adverts.size()));
 
                 loadedAdverts.addAll(adverts);

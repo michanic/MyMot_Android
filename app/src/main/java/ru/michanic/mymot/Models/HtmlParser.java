@@ -166,7 +166,13 @@ public class HtmlParser {
 
     private AdvertDetails parseFromAvito(Document document, AdvertDetails advertDetails) {
 
-        String text = document.select(".item-description-text p").html();
+        String text = "";
+        if (!document.select(".item-description-text").html().isEmpty()) {
+            text = document.select(".item-description-text").html();
+        } else {
+            text = document.select(".item-description-html").html();
+        }
+
         String date = document.select(".title-info-actions-item .title-info-metadata-item-redesign").text();
         String warning = document.select(".item-view-warning-content .has-bold").text();
 

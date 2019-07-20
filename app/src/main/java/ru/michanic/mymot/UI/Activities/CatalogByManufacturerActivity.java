@@ -14,7 +14,7 @@ import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.ModelsCatalogListAdapter;
+import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class CatalogByManufacturerActivity extends UniversalActivity {
@@ -44,8 +44,8 @@ public class CatalogByManufacturerActivity extends UniversalActivity {
         }
 
         PinnedSectionListView listView = (PinnedSectionListView) findViewById(R.id.listView);
-        ModelsCatalogListAdapter modelsCatalogListAdapter = new ModelsCatalogListAdapter(items);
-        listView.setAdapter(modelsCatalogListAdapter);
+        SectionItemsListAdapter sectionItemsListAdapter = new SectionItemsListAdapter(items);
+        listView.setAdapter(sectionItemsListAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

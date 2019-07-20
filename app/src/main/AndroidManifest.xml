@@ -30,6 +30,7 @@
         <activity android:name=".UI.Activities.TextActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.VideoViewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.AdvertActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".UI.Activities.FilterActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
