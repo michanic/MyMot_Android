@@ -7,11 +7,13 @@ import android.util.Log;
 import io.realm.Realm;
 import ru.michanic.mymot.Utils.ConfigStorage;
 import ru.michanic.mymot.Utils.DataManager;
+import ru.michanic.mymot.Utils.SearchManager;
 
 public class MyMotApplication extends Application {
 
     public static volatile Context appContext;
-    private static ConfigStorage configStorage = new ConfigStorage();
+    public static ConfigStorage configStorage = new ConfigStorage();
+    public static SearchManager searchManager = new SearchManager();
 
     @Override
     public void onCreate() {

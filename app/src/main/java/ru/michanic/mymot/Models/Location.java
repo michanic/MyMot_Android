@@ -19,7 +19,27 @@ public class Location extends RealmObject {
     private Location region;
     private RealmList<Location> cities;
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public int getCitiesCount() {
+        return cities.size();
+    }
+
+    public void setRegion(Location region) {
+        this.region = region;
+    }
+
+    public RealmList<Location> getCities() {
+        return cities;
+    }
+
+    public void setCities(RealmList<Location> cities) {
+        this.cities = cities;
     }
 }

@@ -32,6 +32,10 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
         this.items = items;
     }
 
+    public void setItems(List<SectionModelItem> items) {
+        this.items = items;
+    }
+
     @Override
     public boolean isItemViewTypePinned(int viewType) {
         return viewType == SectionModelItem.SECTION_TITLE;

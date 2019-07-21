@@ -1,6 +1,7 @@
 package ru.michanic.mymot.Utils;
 
 import android.util.Log;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.Category;
+import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.MyMotApplication;
@@ -82,6 +84,9 @@ public class DataManager {
         realm.commitTransaction();
     }
 
+    public List<Model> searchModelsByName(String searchText) {
+        return realm.copyFromRealm(realm.where(Model.class).contains("name", searchText, Case.INSENSITIVE).findAll().sort("sort"));
+    }
 
 
     public Category getCategoryById(int id) {
@@ -144,5 +149,12 @@ public class DataManager {
         realm.commitTransaction();
         Log.e("cleanAdverts", "cleanAdverts");
     }
+
+
+    public List<Location> getRegions() {
+        RealmResults<Location> regions = realm.where(Location.class).findAll().sort("sort");
+        return realm.copyFromRealm(regions);
+    }
+
 
 }

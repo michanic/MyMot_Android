@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -171,6 +172,29 @@ public class ApiInteractor {
             }
         });
     }
+
+    public void loadRegionCities(final Location region, final LoadingInterface loadingInterface) {
+
+        apiInterface.loadRegionCities(region.getId()).enqueue(new Callback<List<Location>>() {
+            @Override
+            public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
+                realm.beginTransaction();
+                List<Location> cities = response.body();
+                for (Location city: cities) {
+                    city.setRegion(region);
+                }
+                region.setCities(new RealmList<Location>(cities.toArray(new Location[cities.size()])));
+                realm.commitTransaction();
+            }
+
+            @Override
+            public void onFailure(Call<List<Location>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
+    }
+
 
     private void loadClasses(final LoadingInterface loadingInterface) {
         Log.e("loadData", "loadClasses");

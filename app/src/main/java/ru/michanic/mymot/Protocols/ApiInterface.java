@@ -28,7 +28,7 @@ public interface ApiInterface {
     Call<List<Location>> loadRegions();
 
     @POST("catalog.php?type=cities")
-    Call<JsonResult> loadRegionCities(@Query("id") int regionId);
+    Call<List<Location>> loadRegionCities(@Query("id") int regionId);
 
     @POST("catalog.php?type=classes")
     Call<List<Category>> loadClasses();
