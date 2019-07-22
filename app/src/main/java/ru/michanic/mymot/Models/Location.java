@@ -1,5 +1,7 @@
 package ru.michanic.mymot.Models;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -39,7 +41,10 @@ public class Location extends RealmObject {
         return cities;
     }
 
-    public void setCities(RealmList<Location> cities) {
-        this.cities = cities;
+    public void setCities(List<Location> cities) {
+        this.cities.clear();
+        for (Location city: cities) {
+            this.cities.add(city);
+        }
     }
 }

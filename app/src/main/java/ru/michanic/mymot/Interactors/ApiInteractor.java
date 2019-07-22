@@ -183,8 +183,9 @@ public class ApiInteractor {
                 for (Location city: cities) {
                     city.setRegion(region);
                 }
-                region.setCities(new RealmList<Location>(cities.toArray(new Location[cities.size()])));
+                region.setCities(cities);
                 realm.commitTransaction();
+                loadingInterface.onLoaded();
             }
 
             @Override

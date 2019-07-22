@@ -15,6 +15,7 @@ import java.util.List;
 
 import ru.michanic.mymot.Interactors.ApiInteractor;
 import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.LoadingInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.RegionsExpandableListAdapter;
@@ -33,26 +34,47 @@ public class FilterRegionsActivity extends UniversalActivity {
         final List<Location> regions = new DataManager().getRegions();
         regionsExpandableListAdapter = new RegionsExpandableListAdapter(regions, this);
 
-        ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
+        final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
         expandableListView.setAdapter(regionsExpandableListAdapter);
 
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Location region = regions.get(groupPosition - 1);
-                Log.e("getCitiesCount", String.valueOf(region.getCitiesCount()));
-                if (region.getCitiesCount() == 0) {
-                    apiInteractor.loadRegionCities(region, new LoadingInterface() {
-                        @Override
-                        public void onLoaded() {
+            public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
+                if (groupPosition == 0) {
+                    MyMotApplication.searchManager.setRegion(null);
+                } else {
+                    Location region = regions.get(groupPosition - 1);
+                    //Log.e("getCitiesCount", String.valueOf(region.getCitiesCount()));
+                    //regionsExpandableListAdapter.notifyDataSetChanged();
+                    if (region.getCitiesCount() == 0) {
+                        apiInteractor.loadRegionCities(region, new LoadingInterface() {
+                            @Override
+                            public void onLoaded() {
+                                Log.e("expandGroup", String.valueOf(groupPosition));
+                                expandableListView.collapseGroup(groupPosition);
+                                expandableListView.expandGroup(groupPosition);
+                            }
+                            @Override
+                            public void onFailed() {
 
-                        }
+                            }
+                        });
+                    }
+                }
+                return false;
+            }
+        });
 
-                        @Override
-                        public void onFailed() {
-
-                        }
-                    });
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if (childPosition == 0) {
+                    Location region = regions.get(groupPosition - 1);
+                    MyMotApplication.searchManager.setRegion(region);
+                } else {
+                    Location region = regions.get(groupPosition - 1);
+                    Location city = region.getCities().get(childPosition - 1);
+                    MyMotApplication.searchManager.setRegion(city);
                 }
                 return false;
             }

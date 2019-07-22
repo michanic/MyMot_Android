@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import ru.michanic.mymot.Enums.CellAccessoryType;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.R;
+import ru.michanic.mymot.UI.Cells.SimpleCell;
 
 public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -69,12 +72,15 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View cell = View.inflate(context, R.layout.cell_simple, null);
-        TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
         if (groupPosition == 0) {
-            cellTitle.setText("По всей России");
+            SimpleCell.fillWithTitle(cell, "По всей России", CellAccessoryType.HIDDEN, 1);
         } else {
             Location region = regions.get(groupPosition - 1);
-            cellTitle.setText(region.getName());
+            CellAccessoryType cellAccessoryType = CellAccessoryType.BOTTOM;
+            if (isExpanded) {
+                cellAccessoryType = region.getCitiesCount() == 0 ? CellAccessoryType.LOADING : CellAccessoryType.TOP;
+            }
+            SimpleCell.fillWithTitle(cell, region.getName(), cellAccessoryType, 1);
         }
         return cell;
     }
@@ -82,14 +88,15 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View cell = View.inflate(context, R.layout.cell_simple, null);
-        TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
+
         if (childPosition == 0) {
-            cellTitle.setText("Все города");
+            SimpleCell.fillWithTitle(cell, "Все города", CellAccessoryType.HIDDEN, 2);
+
         } else {
             Location region = regions.get(groupPosition - 1);
             List<Location> cities = region.getCities();
             Location city = cities.get(childPosition - 1);
-            cellTitle.setText(city.getName());
+            SimpleCell.fillWithTitle(cell, city.getName(), CellAccessoryType.HIDDEN, 2);
         }
         return cell;
     }
