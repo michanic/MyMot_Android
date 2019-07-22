@@ -20,6 +20,7 @@ import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.SimpleCell;
@@ -30,26 +31,9 @@ public class ModelsExpandableListAdapter extends BaseExpandableListAdapter {
     public Context context;
     private List<FilterModelItem> topCells;
 
-    public ModelsExpandableListAdapter(Context context) {
+    public ModelsExpandableListAdapter(Context context, List<FilterModelItem> topCells) {
         this.context = context;
-
-        topCells = new ArrayList<>();
-        topCells.add(new FilterModelItem("Все мотоциклы", false));
-
-        DataManager dataManager = new DataManager();
-
-        for (Manufacturer manufacturer: dataManager.getManufacturers(true)) {
-            topCells.add(new FilterModelItem(manufacturer.getName()));
-            topCells.add(new FilterModelItem("Все мотоциклы " + manufacturer.getName(), false));
-
-            for (Category category: dataManager.getCategories(true)) {
-                List<Model> models = dataManager.getManufacturerModels(manufacturer, category);
-                if (models.size() > 0) {
-                    topCells.add(new FilterModelItem(category, models));
-                }
-            }
-        }
-
+        this.topCells = topCells;
     }
 
     @Override
@@ -107,7 +91,7 @@ public class ModelsExpandableListAdapter extends BaseExpandableListAdapter {
                 return sectionView;
             case FilterModelItem.SIMPLE_CELL:
                 View view = View.inflate(context, R.layout.cell_simple, null);
-                SimpleCell.fillWithTitle(view, item.getTitle(), CellAccessoryType.HIDDEN, 1);
+                SimpleCell.fillWithTitle(view, item.getTitle(), item.isChecked() ? CellAccessoryType.CHECKED : CellAccessoryType.HIDDEN, 1);
                 return view;
             case FilterModelItem.CATEGORY_CELL:
                 View categoryView = View.inflate(context, R.layout.cell_simple, null);
@@ -124,8 +108,25 @@ public class ModelsExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView imageView = (ImageView) view.findViewById(R.id.cell_image);
         TextView modelTitle = (TextView) view.findViewById(R.id.model_title);
         TextView years = (TextView) view.findViewById(R.id.model_years);
+        ImageView arrowImage = (ImageView) view.findViewById(R.id.arrowView);
 
         Model model = topCells.get(groupPosition).getModels().get(childPosition);
+
+        boolean modelChecked = false;
+        Model selectedModel = MyMotApplication.searchManager.getModel();
+        if (selectedModel != null) {
+            if (selectedModel.getId() == model.getId()) {
+                modelChecked = true;
+            }
+        }
+
+        if (modelChecked) {
+            arrowImage.setImageResource(R.drawable.ic_checked);
+            arrowImage.setVisibility(View.VISIBLE);
+        } else {
+            arrowImage.setVisibility(View.GONE);
+        }
+
         Picasso.get().load(Const.DOMAIN + model.getPreview_picture()).placeholder(R.drawable.ic_placeholder).into(imageView);
         modelTitle.setText(model.getName());
         years.setText(model.getYears());

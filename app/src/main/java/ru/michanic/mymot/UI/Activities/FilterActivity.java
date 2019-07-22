@@ -15,6 +15,7 @@ import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.Models.SectionModelItem;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.FilterSettedInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
@@ -28,27 +29,36 @@ public class FilterActivity extends UniversalActivity {
         setContentView(R.layout.activity_filter);
         setNavigationTitle("Фильтр");
 
-        final List<SectionModelItem> items = new ArrayList();
-        items.add(new SectionModelItem("Регион поиска"));
-        items.add(new SectionModelItem("По всей России", null));
-
-        items.add(new SectionModelItem("Модель"));
-        items.add(new SectionModelItem("Все мотоциклы", null));
-
-        items.add(new SectionModelItem("Цена"));
-        items.add(new SectionModelItem("От", "-"));
-        items.add(new SectionModelItem("До", "-"));
-
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setTypeface(Font.progress);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-
             }
         });
+
+        createCells();
+
+        MyMotApplication.searchManager.filterUpdated = new FilterSettedInterface() {
+            @Override
+            public void onSelected(SearchFilterConfig filterConfig) {
+                createCells();
+            }
+        };
+    }
+
+    private void createCells() {
+        final List<SectionModelItem> items = new ArrayList();
+        items.add(new SectionModelItem("Регион поиска"));
+        items.add(new SectionModelItem(MyMotApplication.searchManager.getRegionTitle(), null));
+
+        items.add(new SectionModelItem("Модель"));
+        items.add(new SectionModelItem(MyMotApplication.searchManager.getModelTitle(), null));
+
+        items.add(new SectionModelItem("Цена"));
+        items.add(new SectionModelItem("От", "-"));
+        items.add(new SectionModelItem("До", "-"));
 
         PinnedSectionListView listView = (PinnedSectionListView) findViewById(R.id.listView);
         SectionItemsListAdapter sectionItemsListAdapter = new SectionItemsListAdapter(items);

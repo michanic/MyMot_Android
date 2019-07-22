@@ -15,6 +15,7 @@ public class SearchManager {
 
     public void setRegion(Location region) {
         filterConfig.setSelectedRegion(region);
+        filterUpdated.onSelected(filterConfig);
     }
 
     public String getRegionTitle() {
@@ -26,14 +27,24 @@ public class SearchManager {
         }
     }
 
-    public void setModel(Manufacturer manufacturer) {
+    public void setManufacturer(Manufacturer manufacturer) {
         filterConfig.setSelectedManufacturer(manufacturer);
         filterConfig.setSelectedModel(null);
+        filterUpdated.onSelected(filterConfig);
+    }
+
+    public Manufacturer getManufacturer() {
+        return filterConfig.getSelectedManufacturer();
     }
 
     public void setModel(Model model) {
         filterConfig.setSelectedManufacturer(null);
         filterConfig.setSelectedModel(model);
+        filterUpdated.onSelected(filterConfig);
+    }
+
+    public Model getModel() {
+        return filterConfig.getSelectedModel();
     }
 
     public String getModelTitle() {
@@ -47,6 +58,8 @@ public class SearchManager {
             return "Все мотоциклы";
         }
     }
+
+
 
     public void backPressed() {
         filterClosedCallback.onSelected(filterConfig);

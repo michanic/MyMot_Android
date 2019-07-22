@@ -12,17 +12,26 @@ public class FilterModelItem {
     Category category = null;
     boolean checked = false;
     List<Model> models;
+    Manufacturer manufacturer;
 
     public final int type;
 
     public FilterModelItem(String sectionTitle) {
         this.type = SECTION_TITLE;
         this.title = sectionTitle;
+        this.checked = checked;
     }
 
-    public FilterModelItem(String title, boolean checked) {
+    public FilterModelItem(boolean checked) {
         this.type = SIMPLE_CELL;
-        this.title = title;
+        this.title = "Все мотоциклы";
+        this.checked = checked;
+    }
+
+    public FilterModelItem(Manufacturer manufacturer, boolean checked) {
+        this.type = SIMPLE_CELL;
+        this.title = "Все мотоциклы " + manufacturer.getName();
+        this.manufacturer = manufacturer;
         this.checked = checked;
     }
 
@@ -39,5 +48,13 @@ public class FilterModelItem {
 
     public List<Model> getModels() {
         return models;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 }

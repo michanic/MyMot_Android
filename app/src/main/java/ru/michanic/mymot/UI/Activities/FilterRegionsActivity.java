@@ -42,6 +42,7 @@ public class FilterRegionsActivity extends UniversalActivity {
             public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
                 if (groupPosition == 0) {
                     MyMotApplication.searchManager.setRegion(null);
+                    onBackPressed();
                 } else {
                     Location region = regions.get(groupPosition - 1);
                     //Log.e("getCitiesCount", String.valueOf(region.getCitiesCount()));
@@ -76,6 +77,7 @@ public class FilterRegionsActivity extends UniversalActivity {
                     Location city = region.getCities().get(childPosition - 1);
                     MyMotApplication.searchManager.setRegion(city);
                 }
+                onBackPressed();
                 return false;
             }
         });
