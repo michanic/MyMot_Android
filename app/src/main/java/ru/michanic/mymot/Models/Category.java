@@ -1,5 +1,8 @@
 package ru.michanic.mymot.Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -37,4 +40,15 @@ public class Category extends RealmObject {
     public RealmList<Model> getModels() {
         return models;
     }
+
+    public List<Model> getManufacturerModels(int manufacturerId) {
+        List<Model> modelsList = new ArrayList<>();
+        for (Model model: models) {
+            if (model.getManufacturer().getId() == manufacturerId) {
+                modelsList.add(model);
+            }
+        }
+        return modelsList;
+    }
+
 }

@@ -16,7 +16,6 @@ public class Location extends RealmObject {
     private String name;
     private int sort;
 
-
     // связи
     private Location region;
     private RealmList<Location> cities;
@@ -35,6 +34,10 @@ public class Location extends RealmObject {
 
     public void setRegion(Location region) {
         this.region = region;
+    }
+
+    public Location getRegion() {
+        return region;
     }
 
     public RealmList<Location> getCities() {

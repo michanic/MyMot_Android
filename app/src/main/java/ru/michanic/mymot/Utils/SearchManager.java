@@ -18,6 +18,10 @@ public class SearchManager {
         filterUpdated.onSelected(filterConfig);
     }
 
+    public Location getRegion() {
+        return filterConfig.getSelectedRegion();
+    }
+
     public String getRegionTitle() {
         Location region = filterConfig.getSelectedRegion();
         if (region != null) {

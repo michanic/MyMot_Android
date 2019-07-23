@@ -26,12 +26,21 @@ public class FilterModelsActivity extends UniversalActivity {
         setContentView(R.layout.activity_filter_models);
         setNavigationTitle("Модель");
 
+        int expandGroupPosition = 0;
         final List<FilterModelItem> topCells = new ArrayList<>();
         boolean allChecked = MyMotApplication.searchManager.getManufacturer() == null && MyMotApplication.searchManager.getModel() == null;
         topCells.add(new FilterModelItem(allChecked));
         DataManager dataManager = new DataManager();
 
         List<Category> categories = dataManager.getCategories(true);
+        int expandedManufacturerId = 0;
+        int expandedCategoryId = 0;
+        Model filterModel = MyMotApplication.searchManager.getModel();
+        if (filterModel != null) {
+            expandedManufacturerId = filterModel.getManufacturer().getId();
+            expandedCategoryId = filterModel.getCategory().getId();
+        }
+
         for (Manufacturer manufacturer: dataManager.getManufacturers(true)) {
             topCells.add(new FilterModelItem(manufacturer.getName()));
             boolean manufacturerChecked = false;
@@ -43,8 +52,11 @@ public class FilterModelsActivity extends UniversalActivity {
             }
             topCells.add(new FilterModelItem(manufacturer, manufacturerChecked));
             for (Category category: categories) {
-                List<Model> models = dataManager.getManufacturerModels(manufacturer, category);
+                List<Model> models = category.getManufacturerModels(manufacturer.getId());
                 if (models.size() > 0) {
+                    if (expandedCategoryId == category.getId() && expandedManufacturerId == manufacturer.getId()) {
+                        expandGroupPosition = topCells.size();
+                    }
                     topCells.add(new FilterModelItem(category, models));
                 }
             }
@@ -82,6 +94,10 @@ public class FilterModelsActivity extends UniversalActivity {
             }
         });
 
+        if (expandGroupPosition > 0) {
+            expandableListView.expandGroup(expandGroupPosition);
+            expandableListView.setSelectedGroup(expandGroupPosition);
+        }
     }
 
 }

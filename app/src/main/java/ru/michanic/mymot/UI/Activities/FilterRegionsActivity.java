@@ -31,7 +31,28 @@ public class FilterRegionsActivity extends UniversalActivity {
         setContentView(R.layout.activity_filter_regions);
         setNavigationTitle("Регион");
 
+        int expandGroupPosition = 0;
+        int expandedRegionId = 0;
+        Location filterRegion = MyMotApplication.searchManager.getRegion();
+        if (filterRegion != null) {
+            Location cityRegion = filterRegion.getRegion();
+            if (cityRegion != null) {
+                expandedRegionId = cityRegion.getId();
+            } else {
+                expandedRegionId = filterRegion.getId();
+            }
+        }
+
         final List<Location> regions = new DataManager().getRegions();
+        if (expandedRegionId > 0) {
+            int row = 1;
+            for (Location region : regions) {
+                if (expandedRegionId == region.getId()) {
+                    expandGroupPosition = row;
+                }
+                row ++;
+            }
+        }
         regionsExpandableListAdapter = new RegionsExpandableListAdapter(regions, this);
 
         final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
@@ -81,6 +102,11 @@ public class FilterRegionsActivity extends UniversalActivity {
                 return false;
             }
         });
+
+        if (expandGroupPosition > 0) {
+            expandableListView.expandGroup(expandGroupPosition);
+            expandableListView.setSelectedGroup(expandGroupPosition);
+        }
     }
 
 }

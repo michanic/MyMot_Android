@@ -14,6 +14,7 @@ public class MyMotApplication extends Application {
     public static volatile Context appContext;
     public static ConfigStorage configStorage = new ConfigStorage();
     public static SearchManager searchManager = new SearchManager();
+    public static DataManager dataManager;
 
     @Override
     public void onCreate() {
@@ -22,7 +23,8 @@ public class MyMotApplication extends Application {
 
     public static void setAppContext(Context appContext) {
         MyMotApplication.appContext = appContext;
-        Realm.init(appContext);
+        //Realm.init(appContext);
+        dataManager = new DataManager();
     }
 
     public static ConfigStorage getConfigStorage() {
