@@ -4,6 +4,7 @@ import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SearchFilterConfig;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.FilterSettedInterface;
 
 public class SearchManager {
@@ -16,6 +17,7 @@ public class SearchManager {
     public void setRegion(Location region) {
         filterConfig.setSelectedRegion(region);
         filterUpdated.onSelected(filterConfig);
+        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
     public Location getRegion() {
@@ -35,6 +37,7 @@ public class SearchManager {
         filterConfig.setSelectedManufacturer(manufacturer);
         filterConfig.setSelectedModel(null);
         filterUpdated.onSelected(filterConfig);
+        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
     public Manufacturer getManufacturer() {
@@ -45,6 +48,7 @@ public class SearchManager {
         filterConfig.setSelectedManufacturer(null);
         filterConfig.setSelectedModel(model);
         filterUpdated.onSelected(filterConfig);
+        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
     public Model getModel() {

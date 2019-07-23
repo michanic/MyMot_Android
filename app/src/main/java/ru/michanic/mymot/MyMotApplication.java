@@ -12,9 +12,9 @@ import ru.michanic.mymot.Utils.SearchManager;
 public class MyMotApplication extends Application {
 
     public static volatile Context appContext;
-    public static ConfigStorage configStorage = new ConfigStorage();
     public static SearchManager searchManager = new SearchManager();
     public static DataManager dataManager;
+    public static ConfigStorage configStorage;
 
     @Override
     public void onCreate() {
@@ -23,6 +23,7 @@ public class MyMotApplication extends Application {
 
     public static void setAppContext(Context appContext) {
         MyMotApplication.appContext = appContext;
+        configStorage = new ConfigStorage(appContext);
         //Realm.init(appContext);
         dataManager = new DataManager();
     }

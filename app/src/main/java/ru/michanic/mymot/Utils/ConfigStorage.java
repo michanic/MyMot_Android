@@ -1,13 +1,18 @@
 package ru.michanic.mymot.Utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.MyMotApplication;
+import ru.michanic.mymot.Protocols.Const;
 
 public class ConfigStorage {
 
@@ -25,9 +30,20 @@ public class ConfigStorage {
     public List<String> exteptedWords = Collections.emptyList();
     public String aboutText = "";
 
+    public ConfigStorage(Context context) {
+        this.settings = context.getSharedPreferences(PREFS_NAME, 0);
+    }
 
     public void saveFilterConfig(SearchFilterConfig filterConfig) {
         SharedPreferences.Editor editor = settings.edit();
+
+        try {
+            int modelId = filterConfig.getSelectedModel().getId();
+            Log.e("modelId", String.valueOf(modelId));
+
+        } finally {
+            Log.e("finally", "finally");
+        }
 
         /*
 
