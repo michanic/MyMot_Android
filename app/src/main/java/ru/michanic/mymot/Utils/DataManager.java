@@ -150,11 +150,22 @@ public class DataManager {
         Log.e("cleanAdverts", "cleanAdverts");
     }
 
+    public Location getRegionById(int regionId) {
+        return realm.where(Location.class).equalTo("id", regionId).findFirst();
+    }
 
     public List<Location> getRegions() {
-        RealmResults<Location> regions = realm.where(Location.class).findAll().sort("sort");
+        return getRegionCities(0);
+    }
+
+    public List<Location> getRegionCities(int regionId) {
+        RealmResults<Location> regions = realm.where(Location.class).equalTo("region_id", regionId).findAll().sort("sort");
         return realm.copyFromRealm(regions);
     }
 
+    public int getRegionCitiesCount(int regionId) {
+        RealmResults<Location> regions = realm.where(Location.class).equalTo("region_id", regionId).findAll().sort("sort");
+        return regions.size();
+    }
 
 }

@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.MyMotApplication;
@@ -37,39 +38,47 @@ public class ConfigStorage {
     public void saveFilterConfig(SearchFilterConfig filterConfig) {
         SharedPreferences.Editor editor = settings.edit();
 
-        try {
-            int modelId = filterConfig.getSelectedModel().getId();
-            Log.e("modelId", String.valueOf(modelId));
-
-        } finally {
-            Log.e("finally", "finally");
+        Location location = filterConfig.getSelectedRegion();
+        if (location != null) {
+            editor.putInt(LOCATION_ID, location.getId());
+        } else {
+            editor.putInt(LOCATION_ID, 0);
         }
 
-        /*
+        Manufacturer manufacturer = filterConfig.getSelectedManufacturer();
+        if (manufacturer != null) {
+            editor.putInt(MANUFACTURER_ID, manufacturer.getId());
+        } else {
+            editor.putInt(MANUFACTURER_ID, 0);
+        }
 
-        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("Username",txtUname.getText().toString());
-        editor.putString("Password",txtPWD.getText().toString());
-        editor.commit();
-        and then get SharedPreferences from below code
-
-        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
-        txtUname.setText(settings.getString("Username", "").toString());
-        txtPWD.setText(settings.getString("Password", "").toString());
-         */
-
-        Location region = filterConfig.getSelectedRegion();
-        // TODO; try try
+        Model model = filterConfig.getSelectedModel();
+        if (model != null) {
+            editor.putInt(MODEL_ID, model.getId());
+        } else {
+            editor.putInt(MODEL_ID, 0);
+        }
 
         editor.commit();
     }
 
     public SearchFilterConfig getFilterConfig() {
-        SharedPreferences.Editor editor = settings.edit();
         SearchFilterConfig filterConfig = new SearchFilterConfig();
 
-        settings.getString("Username", "").toString();
+        Location selectedRegion = MyMotApplication.dataManager.getRegionById(settings.getInt(LOCATION_ID, 0));
+        if (selectedRegion != null) {
+            filterConfig.setSelectedRegion(selectedRegion);
+        }
+
+        Manufacturer manufacturer = MyMotApplication.dataManager.getManufacturerById(settings.getInt(MANUFACTURER_ID, 0));
+        if (manufacturer != null) {
+            filterConfig.setSelectedManufacturer(manufacturer);
+        }
+
+        Model model = MyMotApplication.dataManager.getModelById(settings.getInt(MODEL_ID, 0));
+        if (model != null) {
+            filterConfig.setSelectedModel(model);
+        }
 
         return filterConfig;
     }

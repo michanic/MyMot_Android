@@ -179,11 +179,7 @@ public class ApiInteractor {
             @Override
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
                 realm.beginTransaction();
-                List<Location> cities = response.body();
-                for (Location city: cities) {
-                    city.setRegion(region);
-                }
-                region.setCities(cities);
+                realm.copyToRealmOrUpdate(response.body());
                 realm.commitTransaction();
                 loadingInterface.onLoaded();
             }

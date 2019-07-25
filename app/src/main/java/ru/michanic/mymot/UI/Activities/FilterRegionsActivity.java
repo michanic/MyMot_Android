@@ -35,7 +35,7 @@ public class FilterRegionsActivity extends UniversalActivity {
         int expandedRegionId = 0;
         Location filterRegion = MyMotApplication.searchManager.getRegion();
         if (filterRegion != null) {
-            Location cityRegion = filterRegion.getRegion();
+            Location cityRegion = MyMotApplication.dataManager.getRegionById(filterRegion.getRegionId());
             if (cityRegion != null) {
                 expandedRegionId = cityRegion.getId();
             } else {
@@ -44,9 +44,11 @@ public class FilterRegionsActivity extends UniversalActivity {
         }
 
         final List<Location> regions = new DataManager().getRegions();
+
         if (expandedRegionId > 0) {
             int row = 1;
             for (Location region : regions) {
+                int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
                 if (expandedRegionId == region.getId()) {
                     expandGroupPosition = row;
                 }
@@ -66,9 +68,9 @@ public class FilterRegionsActivity extends UniversalActivity {
                     onBackPressed();
                 } else {
                     Location region = regions.get(groupPosition - 1);
-                    //Log.e("getCitiesCount", String.valueOf(region.getCitiesCount()));
-                    //regionsExpandableListAdapter.notifyDataSetChanged();
-                    if (region.getCitiesCount() == 0) {
+                    int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
+
+                    if (citiesCount == 0) {
                         apiInteractor.loadRegionCities(region, new LoadingInterface() {
                             @Override
                             public void onLoaded() {
@@ -95,7 +97,7 @@ public class FilterRegionsActivity extends UniversalActivity {
                     MyMotApplication.searchManager.setRegion(region);
                 } else {
                     Location region = regions.get(groupPosition - 1);
-                    Location city = region.getCities().get(childPosition - 1);
+                    Location city = MyMotApplication.dataManager.getRegionCities(region.getId()).get(childPosition - 1);
                     MyMotApplication.searchManager.setRegion(city);
                 }
                 onBackPressed();

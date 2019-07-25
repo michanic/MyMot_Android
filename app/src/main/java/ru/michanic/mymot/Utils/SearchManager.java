@@ -9,7 +9,7 @@ import ru.michanic.mymot.Protocols.FilterSettedInterface;
 
 public class SearchManager {
 
-    private SearchFilterConfig filterConfig = new SearchFilterConfig();
+    private SearchFilterConfig filterConfig = MyMotApplication.configStorage.getFilterConfig();
     public FilterSettedInterface filterUpdated;
     public FilterSettedInterface searchPressedCallback;
     public FilterSettedInterface filterClosedCallback;
@@ -66,8 +66,6 @@ public class SearchManager {
             return "Все мотоциклы";
         }
     }
-
-
 
     public void backPressed() {
         filterClosedCallback.onSelected(filterConfig);

@@ -27,8 +27,6 @@ public class SearchMainCell extends RecyclerView.ViewHolder  {
     }
 
     public void fillWithAdvert(Advert advert) {
-        Log.e("getPreviewImage", advert.getPreviewImage());
-
         Picasso.get().load(advert.getPreviewImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
         titleLabel.setText(advert.getTitle());
         priceText.setText(advert.getPriceString());

@@ -1,6 +1,7 @@
 package ru.michanic.mymot.UI.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import ru.michanic.mymot.Enums.CellAccessoryType;
 import ru.michanic.mymot.Models.Location;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.SimpleCell;
 
@@ -18,6 +20,7 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
 
     public Context context;
     private List<Location> regions;
+    private Location filterRegion = MyMotApplication.searchManager.getRegion();
 
     public RegionsExpandableListAdapter(List<Location> regions, Context context) {
         this.regions = regions;
@@ -35,9 +38,9 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
             return 0;
         } else {
             Location region = regions.get(groupPosition - 1);
-            int citiesCount = region.getCitiesCount();
+            int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
             if (citiesCount > 0) {
-                return region.getCitiesCount() + 1;
+                return citiesCount + 1;
             } else {
                 return 0;
             }
@@ -73,12 +76,14 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         View cell = View.inflate(context, R.layout.cell_simple, null);
         if (groupPosition == 0) {
-            SimpleCell.fillWithTitle(cell, "По всей России", CellAccessoryType.HIDDEN, 1);
+            CellAccessoryType state = (filterRegion == null) ? CellAccessoryType.CHECKED : CellAccessoryType.HIDDEN;
+            SimpleCell.fillWithTitle(cell, "По всей России", state, 1);
         } else {
             Location region = regions.get(groupPosition - 1);
             CellAccessoryType cellAccessoryType = CellAccessoryType.BOTTOM;
             if (isExpanded) {
-                cellAccessoryType = region.getCitiesCount() == 0 ? CellAccessoryType.LOADING : CellAccessoryType.TOP;
+                int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
+                cellAccessoryType = citiesCount == 0 ? CellAccessoryType.LOADING : CellAccessoryType.TOP;
             }
             SimpleCell.fillWithTitle(cell, region.getName(), cellAccessoryType, 1);
         }
@@ -90,13 +95,28 @@ public class RegionsExpandableListAdapter extends BaseExpandableListAdapter {
         View cell = View.inflate(context, R.layout.cell_simple, null);
 
         if (childPosition == 0) {
-            SimpleCell.fillWithTitle(cell, "Все города", CellAccessoryType.HIDDEN, 2);
+            CellAccessoryType state = CellAccessoryType.HIDDEN;
+            if (filterRegion != null) {
+                if (filterRegion.getId() == regions.get(groupPosition - 1).getId()) {
+                    state = CellAccessoryType.CHECKED;
+                }
+            }
+            SimpleCell.fillWithTitle(cell, "Все города", state, 2);
 
         } else {
             Location region = regions.get(groupPosition - 1);
-            List<Location> cities = region.getCities();
+            List<Location> cities = MyMotApplication.dataManager.getRegionCities(region.getId());
             Location city = cities.get(childPosition - 1);
-            SimpleCell.fillWithTitle(cell, city.getName(), CellAccessoryType.HIDDEN, 2);
+
+            CellAccessoryType state = CellAccessoryType.HIDDEN;
+            if (filterRegion != null) {
+                Log.e("filterRegion", filterRegion.getName());
+
+                if (filterRegion.getId() == city.getId()) {
+                    state = CellAccessoryType.CHECKED;
+                }
+            }
+            SimpleCell.fillWithTitle(cell, city.getName(), state, 2);
         }
         return cell;
     }
