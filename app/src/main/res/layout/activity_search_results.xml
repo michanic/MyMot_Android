@@ -5,4 +5,11 @@
     android:layout_height="match_parent"
     android:background="@color/separatorGray">
 
+    <de.halfbit.pinnedsection.PinnedSectionListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        />
+
 </android.support.constraint.ConstraintLayout>

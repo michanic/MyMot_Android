@@ -113,18 +113,18 @@ public class SearchHomeFragment extends Fragment {
 
         if (currentSource == null) {
             currentSource = new Source(SourceType.AVITO);
-            currentSource.page = 1;
+            currentSource.setPage(1);
         } else {
             //currentSource.page += 1;
             if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
                 currentSource.setType(SourceType.AUTO_RU);
             } else {
                 if (avitoLoadMoreAvailable) {
-                    currentSource.page += 1;
+                    currentSource.incrementPage();
                     currentSource.setType(SourceType.AVITO);
                 } else {
                     currentSource.setType(SourceType.AUTO_RU);
-                    currentSource.page += 1;
+                    currentSource.incrementPage();
                 }
             }
         }

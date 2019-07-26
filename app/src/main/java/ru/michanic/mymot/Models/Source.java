@@ -6,11 +6,11 @@ public class Source {
 
     private SourceType type;
 
-    public String region = "rossiya";
-    public Model model;
-    public Integer pMin;
-    public Integer pMax;
-    public Integer page;
+    private String region = "rossiya";
+    private String model;
+    private Integer pMin;
+    private Integer pMax;
+    private Integer page;
 
     public Source(SourceType type) {
         this.type = type;
@@ -36,19 +36,31 @@ public class Source {
         this.type = type;
     }
 
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public void incrementPage() {
+        this.page += 1;
+    }
+
     public String getFeedPath() {
         String urlPage = "";
 
         switch (type) {
             case AVITO:
                 if (page != null) {
-                    urlPage = "?p=" + String.valueOf(page);
+                    urlPage = "?p=" + page;
                 }
             return type.domain() + region + "/mototsikly_i_mototehnika/mototsikly" + urlPage;
 
             case AUTO_RU:
                 if (page != null) {
-                    urlPage = "?page_num_offers=" + String.valueOf(page);
+                    urlPage = "?page_num_offers=" + page;
                 }
                 return type.domain() + region + "/motorcycle/all/" + urlPage;
         }
@@ -56,6 +68,47 @@ public class Source {
     }
 
     public String getSearchPath() {
+
+        switch (type) {
+            case AVITO:
+                String avitoPath = type.domain() + region + "/mototsikly_i_mototehnika/mototsikly";
+                String avitoRequest = "?bt=1";
+                if (pMin != null) {
+                    avitoRequest += "&pmin=" + pMin;
+                }
+                if (pMax != null) {
+                    avitoRequest += "&pmax=" + pMax;
+                }
+                if (model != null) {
+                    avitoRequest += "&q=" + model;
+                }
+                if (page != null) {
+                    avitoRequest = "&p=" + page;
+                }
+                return avitoPath + avitoRequest;
+
+            case AUTO_RU:
+                String autoRuPath = type.domain() + region + "/motorcycle/all/";
+                String autoRuRequest = "";
+                if (pMin != null) {
+                    autoRuRequest += "&price_from=" + pMin;
+                }
+                if (pMax != null) {
+                    autoRuRequest += "&price_to=" + pMax;
+                }
+                if (model != null) {
+                    autoRuRequest += "&mark-model-nameplate=" + model;
+                }
+                if (page != null) {
+                    autoRuRequest = "&page_num_offers=" + page;
+                }
+                if (autoRuRequest.length() > 0) {
+                    autoRuRequest = "?" + autoRuRequest.substring(1);
+                }
+                return autoRuPath + autoRuRequest;
+        }
+
+
         return null;
     }
 

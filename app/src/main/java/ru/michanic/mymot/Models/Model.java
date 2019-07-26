@@ -58,10 +58,6 @@ public class Model extends RealmObject {
         return preview_picture;
     }
 
-    public String getYears() {
-        return first_year + " - " + (last_year == 0 ? "настоящее время" : last_year);
-    }
-
     public boolean isFavourite() {
         return favourite;
     }
@@ -69,4 +65,18 @@ public class Model extends RealmObject {
     public void setFavourite(boolean favourite) {
         this.favourite = favourite;
     }
+
+
+    public String getYears() {
+        return first_year + " - " + (last_year == 0 ? "настоящее время" : last_year);
+    }
+
+    public String getAvitoSearchName() {
+        return manufacturer.getName().toLowerCase() + "+" + name.replace("", "+").toLowerCase();
+    }
+
+    public String getAutoruSearchName() {
+        return manufacturer.getName().toUpperCase() + "%23" + code.toUpperCase();
+    }
+
 }

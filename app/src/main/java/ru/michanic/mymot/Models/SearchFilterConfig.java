@@ -5,8 +5,8 @@ public class SearchFilterConfig {
     Location selectedRegion;
     Manufacturer selectedManufacturer;
     Model selectedModel;
-    int priceFrom;
-    int priceFor;
+    int priceFrom = 0;
+    int priceFor = 0;
 
     public Location getSelectedRegion() {
         return selectedRegion;

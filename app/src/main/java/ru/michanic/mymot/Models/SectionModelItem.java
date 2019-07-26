@@ -7,6 +7,9 @@ public class SectionModelItem {
     public static final int SIMPLE_CELL = 2;
     public static final int PRICE_CELL = 3;
 
+    public static final String PRICE_FROM_NAME = "От";
+    public static final String PRICE_FOR_NAME = "До";
+
     String sectionTitle = null;
     Model model = null;
     String propertyTitle = null;
@@ -44,6 +47,10 @@ public class SectionModelItem {
 
     public String getPropertyValue() {
         return propertyValue;
+    }
+
+    public void setPropertyValue(String propertyValue) {
+        this.propertyValue = propertyValue;
     }
 
     public void setModel(Model model) {

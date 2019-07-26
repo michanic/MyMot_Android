@@ -12,7 +12,6 @@ import java.util.List;
 
 import de.halfbit.pinnedsection.PinnedSectionListView;
 import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.Models.SectionModelItem;
 import ru.michanic.mymot.MyMotApplication;
@@ -34,7 +33,8 @@ public class FilterActivity extends UniversalActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                startActivity(searchResultsActivity);
             }
         });
 
@@ -57,8 +57,19 @@ public class FilterActivity extends UniversalActivity {
         items.add(new SectionModelItem(MyMotApplication.searchManager.getModelTitle(), null));
 
         items.add(new SectionModelItem("Цена"));
-        items.add(new SectionModelItem("От", "-"));
-        items.add(new SectionModelItem("До", "-"));
+        String priceFromString = "";
+        int priceFromInt = MyMotApplication.searchManager.getPriceFrom();
+        if (priceFromInt != 0) {
+            priceFromString = String.valueOf(priceFromInt);
+        }
+        items.add(new SectionModelItem(SectionModelItem.PRICE_FROM_NAME, priceFromString));
+
+        String priceForString = "";
+        int priceForInt = MyMotApplication.searchManager.getPriceFor();
+        if (priceForInt != 0) {
+            priceForString = String.valueOf(priceForInt);
+        }
+        items.add(new SectionModelItem(SectionModelItem.PRICE_FOR_NAME, priceForString));
 
         PinnedSectionListView listView = (PinnedSectionListView) findViewById(R.id.listView);
         SectionItemsListAdapter sectionItemsListAdapter = new SectionItemsListAdapter(items);

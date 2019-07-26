@@ -67,6 +67,31 @@ public class SearchManager {
         }
     }
 
+    public void setPriceFrom(int newPrice) {
+        filterConfig.setPriceFrom(newPrice);
+        //filterUpdated.onSelected(filterConfig);
+        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
+    }
+
+    public int getPriceFrom() {
+        return filterConfig.getPriceFrom();
+    }
+
+
+    public void setPriceFor(int newPrice) {
+        filterConfig.setPriceFor(newPrice);
+        //filterUpdated.onSelected(filterConfig);
+        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
+    }
+
+    public int getPriceFor() {
+        return filterConfig.getPriceFor();
+    }
+
+    public SearchFilterConfig getFilterConfig() {
+        return filterConfig;
+    }
+
     public void backPressed() {
         filterClosedCallback.onSelected(filterConfig);
     }

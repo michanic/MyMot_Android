@@ -2,6 +2,8 @@ package ru.michanic.mymot.UI.Adapters;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import de.halfbit.pinnedsection.PinnedSectionListView;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.CatalogSliderCell;
@@ -66,7 +69,7 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        SectionModelItem item = items.get(position);
+        final SectionModelItem item = items.get(position);
         View view = convertView;
 
         switch (item.type) {
@@ -98,7 +101,38 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
                 view = View.inflate(parent.getContext(), R.layout.cell_price, null);
                 TextView priceTitle = (TextView) view.findViewById(R.id.textView);
                 EditText priceValue = (EditText) view.findViewById(R.id.priceValue);
-                priceTitle.setText(item.getPropertyTitle());
+
+                final String propertyTitle = item.getPropertyTitle();
+
+                priceValue.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (propertyTitle == SectionModelItem.PRICE_FROM_NAME) {
+                            try {
+                                int priceFrom = Integer.parseInt(s.toString());
+                                MyMotApplication.searchManager.setPriceFrom(priceFrom);
+                            } catch(NumberFormatException nfe) { }
+
+                        } else if (propertyTitle == SectionModelItem.PRICE_FOR_NAME) {
+                            try {
+                                int priceFor = Integer.parseInt(s.toString());
+                                MyMotApplication.searchManager.setPriceFor(priceFor);
+                            } catch(NumberFormatException nfe) { }
+                        }
+                        item.setPropertyValue(s.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                });
+
+                priceTitle.setText(propertyTitle);
                 priceValue.setText(item.getPropertyValue());
                 break;
         }

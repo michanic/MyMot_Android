@@ -33,6 +33,14 @@ public class Location extends RealmObject {
         this.region_id = regionId;
     }
 
+    public String getAvito() {
+        return avito;
+    }
+
+    public String getAutoru() {
+        return autoru;
+    }
+
     /*public int getCitiesCount() {
         return cities.size();
     }

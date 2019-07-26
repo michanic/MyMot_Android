@@ -32,4 +32,14 @@ public class Manufacturer extends RealmObject {
     public RealmList<Model> getModels() {
         return models;
     }
+
+
+    public String getAvitoSearchName() {
+        return name.replace(" ", "%20").toLowerCase();
+    }
+
+    public String getAutoruSearchName() {
+        return name.replace(" ", "_").toUpperCase();
+    }
+
 }

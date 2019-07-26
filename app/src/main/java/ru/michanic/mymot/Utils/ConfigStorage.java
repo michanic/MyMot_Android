@@ -59,6 +59,9 @@ public class ConfigStorage {
             editor.putInt(MODEL_ID, 0);
         }
 
+        editor.putInt(PRICE_FROM, filterConfig.getPriceFrom());
+        editor.putInt(PRICE_FOR, filterConfig.getPriceFor());
+
         editor.commit();
     }
 
@@ -79,6 +82,9 @@ public class ConfigStorage {
         if (model != null) {
             filterConfig.setSelectedModel(model);
         }
+
+        filterConfig.setPriceFrom(settings.getInt(PRICE_FROM, 0));
+        filterConfig.setPriceFor(settings.getInt(PRICE_FOR, 0));
 
         return filterConfig;
     }

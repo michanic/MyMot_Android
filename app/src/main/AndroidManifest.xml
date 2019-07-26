@@ -34,6 +34,7 @@
         <activity android:name=".UI.Activities.FilterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.FilterRegionsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".UI.Activities.FilterModelsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".UI.Activities.SearchResultsActivity" android:screenOrientation="portrait"/>
 
     </application>
 

@@ -107,7 +107,7 @@ public class MainActivity extends UniversalActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.filter_menu, menu);
+        menuInflater.inflate(R.menu.search_filter_menu, menu);
 
         searchIcon = menu.findItem(R.id.search_icon);
         filterIcon = menu.findItem(R.id.filter_icon);
