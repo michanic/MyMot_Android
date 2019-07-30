@@ -28,9 +28,12 @@ public class HtmlParser {
 
     public ParseAdvertsResult parseAdverts(Document document, SourceType sourceType) {
         boolean loadMore = false;
-        Elements elements = document.select(sourceType.itemSelector());//document.getElementsByClass("js-catalog-item-enum");
         List<Advert> adverts = new ArrayList();
-
+        if (document == null) {
+            Log.e("document", "null");
+            return new ParseAdvertsResult(adverts, loadMore);
+        }
+        Elements elements = document.select(sourceType.itemSelector());//document.getElementsByClass("js-catalog-item-enum");
         switch (sourceType) {
             case AVITO:
                 for (Element element: elements) {

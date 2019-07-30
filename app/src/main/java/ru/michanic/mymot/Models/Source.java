@@ -83,7 +83,7 @@ public class Source {
                     avitoRequest += "&q=" + model;
                 }
                 if (page != null) {
-                    avitoRequest = "&p=" + page;
+                    avitoRequest += "&p=" + page;
                 }
                 return avitoPath + avitoRequest;
 
@@ -100,7 +100,7 @@ public class Source {
                     autoRuRequest += "&mark-model-nameplate=" + model;
                 }
                 if (page != null) {
-                    autoRuRequest = "&page_num_offers=" + page;
+                    autoRuRequest += "&page_num_offers=" + page;
                 }
                 if (autoRuRequest.length() > 0) {
                     autoRuRequest = "?" + autoRuRequest.substring(1);

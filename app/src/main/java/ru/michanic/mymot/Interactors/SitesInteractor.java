@@ -4,12 +4,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.AdvertDetails;
 import ru.michanic.mymot.Models.HtmlAdvertAsyncRequest;
 import ru.michanic.mymot.Models.HtmlAdvertsAsyncRequest;
+import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.ParseAdvertsResult;
@@ -46,7 +48,10 @@ public class SitesInteractor {
 
         Source avitoSource = new Source(SourceType.AVITO);
         avitoSource.setModel(avitoModelQuery);
-        avitoSource.setRegion(config.getSelectedRegion().getAvito());
+        Location avitoSelectedRegion = config.getSelectedRegion();
+        if (avitoSelectedRegion != null) {
+            avitoSource.setRegion(avitoSelectedRegion.getAvito());
+        }
         avitoSource.setpMin(config.getPriceFrom());
         avitoSource.setpMax(config.getPriceFor());
         avitoSource.setPage(page);
@@ -70,7 +75,10 @@ public class SitesInteractor {
 
                 Source autoruSource = new Source(SourceType.AUTO_RU);
                 autoruSource.setModel(autoruModelQuery);
-                autoruSource.setRegion(config.getSelectedRegion().getAutoru());
+                Location autoruSelectedRegion = config.getSelectedRegion();
+                if (autoruSelectedRegion != null) {
+                    autoruSource.setRegion(autoruSelectedRegion.getAvito());
+                }
                 autoruSource.setpMin(config.getPriceFrom());
                 autoruSource.setpMax(config.getPriceFor());
                 autoruSource.setPage(page);

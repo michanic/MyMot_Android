@@ -72,7 +72,7 @@ public class Model extends RealmObject {
     }
 
     public String getAvitoSearchName() {
-        return manufacturer.getName().toLowerCase() + "+" + name.replace("", "+").toLowerCase();
+        return manufacturer.getName().toLowerCase() + "+" + name.replace(" ", "+").toLowerCase();
     }
 
     public String getAutoruSearchName() {

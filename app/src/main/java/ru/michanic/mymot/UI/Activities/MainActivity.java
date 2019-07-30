@@ -190,7 +190,9 @@ public class MainActivity extends UniversalActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Model model = items.get(position).getModel();
-                        Log.e("search model", model.getName());
+                        MyMotApplication.searchManager.setModel(model);
+                        Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                        startActivity(searchResultsActivity);
                     /*if (model != null) {
                         Intent catalogModelActivity = new Intent(getApplicationContext(), CatalogModelActivity.class);
                         catalogModelActivity.putExtra("modelId", model.getId());

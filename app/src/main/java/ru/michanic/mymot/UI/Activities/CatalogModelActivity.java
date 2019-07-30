@@ -33,6 +33,7 @@ import ru.michanic.mymot.Interactors.ApiInteractor;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.ModelDetails;
 import ru.michanic.mymot.Models.YoutubeVideo;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface;
@@ -191,6 +192,15 @@ public class CatalogModelActivity extends UniversalActivity {
             reviewsTitle.setVisibility(View.GONE);
             reviewsSlider.setVisibility(View.GONE);
         }
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyMotApplication.searchManager.setModel(model);
+                Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                startActivity(searchResultsActivity);
+            }
+        });
 
     }
 

@@ -9,8 +9,9 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/card_view"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         card_view:cardUseCompatPadding="true"
@@ -43,7 +44,7 @@
         android:textSize="17sp" />
 
     <TextView
-        android:id="@+id/advert_city"
+        android:id="@+id/advert_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/advert_title"
@@ -63,15 +64,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/card_view"
-        android:layout_alignBottom="@+id/advert_city"
-        android:layout_marginBottom="-10dp">
+        android:layout_alignBottom="@+id/advert_details"
+        android:layout_marginBottom="-10dp"
+        android:layout_marginTop="-5dp">
 
         <ImageView
             android:id="@+id/favourite_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right|top"
-            app:srcCompat="@drawable/ic_home_favourite" />
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_list_favourite_passive" />
 
         <TextView
             android:id="@+id/price_label"
@@ -88,6 +91,13 @@
             android:text="1 000 000 р."
             android:textColor="@android:color/white"
             android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_gravity="top"
+            android:background="@color/separatorGray"
+            />
 
     </FrameLayout>>
 

@@ -47,7 +47,9 @@ public class SearchManager {
     public void setModel(Model model) {
         filterConfig.setSelectedManufacturer(null);
         filterConfig.setSelectedModel(model);
-        filterUpdated.onSelected(filterConfig);
+        if (filterUpdated != null) {
+            filterUpdated.onSelected(filterConfig);
+        }
         MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
