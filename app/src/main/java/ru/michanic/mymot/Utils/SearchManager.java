@@ -1,5 +1,7 @@
 package ru.michanic.mymot.Utils;
 
+import android.util.Log;
+
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
@@ -9,6 +11,8 @@ import ru.michanic.mymot.Protocols.FilterSettedInterface;
 
 public class SearchManager {
 
+    private boolean filterChanged = false;
+
     private SearchFilterConfig filterConfig = MyMotApplication.configStorage.getFilterConfig();
     public FilterSettedInterface filterUpdated;
     public FilterSettedInterface searchPressedCallback;
@@ -16,7 +20,10 @@ public class SearchManager {
 
     public void setRegion(Location region) {
         filterConfig.setSelectedRegion(region);
-        filterUpdated.onSelected(filterConfig);
+        filterChanged = true;
+        if (filterUpdated != null) {
+            filterUpdated.onSelected(filterConfig);
+        }
         MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
@@ -36,7 +43,10 @@ public class SearchManager {
     public void setManufacturer(Manufacturer manufacturer) {
         filterConfig.setSelectedManufacturer(manufacturer);
         filterConfig.setSelectedModel(null);
-        filterUpdated.onSelected(filterConfig);
+        filterChanged = true;
+        if (filterUpdated != null) {
+            filterUpdated.onSelected(filterConfig);
+        }
         MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
 
@@ -47,6 +57,7 @@ public class SearchManager {
     public void setModel(Model model) {
         filterConfig.setSelectedManufacturer(null);
         filterConfig.setSelectedModel(model);
+        filterChanged = true;
         if (filterUpdated != null) {
             filterUpdated.onSelected(filterConfig);
         }
@@ -71,6 +82,7 @@ public class SearchManager {
 
     public void setPriceFrom(int newPrice) {
         filterConfig.setPriceFrom(newPrice);
+        filterChanged = true;
         //filterUpdated.onSelected(filterConfig);
         MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
@@ -82,6 +94,7 @@ public class SearchManager {
 
     public void setPriceFor(int newPrice) {
         filterConfig.setPriceFor(newPrice);
+        filterChanged = true;
         //filterUpdated.onSelected(filterConfig);
         MyMotApplication.configStorage.saveFilterConfig(filterConfig);
     }
@@ -95,7 +108,11 @@ public class SearchManager {
     }
 
     public void backPressed() {
-        filterClosedCallback.onSelected(filterConfig);
+        Log.e("backPressed", String.valueOf(filterChanged));
+        if (filterClosedCallback != null && filterChanged) {
+            filterClosedCallback.onSelected(filterConfig);
+            filterChanged = false;
+        }
     }
 
     public void searchPressed() {

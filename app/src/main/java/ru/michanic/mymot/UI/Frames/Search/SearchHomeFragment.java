@@ -31,8 +31,11 @@ import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Interactors.SitesInteractor;
 import ru.michanic.mymot.Models.Advert;
+import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.Models.Source;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ClickListener;
+import ru.michanic.mymot.Protocols.FilterSettedInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Activities.AdvertActivity;
@@ -56,7 +59,10 @@ public class SearchHomeFragment extends Fragment {
     private Boolean loading = false;
     private Boolean isLastPage = false;
 
+    private TextView titleView;
+    private RecyclerView resultView;
     private List<Advert> loadedAdverts = new ArrayList<Advert>();
+    private  SearchFilterConfig filterConfig;
 
     @Nullable
     @Override
@@ -66,8 +72,8 @@ public class SearchHomeFragment extends Fragment {
         Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        TextView titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
-        final RecyclerView resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
+        titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
+        resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
         titleView.setTypeface(Font.suzuki);
 
         glm = new GridLayoutManager(getActivity(), 2);
@@ -104,26 +110,46 @@ public class SearchHomeFragment extends Fragment {
             }
         });
         progressBar.setVisibility(View.VISIBLE);
-        loadMore();
+
+        reloadResults();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MyMotApplication.searchManager.filterClosedCallback = new FilterSettedInterface() {
+            @Override
+            public void onSelected(SearchFilterConfig filterConfig) {
+                reloadResults();
+            }
+        };
+    }
+
+    private void reloadResults() {
+        filterConfig = MyMotApplication.searchManager.getFilterConfig();
+        titleView.setText(filterConfig.getMainSearchTitle());
+        loadedAdverts.clear();
+        currentSource = null;
+        loadMore();
     }
 
     private void loadMore() {
         loading = true;
 
         if (currentSource == null) {
-            currentSource = new Source(SourceType.AVITO);
+            currentSource = new Source(SourceType.AVITO, filterConfig.getPriceFrom(), filterConfig.getPriceFor(), filterConfig.getSelectedRegion());
             currentSource.setPage(1);
         } else {
             //currentSource.page += 1;
             if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
-                currentSource.setType(SourceType.AUTO_RU);
+                currentSource.updateTypeAndRegion(SourceType.AUTO_RU, filterConfig.getSelectedRegion());
             } else {
                 if (avitoLoadMoreAvailable) {
                     currentSource.incrementPage();
-                    currentSource.setType(SourceType.AVITO);
+                    currentSource.updateTypeAndRegion(SourceType.AVITO, filterConfig.getSelectedRegion());
                 } else {
-                    currentSource.setType(SourceType.AUTO_RU);
+                    currentSource.updateTypeAndRegion(SourceType.AUTO_RU, filterConfig.getSelectedRegion());
                     currentSource.incrementPage();
                 }
             }

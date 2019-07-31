@@ -77,7 +77,7 @@ public class SitesInteractor {
                 autoruSource.setModel(autoruModelQuery);
                 Location autoruSelectedRegion = config.getSelectedRegion();
                 if (autoruSelectedRegion != null) {
-                    autoruSource.setRegion(autoruSelectedRegion.getAvito());
+                    autoruSource.setRegion(autoruSelectedRegion.getAutoru());
                 }
                 autoruSource.setpMin(config.getPriceFrom());
                 autoruSource.setpMax(config.getPriceFor());

@@ -47,4 +47,22 @@ public class SearchFilterConfig {
     public void setPriceFor(int priceFor) {
         this.priceFor = priceFor;
     }
+
+    public String getMainSearchTitle() {
+        String sectionTitle = "Все мотоциклы";
+        if (selectedRegion != null) {
+            sectionTitle = selectedRegion.getName();
+        }
+        if (priceFrom > 0) {
+            if (priceFor > 0) {
+                sectionTitle += ",\n" + priceFrom + " - " + priceFor + " руб.";
+            } else {
+                sectionTitle += ",\nЦена от " + priceFrom + " руб.";
+            }
+        } else if (priceFor > 0) {
+            sectionTitle += ",\nЦена до " + priceFor + " руб.";
+        }
+        return sectionTitle;
+    }
+
 }

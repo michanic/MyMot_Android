@@ -3,6 +3,7 @@ package ru.michanic.mymot.UI.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,8 +21,6 @@ import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
 
 public class FilterActivity extends UniversalActivity {
-
-    private boolean filterChanged = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +45,22 @@ public class FilterActivity extends UniversalActivity {
                 createCells();
             }
         };
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        MyMotApplication.searchManager.backPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                MyMotApplication.searchManager.backPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void createCells() {

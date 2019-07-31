@@ -1,5 +1,7 @@
 package ru.michanic.mymot.Models;
 
+import android.util.Log;
+
 import ru.michanic.mymot.Enums.SourceType;
 
 public class Source {
@@ -14,6 +16,23 @@ public class Source {
 
     public Source(SourceType type) {
         this.type = type;
+    }
+
+    public Source(SourceType type, int priceFrom, int priceFor, Location region) {
+        this.type = type;
+        this.pMin = priceFrom;
+        this.pMax = priceFor;
+
+        Log.e("priceFrom", String.valueOf(priceFrom));
+        Log.e("priceFor", String.valueOf(priceFor));
+
+        if (region != null) {
+            if (type == SourceType.AVITO) {
+                this.region = region.getAvito();
+            } else if (type == SourceType.AVITO) {
+                this.region = region.getAutoru();
+            }
+        }
     }
 
     public void setRegion(String region) {
@@ -32,8 +51,15 @@ public class Source {
         return type;
     }
 
-    public void setType(SourceType type) {
+    public void updateTypeAndRegion(SourceType type, Location region) {
         this.type = type;
+        if (region != null) {
+            if (type == SourceType.AVITO) {
+                this.region = region.getAvito();
+            } else if (type == SourceType.AVITO) {
+                this.region = region.getAutoru();
+            }
+        }
     }
 
     public void setModel(String model) {
@@ -44,25 +70,49 @@ public class Source {
         this.page = page;
     }
 
+    public Integer getPage() {
+        return page;
+    }
+
     public void incrementPage() {
         this.page += 1;
     }
 
     public String getFeedPath() {
-        String urlPage = "";
 
         switch (type) {
             case AVITO:
-                if (page != null) {
-                    urlPage = "?p=" + page;
+                String avitoRequest = "";
+                if (pMin != null) {
+                    avitoRequest += "&pmin=" + pMin;
                 }
-            return type.domain() + region + "/mototsikly_i_mototehnika/mototsikly" + urlPage;
+                if (pMax != null) {
+                    avitoRequest += "&pmax=" + pMax;
+                }
+                if (page != null) {
+                    avitoRequest += "&p=" + page;
+                }
+                if (avitoRequest.length() > 0) {
+                    avitoRequest = "?" + avitoRequest.substring(1);
+                }
+
+            return type.domain() + region + "/mototsikly_i_mototehnika/mototsikly" + avitoRequest;
 
             case AUTO_RU:
-                if (page != null) {
-                    urlPage = "?page_num_offers=" + page;
+                String autoRuRequest = "";
+                if (pMin != null) {
+                    autoRuRequest += "&price_from=" + pMin;
                 }
-                return type.domain() + region + "/motorcycle/all/" + urlPage;
+                if (pMax != null) {
+                    autoRuRequest += "&price_to=" + pMax;
+                }
+                if (page != null) {
+                    autoRuRequest += "&page_num_offers=" + page;
+                }
+                if (autoRuRequest.length() > 0) {
+                    autoRuRequest = "?" + autoRuRequest.substring(1);
+                }
+                return type.domain() + region + "/motorcycle/all/" + autoRuRequest;
         }
         return null;
     }
