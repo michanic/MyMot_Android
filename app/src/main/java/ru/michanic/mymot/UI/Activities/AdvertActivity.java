@@ -1,5 +1,6 @@
 package ru.michanic.mymot.UI.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -8,15 +9,20 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.kodmap.app.library.PopopDialogBuilder;
+import com.kodmap.app.library.model.BaseItem;
 import com.shivam.library.imageslider.ImageSlider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.michanic.mymot.Extensions.Font;
@@ -136,18 +142,70 @@ public class AdvertActivity extends UniversalActivity {
         aboutLabel.setText(Html.fromHtml(advertDetails.getText()));
         //parametersListView.
 
-        List<String> images = advertDetails.getImages();
+        final List<String> images = advertDetails.getImages();
         if (images != null) {
             ImagesSliderAdapter mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
             imagesSlider.setAdapter(mSectionsPagerAdapter);
         }
+
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showImagesGallery(images);
+            }
+        });
+
+        /*imagesSlider.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("setOnClickListener", "showImagesGallery");
+                return false;
+            }
+        });
+        imagesSlider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("setOnClickListener", "showImagesGallery");
+                //Intent imagesActivity = new Intent(getApplicationContext(), ImagesViewerActivity.class);
+                //startActivity(imagesActivity);
+                showImagesGallery();
+            }
+        });*/
 
         List<LinkedTreeMap<String,String>> parameters = advertDetails.getParameters();
         ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
         parametersListView.setAdapter(parametersListAdapter);
         parametersListView.setEnabled(false);
 
+    }
 
+    private void showImagesGallery(List<String> images) {
+
+        List<BaseItem> item_list = new ArrayList<>();
+
+        for (String imagePath: images) {
+            BaseItem item = new BaseItem();
+            item.setImageUrl(imagePath);
+            item_list.add(item);
+        }
+
+        Dialog dialog = new PopopDialogBuilder(this)
+                .showThumbSlider(true)
+                .setList(item_list)
+                .setHeaderBackgroundColor(android.R.color.black)
+                .setDialogBackgroundColor(android.R.color.black)
+                .setCloseDrawable(R.drawable.ic_close_white_24dp)
+                // Set loading view for pager image and preview image
+                //.setLoadingView(R.layout.loading_view)
+                //.setDialogStyle(R.style.DialogStyle)
+                //.showThumbSlider(true)
+                // Set image scale type for slider image
+                //.setSliderImageScaleType(ImageView.ScaleType.CENTER_INSIDE)
+                //.setSelectorIndicator(R.drawable.sample_indicator_selector)
+                // Build Km Slider Popup Dialog
+                .build();
+
+        dialog.show();
     }
 
 }

@@ -36,8 +36,9 @@ dependencies {
     // Загрузка изображений
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    // Слайдер
+    // Слайдеры
     implementation 'com.shivam.library:imageslider:1.1@aar'
+    implementation 'com.github.smhdk:KM-Popup-Image-Slider:v1.0.1'
 
     // pinned-section-listview
     implementation "de.halfbit:pinned-section-listview:1.0.0"
