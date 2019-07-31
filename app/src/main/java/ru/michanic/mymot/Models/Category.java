@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 public class Category extends RealmObject {
@@ -37,13 +38,13 @@ public class Category extends RealmObject {
         this.models = models;
     }
 
-    public RealmList<Model> getModels() {
-        return models;
+    public RealmResults<Model> getModels() {
+        return models.sort("sort");
     }
 
     public List<Model> getManufacturerModels(int manufacturerId) {
         List<Model> modelsList = new ArrayList<>();
-        for (Model model: models) {
+        for (Model model: getModels()) {
             if (model.getManufacturer().getId() == manufacturerId) {
                 modelsList.add(model);
             }

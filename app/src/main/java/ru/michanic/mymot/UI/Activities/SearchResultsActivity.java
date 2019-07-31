@@ -70,8 +70,6 @@ public class SearchResultsActivity extends UniversalActivity {
             }
         };
 
-        filterConfig = MyMotApplication.searchManager.getFilterConfig();
-
         glm = new GridLayoutManager(this, 1);
         resultView.setLayoutManager(glm);
 
@@ -92,6 +90,21 @@ public class SearchResultsActivity extends UniversalActivity {
             }
         });
 
+        MyMotApplication.searchManager.filterClosedCallback = new FilterSettedInterface() {
+            @Override
+            public void onSelected(SearchFilterConfig filterConfig) {
+                reloadResults();
+            }
+        };
+
+        reloadResults();
+    }
+
+    private void reloadResults() {
+        filterConfig = MyMotApplication.searchManager.getFilterConfig();
+        loadedAdverts.clear();
+        searchAdapter.notifyDataSetChanged();
+        currentPage = 1;
         progressBar.setVisibility(View.VISIBLE);
         loadMore();
     }
@@ -130,6 +143,7 @@ public class SearchResultsActivity extends UniversalActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.filter_icon) {
             Intent filterActivity = new Intent(getApplicationContext(), FilterActivity.class);
+            filterActivity.putExtra("goBackOnSearch", true);
             startActivity(filterActivity);
         }
         return super.onOptionsItemSelected(item);

@@ -68,9 +68,9 @@ public class SitesInteractor {
                 Manufacturer autoruManufacturer = config.getSelectedManufacturer();
                 Model autoruModel = config.getSelectedModel();
                 if (autoruManufacturer != null) {
-                    autoruModelQuery = autoruManufacturer.getAvitoSearchName();
+                    autoruModelQuery = autoruManufacturer.getAutoruSearchName();
                 } else if (autoruModel != null) {
-                    autoruModelQuery = autoruModel.getAvitoSearchName();
+                    autoruModelQuery = autoruModel.getAutoruSearchName();
                 }
 
                 Source autoruSource = new Source(SourceType.AUTO_RU);

@@ -39,7 +39,11 @@ public class Manufacturer extends RealmObject {
     }
 
     public String getAutoruSearchName() {
-        return name.replace(" ", "_").toUpperCase();
+        //return name.replace(" ", "_").toUpperCase();
+        return code + "/";
     }
 
+    public String getCode() {
+        return code;
+    }
 }

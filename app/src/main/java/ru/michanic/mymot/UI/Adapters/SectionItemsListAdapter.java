@@ -116,13 +116,17 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
                             try {
                                 int priceFrom = Integer.parseInt(s.toString());
                                 MyMotApplication.searchManager.setPriceFrom(priceFrom);
-                            } catch(NumberFormatException nfe) { }
+                            } catch(NumberFormatException nfe) {
+                                MyMotApplication.searchManager.setPriceFrom(0);
+                            }
 
                         } else if (propertyTitle == SectionModelItem.PRICE_FOR_NAME) {
                             try {
                                 int priceFor = Integer.parseInt(s.toString());
                                 MyMotApplication.searchManager.setPriceFor(priceFor);
-                            } catch(NumberFormatException nfe) { }
+                            } catch(NumberFormatException nfe) {
+                                MyMotApplication.searchManager.setPriceFor(0);
+                            }
                         }
                         item.setPropertyValue(s.toString());
                     }

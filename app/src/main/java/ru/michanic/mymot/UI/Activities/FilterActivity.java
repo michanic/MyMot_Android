@@ -22,18 +22,27 @@ import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
 
 public class FilterActivity extends UniversalActivity {
 
+    private Boolean goBackOnSearch = false;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         setNavigationTitle("Фильтр");
+
+        goBackOnSearch = getIntent().getBooleanExtra("goBackOnSearch", false);
 
         Button searchButton = (Button) findViewById(R.id.searchButton);
         searchButton.setTypeface(Font.progress);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
-                startActivity(searchResultsActivity);
+                if (goBackOnSearch) {
+                    MyMotApplication.searchManager.backPressed();
+                    finish();
+                } else {
+                    Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
+                    startActivity(searchResultsActivity);
+                }
             }
         });
 

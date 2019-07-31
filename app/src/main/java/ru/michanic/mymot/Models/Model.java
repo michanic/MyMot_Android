@@ -76,7 +76,8 @@ public class Model extends RealmObject {
     }
 
     public String getAutoruSearchName() {
-        return manufacturer.getName().toUpperCase() + "%23" + code.toUpperCase();
+        return manufacturer.getCode() + "/" + code + "/";
+        //return manufacturer.getName().toUpperCase() + "%23" + code.toUpperCase();
     }
 
 }
