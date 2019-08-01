@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Manufacturer;
+import ru.michanic.mymot.Models.Volume;
 import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.R;
 
@@ -31,6 +32,11 @@ public class CatalogSliderCell extends RecyclerView.ViewHolder {
     public void fillWithManufacturer(Manufacturer manufacturer) {
         Picasso.get().load(Const.DOMAIN + manufacturer.getImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
         titleLabel.setText(manufacturer.getName());
+    }
+
+    public void fillWithVolume(Volume volume) {
+        Picasso.get().load(Const.DOMAIN + volume.getImage()).placeholder(R.drawable.ic_placeholder).into(imageView);
+        titleLabel.setText(volume.getName());
     }
 
 }

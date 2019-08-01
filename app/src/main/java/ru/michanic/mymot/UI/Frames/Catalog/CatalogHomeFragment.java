@@ -16,12 +16,14 @@ import java.util.List;
 import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Manufacturer;
+import ru.michanic.mymot.Models.Volume;
 import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Activities.CatalogByClassActivity;
 import ru.michanic.mymot.UI.Activities.CatalogByManufacturerActivity;
 import ru.michanic.mymot.UI.Adapters.ClassesSliderAdapter;
 import ru.michanic.mymot.UI.Adapters.ManufacturersSliderAdapter;
+import ru.michanic.mymot.UI.Adapters.VolumessSliderAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class CatalogHomeFragment extends Fragment {
@@ -39,8 +41,13 @@ public class CatalogHomeFragment extends Fragment {
         TextView manufacturersTitleView = (TextView) rootView.findViewById(R.id.manufacturersTitle);
         RecyclerView manufacturersRecyclerView = (RecyclerView) rootView.findViewById(R.id.manufacturersSlider);
 
+        TextView volumesTitleView = (TextView) rootView.findViewById(R.id.volumesTitle);
+        RecyclerView volumesRecyclerView = (RecyclerView) rootView.findViewById(R.id.volumesSlider);
 
         classesTitleView.setTypeface(Font.suzuki);
+        manufacturersTitleView.setTypeface(Font.suzuki);
+        volumesTitleView.setTypeface(Font.suzuki);
+
 
         LinearLayoutManager classesLayoutManager = new LinearLayoutManager(getActivity());
         classesLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -59,9 +66,6 @@ public class CatalogHomeFragment extends Fragment {
         classesRecyclerView.setAdapter(classesAdapter);
 
 
-
-        manufacturersTitleView.setTypeface(Font.suzuki);
-
         LinearLayoutManager manufacturersLayoutManager = new LinearLayoutManager(getActivity());
         manufacturersLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         manufacturersRecyclerView.setLayoutManager(manufacturersLayoutManager);
@@ -77,6 +81,23 @@ public class CatalogHomeFragment extends Fragment {
         };
         ManufacturersSliderAdapter manufacturersAdapter = new ManufacturersSliderAdapter(getActivity(), manufacturers, manufacturerPressed);
         manufacturersRecyclerView.setAdapter(manufacturersAdapter);
+
+
+        LinearLayoutManager volumesLayoutManager = new LinearLayoutManager(getActivity());
+        volumesLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        volumesRecyclerView.setLayoutManager(volumesLayoutManager);
+
+        final List<Volume> volumes = dataManager.getVolumes();
+        ClickListener volumePressed = new ClickListener() {
+            @Override
+            public void onClick(int section, int row) {
+                /*Intent catalogByManufacturerActivity = new Intent(getActivity(), CatalogByManufacturerActivity.class);
+                catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers.get(row).getId());
+                getActivity().startActivity(catalogByManufacturerActivity);*/
+            }
+        };
+        VolumessSliderAdapter volumesAdapter = new VolumessSliderAdapter(getActivity(), volumes, volumePressed);
+        volumesRecyclerView.setAdapter(volumesAdapter);
 
 
         return rootView;

@@ -21,6 +21,7 @@ import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.ModelDetails;
+import ru.michanic.mymot.Models.Volume;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;
@@ -61,32 +62,45 @@ public class ApiInteractor {
 
                             @Override
                             public void onLoaded() {
-                                loadClasses(new LoadingInterface() {
+                                loadVolumes(new LoadingInterface() {
 
                                     @Override
                                     public void onLoaded() {
-                                        loadModels(new LoadingInterface() {
+                                        loadClasses(new LoadingInterface() {
 
                                             @Override
                                             public void onLoaded() {
-                                                dataManager.assignCategories();
-                                                loadingInterface.onLoaded();
+                                                loadModels(new LoadingInterface() {
+
+                                                    @Override
+                                                    public void onLoaded() {
+                                                        dataManager.assignCategories();
+                                                        loadingInterface.onLoaded();
+                                                    }
+                                                    @Override
+                                                    public void onFailed() {
+                                                        loadingInterface.onFailed();
+                                                    }
+                                                });
+
                                             }
                                             @Override
                                             public void onFailed() {
                                                 loadingInterface.onFailed();
                                             }
+
                                         });
 
                                     }
+
                                     @Override
                                     public void onFailed() {
                                         loadingInterface.onFailed();
                                     }
-
                                 });
 
                             }
+
                             @Override
                             public void onFailed() {
                                 loadingInterface.onFailed();
@@ -192,6 +206,28 @@ public class ApiInteractor {
         });
     }
 
+    private void loadVolumes(final LoadingInterface loadingInterface) {
+        Log.e("loadData", "loadVolumes");
+
+        apiInterface.loadVolumes().enqueue(new Callback<List<Volume>>() {
+            @Override
+            public void onResponse(Call<List<Volume>> call, Response<List<Volume>> response) {
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(response.body());
+                realm.commitTransaction();
+
+                loadingInterface.onLoaded();
+                Log.e("loadData", "volumes loaded");
+            }
+
+            @Override
+            public void onFailure(Call<List<Volume>> call, Throwable t) {
+                loadingInterface.onFailed();
+                Log.e("response", t.toString());
+            }
+        });
+    }
 
     private void loadClasses(final LoadingInterface loadingInterface) {
         Log.e("loadData", "loadClasses");

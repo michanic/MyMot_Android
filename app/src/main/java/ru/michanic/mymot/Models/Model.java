@@ -17,10 +17,14 @@ public class Model extends RealmObject {
     private String name;
     private String preview_picture;
     private int sort;
+    private String volume_text;
+    private float volume_value;
+
 
     // связи
     private Category category;
     private Manufacturer manufacturer;
+    private Volume volume_type;
 
     public int getId() {
         return id;

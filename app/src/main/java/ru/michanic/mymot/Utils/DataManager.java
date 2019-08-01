@@ -17,6 +17,7 @@ import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
+import ru.michanic.mymot.Models.Volume;
 import ru.michanic.mymot.MyMotApplication;
 
 public class DataManager {
@@ -166,6 +167,10 @@ public class DataManager {
     public int getRegionCitiesCount(int regionId) {
         RealmResults<Location> regions = realm.where(Location.class).equalTo("region_id", regionId).findAll().sort("sort");
         return regions.size();
+    }
+
+    public List<Volume> getVolumes() {
+        return realm.copyFromRealm(realm.where(Volume.class).findAll().sort("sort"));
     }
 
 }

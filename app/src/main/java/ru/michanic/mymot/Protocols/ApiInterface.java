@@ -11,6 +11,7 @@ import ru.michanic.mymot.Models.JsonResult;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.ModelDetails;
+import ru.michanic.mymot.Models.Volume;
 
 public interface ApiInterface {
 
@@ -29,6 +30,9 @@ public interface ApiInterface {
 
     @POST("catalog.php?type=cities")
     Call<List<Location>> loadRegionCities(@Query("id") int regionId);
+
+    @POST("catalog.php?type=volumes")
+    Call<List<Volume>> loadVolumes();
 
     @POST("catalog.php?type=classes")
     Call<List<Category>> loadClasses();

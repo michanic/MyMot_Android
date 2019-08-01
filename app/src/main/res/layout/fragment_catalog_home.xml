@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
+
             <TextView
                 android:id="@+id/manufacturersTitle"
                 android:layout_width="wrap_content"
@@ -45,6 +46,26 @@
                 android:id="@+id/manufacturersSlider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+
+            <TextView
+                android:id="@+id/volumesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="По объему"
+                android:textSize="22sp"
+                android:textColor="@color/textGray"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="4dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/volumesSlider"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="40dp"/>
+
 
         </LinearLayout>
 
