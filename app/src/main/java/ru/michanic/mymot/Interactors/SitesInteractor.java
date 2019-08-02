@@ -10,6 +10,7 @@ import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.AdvertDetails;
 import ru.michanic.mymot.Models.HtmlAdvertAsyncRequest;
+import ru.michanic.mymot.Models.HtmlAdvertPhoneAsyncRequest;
 import ru.michanic.mymot.Models.HtmlAdvertsAsyncRequest;
 import ru.michanic.mymot.Models.Location;
 import ru.michanic.mymot.Models.Manufacturer;
@@ -19,6 +20,7 @@ import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.Models.Source;
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
 import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
+import ru.michanic.mymot.Protocols.LoadingAdvertPhonesInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
 import ru.michanic.mymot.Utils.DataManager;
 
@@ -144,4 +146,28 @@ public class SitesInteractor {
         }, advert.getSourceType()).execute(advert.getLink());
 
     }
+
+    public void loadAvitoAdvertPhone(Advert advert, final LoadingAdvertPhonesInterface loadingInterface) {
+        String link = advert.getLink().replace("www.avito", "m.avito");
+        new HtmlAdvertPhoneAsyncRequest(new AsyncRequestCompleted() {
+            @Override
+            public void processFinish(Object output) {
+                List<String> phones = (List<String>) output;
+                loadingInterface.onLoaded(phones);
+            }
+        }, SourceType.AVITO).execute(link);
+    }
+
+    public void loadAutoRuAdvertPhones(String saleId, String saleHash, final LoadingAdvertPhonesInterface loadingInterface) {
+
+        String link = "https://auto.ru/-/ajax/phones/?category=moto&sale_id=" + saleId + "&sale_hash=" + saleHash + "&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number";
+        new HtmlAdvertPhoneAsyncRequest(new AsyncRequestCompleted() {
+            @Override
+            public void processFinish(Object output) {
+                List<String> phones = (List<String>) output;
+                loadingInterface.onLoaded(phones);
+            }
+        }, SourceType.AUTO_RU).execute(link);
+    }
+
 }

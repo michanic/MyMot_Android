@@ -89,14 +89,20 @@ public class ConfigStorage {
         return filterConfig;
     }
 
-    public void saveCsrfToken(String token) {
 
+    public void saveCsrfToken(String token) {
+        if (token != null) {
+            if (token.length() > 0) {
+                Log.e("saveCsrfToken", token);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString(CSRF_TOKEN, token);
+                editor.commit();
+            }
+        }
     }
 
     public String getCsrfToken() {
-
-
-        return "";
+        return settings.getString(CSRF_TOKEN, "");
     }
 
 }

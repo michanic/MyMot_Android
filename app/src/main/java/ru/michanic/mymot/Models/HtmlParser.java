@@ -152,8 +152,6 @@ public class HtmlParser {
         return true;
     }
 
-
-
     public AdvertDetails parseAdvertDetails(Document document, SourceType sourceType) {
         AdvertDetails advertDetails = new AdvertDetails();
         switch (sourceType) {
@@ -225,6 +223,24 @@ public class HtmlParser {
         advertDetails.setSaleHash(saleHash);
 
         return advertDetails;
+    }
+
+    public String parsePhoneFromAvito(Document document) {
+
+        //String selector = "[data-marker=\"item-contact-bar/call\"]";
+        //Element element = document.select(selector).first();
+
+        Elements phoneBar = document.getElementsByAttributeValue("data-marker", "item-contact-bar/call");
+        if (!phoneBar.isEmpty()) {
+            return phoneBar.first().attr("href").replace("tel:", "");
+        } else {
+            return "";
+        }
+    }
+
+    public List<String> parsePhonesFromAutoRu(Document document) {
+        Log.e("parsePhonesFromAutoRu", document.html());
+        return new ArrayList<>();
     }
 
 }

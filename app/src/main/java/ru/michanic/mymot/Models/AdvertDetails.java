@@ -12,6 +12,7 @@ public class AdvertDetails {
     private String date;
     private String saleHash;
     private String warning;
+    private String csrfToken;
 
     public List<String> getImages() {
         return images;
@@ -59,5 +60,13 @@ public class AdvertDetails {
 
     public void setWarning(String warning) {
         this.warning = warning;
+    }
+
+    public void setCsrfToken(String csrfToken) {
+        this.csrfToken = csrfToken;
+    }
+
+    public String getCsrfToken() {
+        return csrfToken;
     }
 }

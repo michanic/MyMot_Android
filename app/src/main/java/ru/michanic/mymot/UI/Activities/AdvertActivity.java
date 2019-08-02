@@ -25,12 +25,15 @@ import com.shivam.library.imageslider.ImageSlider;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Interactors.ApiInteractor;
 import ru.michanic.mymot.Interactors.SitesInteractor;
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.AdvertDetails;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
+import ru.michanic.mymot.Protocols.LoadingAdvertPhonesInterface;
 import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter;
@@ -101,6 +104,7 @@ public class AdvertActivity extends UniversalActivity {
                 loadingIndicator.setVisibility(View.GONE);
                 fillProperties();
                 contentView.setVisibility(View.VISIBLE);
+                MyMotApplication.configStorage.saveCsrfToken(advertDetails.getCsrfToken());
             }
 
             @Override
@@ -151,7 +155,28 @@ public class AdvertActivity extends UniversalActivity {
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImagesGallery(images);
+                //showImagesGallery(images);
+
+                SourceType sourceType = advert.getSourceType();
+                if (sourceType == SourceType.AVITO) {
+                    sitesInteractor.loadAvitoAdvertPhone(advert, new LoadingAdvertPhonesInterface() {
+                        @Override
+                        public void onLoaded(List<String> phones) {
+                            for (String phone: phones) {
+                                Log.e("onLoaded", phone);
+                            }
+                        }
+                    });
+                } else if (sourceType == SourceType.AUTO_RU) {
+                    sitesInteractor.loadAutoRuAdvertPhones(advert.getId(), advertDetails.getSaleHash(), new LoadingAdvertPhonesInterface() {
+                        @Override
+                        public void onLoaded(List<String> phones) {
+                            for (String phone: phones) {
+                                Log.e("onLoaded", phone);
+                            }
+                        }
+                    });
+                }
             }
         });
 
