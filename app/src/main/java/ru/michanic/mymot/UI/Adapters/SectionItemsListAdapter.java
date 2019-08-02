@@ -84,11 +84,13 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
                 ImageView imageView = (ImageView) view.findViewById(R.id.cell_image);
                 TextView modelTitle = (TextView) view.findViewById(R.id.model_title);
                 TextView years = (TextView) view.findViewById(R.id.model_years);
+                TextView volume = (TextView) view.findViewById(R.id.model_volume);
 
                 Model model = item.getModel();
                 Picasso.get().load(Const.DOMAIN + model.getPreview_picture()).placeholder(R.drawable.ic_placeholder).into(imageView);
                 modelTitle.setText(model.getName());
                 years.setText(model.getYears());
+                volume.setText(model.getVolume());
                 break;
 
             case SectionModelItem.SIMPLE_CELL:

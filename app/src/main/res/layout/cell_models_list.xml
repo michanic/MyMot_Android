@@ -29,11 +29,11 @@
     <TextView
         android:id="@+id/model_title"
         android:layout_width="wrap_content"
-        android:layout_height="27dp"
+        android:layout_height="22dp"
         android:text="Model"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/card_view"
         android:layout_toRightOf="@+id/card_view"
         android:gravity="center_vertical"
@@ -43,17 +43,32 @@
     <TextView
         android:id="@+id/model_years"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="14dp"
         android:layout_below="@+id/model_title"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/card_view"
         android:layout_toRightOf="@+id/card_view"
-        android:gravity="center_vertical"
         android:text="2002"
         android:textColor="@color/textLightGray"
         android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/model_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:layout_below="@+id/model_years"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_toEndOf="@+id/card_view"
+        android:layout_toRightOf="@+id/card_view"
+        android:gravity="center_vertical"
+        android:text="100 куб.см."
+        android:textColor="@color/textGray"
+        android:textSize="10sp" />
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -270,6 +270,32 @@ public class ApiInteractor {
                 }
                 realm.commitTransaction();
 
+
+                List<Volume> volumes = dataManager.getVolumes();
+
+                realm.beginTransaction();
+                for (Manufacturer manufacturer: response.body()) {
+                    for (Model model: manufacturer.getModels()) {
+
+                        String volumeText = model.getVolume();
+                        float volumeVal = 0;
+                        try {
+                            volumeVal = Float.parseFloat(volumeText.replace("от ", ""));
+                        } catch (NumberFormatException nfe) { System.out.println("NumberFormatException: " + nfe.getMessage()); }
+                        model.setVolume_value(volumeVal);
+                        model.setVolume(volumeText + " куб.см.");
+
+                        for (Volume volume: volumes) {
+                            if ((float)volume.getMin() <= volumeVal && volumeVal <= (float)volume.getMax()) {
+                                model.setVolume_id(volume.getId());
+                                break;
+                            }
+                        }
+                        realm.copyToRealmOrUpdate(model);
+                    }
+                }
+                realm.commitTransaction();
+
                 loadingInterface.onLoaded();
                 Log.e("loadData", "models loaded");
             }

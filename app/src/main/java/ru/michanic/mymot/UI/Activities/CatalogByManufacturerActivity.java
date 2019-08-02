@@ -22,7 +22,7 @@ public class CatalogByManufacturerActivity extends UniversalActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog_by_manufacturer);
+        setContentView(R.layout.activity_catalog_list);
 
         DataManager dataManager = new DataManager();
 

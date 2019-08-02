@@ -2,6 +2,7 @@ package ru.michanic.mymot.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,11 +14,12 @@ import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
+import ru.michanic.mymot.Models.Volume;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
-public class CatalogByClassActivity extends UniversalActivity {
+public class CatalogByVolumeActivity extends UniversalActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +29,15 @@ public class CatalogByClassActivity extends UniversalActivity {
         DataManager dataManager = new DataManager();
 
         Intent intent = getIntent();
-        int classId = intent.getIntExtra("classId", 0);
-        Category category = dataManager.getCategoryById(classId);
-
-        setNavigationTitle(category.getName());
+        int volumeId = intent.getIntExtra("volumeId", 0);
+        Volume volume = dataManager.getVolumeById(volumeId);
+        setNavigationTitle(volume.getName());
 
         final List<SectionModelItem> items = new ArrayList();
         for (Manufacturer manufacturer : dataManager.getManufacturers(true)) {
-            List<Model> models = dataManager.getManufacturerModels(manufacturer, category);
+
+            List<Model> models = dataManager.getManufacturerModelsOfVolume(manufacturer, volume);
+
             if (models.size() > 0) {
                 items.add(new SectionModelItem(manufacturer.getName()));
                 for (Model model : models) {

@@ -1,5 +1,7 @@
 package ru.michanic.mymot.Models;
 
+import android.util.Log;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -17,14 +19,14 @@ public class Model extends RealmObject {
     private String name;
     private String preview_picture;
     private int sort;
-    private String volume_text;
+    private String volume;
     private float volume_value;
-
+    private int volume_id;
 
     // связи
     private Category category;
     private Manufacturer manufacturer;
-    private Volume volume_type;
+
 
     public int getId() {
         return id;
@@ -70,6 +72,25 @@ public class Model extends RealmObject {
         this.favourite = favourite;
     }
 
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public void setVolume_id(int volume_id) {
+        this.volume_id = volume_id;
+    }
+
+    public int getVolume_id() {
+        return volume_id;
+    }
+
+    public void setVolume_value(float volume_value) {
+        this.volume_value = volume_value;
+    }
 
     public String getYears() {
         return first_year + " - " + (last_year == 0 ? "настоящее время" : last_year);

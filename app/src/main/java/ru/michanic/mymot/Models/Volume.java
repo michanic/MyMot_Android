@@ -38,4 +38,12 @@ public class Volume extends RealmObject {
     public String getCode() {
         return code;
     }
+
+    public int getMin() {
+        return min;
+    }
+
+    public int getMax() {
+        return max;
+    }
 }

@@ -21,6 +21,7 @@ import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Activities.CatalogByClassActivity;
 import ru.michanic.mymot.UI.Activities.CatalogByManufacturerActivity;
+import ru.michanic.mymot.UI.Activities.CatalogByVolumeActivity;
 import ru.michanic.mymot.UI.Adapters.ClassesSliderAdapter;
 import ru.michanic.mymot.UI.Adapters.ManufacturersSliderAdapter;
 import ru.michanic.mymot.UI.Adapters.VolumessSliderAdapter;
@@ -91,9 +92,9 @@ public class CatalogHomeFragment extends Fragment {
         ClickListener volumePressed = new ClickListener() {
             @Override
             public void onClick(int section, int row) {
-                /*Intent catalogByManufacturerActivity = new Intent(getActivity(), CatalogByManufacturerActivity.class);
-                catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers.get(row).getId());
-                getActivity().startActivity(catalogByManufacturerActivity);*/
+                Intent catalogByVolumeActivity = new Intent(getActivity(), CatalogByVolumeActivity.class);
+                catalogByVolumeActivity.putExtra("volumeId", volumes.get(row).getId());
+                getActivity().startActivity(catalogByVolumeActivity);
             }
         };
         VolumessSliderAdapter volumesAdapter = new VolumessSliderAdapter(getActivity(), volumes, volumePressed);

@@ -102,8 +102,6 @@ public class DataManager {
         }
     }
 
-
-
     public Manufacturer getManufacturerById(int id) {
         return realm.where(Manufacturer.class).equalTo("id", id).findFirst();
     }
@@ -118,6 +116,12 @@ public class DataManager {
 
     public List<Model> getManufacturerModels(Manufacturer manufacturer, Category category) {
         RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("class_id", category.getId()).findAll().sort("sort");
+        //Log.e("getManufacturerModels", String.valueOf(models.size()));
+        return realm.copyFromRealm(models);
+    }
+
+    public List<Model> getManufacturerModelsOfVolume(Manufacturer manufacturer, Volume volume) {
+        RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("volume_id", volume.getId()).findAll().sort("volume_value");
         //Log.e("getManufacturerModels", String.valueOf(models.size()));
         return realm.copyFromRealm(models);
     }
@@ -171,6 +175,10 @@ public class DataManager {
 
     public List<Volume> getVolumes() {
         return realm.copyFromRealm(realm.where(Volume.class).findAll().sort("sort"));
+    }
+
+    public Volume getVolumeById(int id) {
+        return realm.where(Volume.class).equalTo("id", id).findFirst();
     }
 
 }
