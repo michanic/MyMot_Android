@@ -105,4 +105,7 @@ public class Model extends RealmObject {
         //return manufacturer.getName().toUpperCase() + "%23" + code.toUpperCase();
     }
 
+    public int getSort() {
+        return sort;
+    }
 }

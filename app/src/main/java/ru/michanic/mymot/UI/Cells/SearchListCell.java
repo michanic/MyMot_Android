@@ -1,6 +1,7 @@
 package ru.michanic.mymot.UI.Cells;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,7 +41,8 @@ public class SearchListCell extends RecyclerView.ViewHolder  {
             @Override
             public void onClick(View v) {
                 boolean newState = !advert.isFavourite();
-                MyMotApplication.dataManager.setAdvertFavourite(advert, newState);
+                Log.e("setAdvertFavourite", String.valueOf(newState));
+                MyMotApplication.dataManager.setAdvertFavourite(advert.getId(), newState);
                 switchFavouriteButton(newState);
             }
         });

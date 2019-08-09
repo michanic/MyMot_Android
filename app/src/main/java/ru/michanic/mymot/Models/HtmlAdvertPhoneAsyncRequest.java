@@ -3,6 +3,7 @@ package ru.michanic.mymot.Models;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -49,9 +50,16 @@ public class HtmlAdvertPhoneAsyncRequest extends AsyncTask<String, Void, List<St
                     put("Cookie", "_csrf_token=" + csrfToken);
                 }};
 
-                Connection.Response res = Jsoup.connect(path).headers(headers).execute();
-                Log.e("doc", res.body());
-                doc = res.parse();
+                doc = Jsoup.connect(path).headers(headers).ignoreContentType(true).get();
+                try {
+                    JSONObject obj = new JSONObject(doc.text());
+                    String cardPhones = obj.getJSONObject("blocks").get("card-phones").toString();
+                    Log.e("cardPhones", cardPhones);
+                } catch (Throwable t) {
+                    Log.e("My App", "Could not parse malformed JSON");
+                }
+
+                //doc = res.parse();
                 phones = htmlParser.parsePhonesFromAutoRu(doc);
             }
             Log.e("doc", doc.text());

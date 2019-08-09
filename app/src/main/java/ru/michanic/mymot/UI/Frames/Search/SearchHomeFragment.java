@@ -69,7 +69,7 @@ public class SearchHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search_home, null);
 
-        Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
+        //Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
 
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         titleView = (TextView) rootView.findViewById(R.id.resultsTitle);

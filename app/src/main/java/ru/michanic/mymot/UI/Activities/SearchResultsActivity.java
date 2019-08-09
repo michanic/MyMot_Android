@@ -1,6 +1,5 @@
 package ru.michanic.mymot.UI.Activities;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,13 +22,13 @@ import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.Protocols.FilterSettedInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.SearchResultsAdapter;
+import ru.michanic.mymot.UI.Adapters.AdvertsListAdapter;
 
 public class SearchResultsActivity extends UniversalActivity {
 
     private RecyclerView resultView;
     private GridLayoutManager glm;
-    private SearchResultsAdapter searchAdapter;
+    private AdvertsListAdapter searchAdapter;
     private ProgressBar progressBar;
     private SitesInteractor sitesInteractor = new SitesInteractor();
     private SearchFilterConfig filterConfig;
@@ -73,7 +72,7 @@ public class SearchResultsActivity extends UniversalActivity {
         glm = new GridLayoutManager(this, 1);
         resultView.setLayoutManager(glm);
 
-        searchAdapter = new SearchResultsAdapter(this, loadedAdverts, advertPressed);
+        searchAdapter = new AdvertsListAdapter(this, loadedAdverts, advertPressed);
         resultView.setAdapter(searchAdapter);
 
         resultView.addOnScrollListener(new RecyclerView.OnScrollListener() {

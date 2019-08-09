@@ -16,13 +16,13 @@ import ru.michanic.mymot.R;
 import ru.michanic.mymot.UI.Cells.SearchListCell;
 import ru.michanic.mymot.UI.Cells.SearchMainCell;
 
-public class SearchResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdvertsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Context context;
     List<Advert> adverts;
     ClickListener clickListener;
 
-    public SearchResultsAdapter(Context context, List<Advert> adverts, ClickListener clickListener) {
+    public AdvertsListAdapter(Context context, List<Advert> adverts, ClickListener clickListener) {
         this.context = context;
         this.adverts = adverts;
         this.clickListener = clickListener;

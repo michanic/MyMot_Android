@@ -48,7 +48,6 @@ public class AdvertActivity extends UniversalActivity {
     SitesInteractor sitesInteractor = new SitesInteractor();
     Advert advert;
     AdvertDetails advertDetails;
-    DataManager dataManager = new DataManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class AdvertActivity extends UniversalActivity {
 
         Intent intent = getIntent();
         String advertId = intent.getStringExtra("advertId");
-        advert = dataManager.getAdvertById(advertId);
+        advert = MyMotApplication.dataManager.getAdvertById(advertId);
 
         setNavigationTitle(advert.getTitle());
 
@@ -80,7 +79,7 @@ public class AdvertActivity extends UniversalActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.favourite_icon) {
-            dataManager.setAdvertFavourite(advert, !advert.isFavourite());
+            MyMotApplication.dataManager.setAdvertFavourite(advert.getId(), !advert.isFavourite());
             switchFavouriteButton(item, advert.isFavourite());
         }
         return super.onOptionsItemSelected(item);

@@ -214,13 +214,17 @@ public class HtmlParser {
         }
         advertDetails.setParameters(parametersArray);
 
-        String saleHash = jsonParser.parse(document.select(".stat-publicapi").attr("data-bem")).getAsJsonObject().getAsJsonObject("card").get("sale_hash").getAsString();
+        try {
+            String saleHash = jsonParser.parse(document.select(".stat-publicapi").attr("data-bem")).getAsJsonObject().getAsJsonObject("card").get("sale_hash").getAsString();
+            advertDetails.setSaleHash(saleHash);
+        } catch (IllegalStateException error) {
+            Log.e("error", error.getLocalizedMessage());
+        }
 
         advertDetails.setText(text);
         advertDetails.setDate(date);
         advertDetails.setWarning(warning);
         advertDetails.setImages(images);
-        advertDetails.setSaleHash(saleHash);
 
         return advertDetails;
     }
@@ -239,7 +243,7 @@ public class HtmlParser {
     }
 
     public List<String> parsePhonesFromAutoRu(Document document) {
-        Log.e("parsePhonesFromAutoRu", document.html());
+        //Log.e("parsePhonesFromAutoRu", document.html());
         return new ArrayList<>();
     }
 

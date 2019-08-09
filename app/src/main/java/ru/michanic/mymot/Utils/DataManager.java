@@ -70,13 +70,17 @@ public class DataManager {
         return realm.where(Model.class).equalTo("id", id).findFirst();
     }
 
-    public List<Integer> getFavouriteModels() {
+    public List<Integer> getFavouriteModelIDs() {
         List<Model> models = realm.copyFromRealm(realm.where(Model.class).equalTo("favourite", true).findAll());
         List<Integer> modelIds = new ArrayList<Integer>();
         for (Model model : models) {
             modelIds.add(model.getId());
         }
         return modelIds;
+    }
+
+    public List<Model> getFavouriteModels() {
+        return realm.copyFromRealm(realm.where(Model.class).equalTo("favourite", true).findAll().sort("sort"));
     }
 
     public void setModelFavourite(Model model, boolean favourite) {
@@ -137,14 +141,15 @@ public class DataManager {
         return realm.where(Advert.class).equalTo("id", id).findFirst();
     }
 
-    public void setAdvertFavourite(Advert advert, boolean favourite) {
+    public void setAdvertFavourite(String advertId, boolean favourite) {
+        Advert advert = getAdvertById(advertId);
         realm.beginTransaction();
         advert.setFavourite(favourite);
         realm.commitTransaction();
     }
 
     public List<Advert> getFavouriteAdverts() {
-        RealmResults<Advert> adverts = realm.where(Advert.class)/*.equalTo("favourite", true)*/.findAll();
+        RealmResults<Advert> adverts = realm.where(Advert.class).equalTo("favourite", true).findAll();
         return realm.copyFromRealm(adverts);
     }
 

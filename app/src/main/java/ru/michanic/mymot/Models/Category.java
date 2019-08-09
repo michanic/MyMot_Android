@@ -1,6 +1,11 @@
 package ru.michanic.mymot.Models;
 
+import android.os.Build;
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.realm.RealmList;
@@ -38,8 +43,8 @@ public class Category extends RealmObject {
         this.models = models;
     }
 
-    public RealmResults<Model> getModels() {
-        return models.sort("sort");
+    public RealmList<Model> getModels() {
+        return models;
     }
 
     public List<Model> getManufacturerModels(int manufacturerId) {
@@ -49,7 +54,19 @@ public class Category extends RealmObject {
                 modelsList.add(model);
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Collections.sort(modelsList, new ModelsSortComparator());
+        }
         return modelsList;
     }
 
+}
+
+
+class ModelsSortComparator implements Comparator<Model> {
+    @Override
+    public int compare(Model m1, Model m2) {
+        return m1.getSort() - m2.getSort();
+    }
 }

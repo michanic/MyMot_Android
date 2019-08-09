@@ -260,17 +260,7 @@ public class ApiInteractor {
             @Override
             public void onResponse(Call<List<Manufacturer>> call, Response<List<Manufacturer>> response) {
 
-                List<Integer> favoriteModels = dataManager.getFavouriteModels();
-
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(response.body());
-                for (Integer modelId: favoriteModels) {
-                    Model model = dataManager.getModelById(modelId);
-                    model.setFavourite(true);
-                }
-                realm.commitTransaction();
-
-
+                List<Integer> favoriteModels = dataManager.getFavouriteModelIDs();
                 List<Volume> volumes = dataManager.getVolumes();
 
                 realm.beginTransaction();
@@ -291,6 +281,9 @@ public class ApiInteractor {
                                 break;
                             }
                         }
+
+                        model.setFavourite(favoriteModels.contains(model.getId()));
+
                         realm.copyToRealmOrUpdate(model);
                     }
                 }

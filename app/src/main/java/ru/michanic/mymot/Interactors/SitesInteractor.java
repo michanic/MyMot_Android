@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import ru.michanic.mymot.Enums.SourceType;
 import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.Models.AdvertDetails;
@@ -18,7 +20,9 @@ import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.ParseAdvertsResult;
 import ru.michanic.mymot.Models.SearchFilterConfig;
 import ru.michanic.mymot.Models.Source;
+import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
+import ru.michanic.mymot.Protocols.Const;
 import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertPhonesInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
