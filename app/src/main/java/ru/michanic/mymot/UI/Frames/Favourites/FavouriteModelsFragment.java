@@ -40,7 +40,7 @@ public class FavouriteModelsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_favourite_models, null);
         listView = (PinnedSectionListView) rootView.findViewById(R.id.listView);
         placeholder = (TextView) rootView.findViewById(R.id.listIsEmpty);
-        placeholder.setTypeface(Font.suzuki);
+        placeholder.setTypeface(Font.oswald);
         loadModels();
         return rootView;
     }

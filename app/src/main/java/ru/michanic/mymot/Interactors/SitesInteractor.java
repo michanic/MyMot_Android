@@ -163,7 +163,6 @@ public class SitesInteractor {
     }
 
     public void loadAutoRuAdvertPhones(String saleId, String saleHash, final LoadingAdvertPhonesInterface loadingInterface) {
-
         String link = "https://auto.ru/-/ajax/phones/?category=moto&sale_id=" + saleId + "&sale_hash=" + saleHash + "&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number";
         new HtmlAdvertPhoneAsyncRequest(new AsyncRequestCompleted() {
             @Override

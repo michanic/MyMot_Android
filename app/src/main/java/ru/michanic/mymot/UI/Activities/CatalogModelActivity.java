@@ -141,10 +141,10 @@ public class CatalogModelActivity extends UniversalActivity {
         int width = displayMetrics.widthPixels;
         imagesSlider.getLayoutParams().height = (int) ((float)width * 0.75);
 
-        modelLabel.setTypeface(Font.suzuki);
+        modelLabel.setTypeface(Font.oswald);
         searchButton.setTypeface(Font.progress);
-        parametersTitle.setTypeface(Font.suzuki);
-        reviewsTitle.setTypeface(Font.suzuki);
+        parametersTitle.setTypeface(Font.oswald);
+        reviewsTitle.setTypeface(Font.oswald);
 
         modelLabel.setText(model.getName());
         manufacturerLabel.setText(model.getManufacturer().getName());

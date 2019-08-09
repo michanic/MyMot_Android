@@ -31,10 +31,13 @@ public class HtmlAdvertAsyncRequest extends AsyncTask<String, Void, AdvertDetail
         Document doc = null;
         String csrf_token = "";
 
+        Log.e("try", "res.parse");
         try {
             Connection.Response res = Jsoup.connect(path).execute();
             doc = res.parse();
             csrf_token = res.cookie("_csrf_token");
+
+            Log.e("csrf_token", "csrf_token");
 
         } catch (IOException e) {
             e.printStackTrace();

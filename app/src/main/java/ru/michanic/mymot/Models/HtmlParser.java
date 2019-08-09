@@ -193,6 +193,8 @@ public class HtmlParser {
 
     private AdvertDetails parseFromAutoRu(Document document, AdvertDetails advertDetails) {
 
+        Log.e("parseAdvertDetails", "parseFromAutoRu");
+
         String text = document.select(".seller-details__text").html();
         String date = document.select(".card__stat .card__stat-item:eq(1)").text();
         String warning = document.select(".card__sold-message-header").text();
@@ -202,6 +204,7 @@ public class HtmlParser {
         for (Element element: elements) {
             images.add("https:" + element.attr("data-img"));
         }
+        Log.e("images", String.valueOf(images.size()));
 
         List<LinkedTreeMap<String,String>> parametersArray = new ArrayList<>();
         Elements parameters = document.select(".card__info .card__info-label");
@@ -243,7 +246,11 @@ public class HtmlParser {
     }
 
     public List<String> parsePhonesFromAutoRu(Document document) {
-        //Log.e("parsePhonesFromAutoRu", document.html());
+        List<String> phones = new ArrayList<>();
+        Elements elements = document.select(".card-phones__item");
+        for (Element element: elements) {
+            phones.add(element.text());
+        }
         return new ArrayList<>();
     }
 

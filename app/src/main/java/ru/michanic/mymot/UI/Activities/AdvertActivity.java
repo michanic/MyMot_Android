@@ -2,6 +2,7 @@ package ru.michanic.mymot.UI.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -135,7 +136,7 @@ public class AdvertActivity extends UniversalActivity {
         int width = displayMetrics.widthPixels;
         imagesSlider.getLayoutParams().height = (int) ((float)width * 0.75);
 
-        titleLabel.setTypeface(Font.suzuki);
+        titleLabel.setTypeface(Font.oswald);
         callButton.setTypeface(Font.progress);
 
         titleLabel.setText(advert.getTitle());
@@ -147,8 +148,12 @@ public class AdvertActivity extends UniversalActivity {
 
         final List<String> images = advertDetails.getImages();
         if (images != null) {
-            ImagesSliderAdapter mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
-            imagesSlider.setAdapter(mSectionsPagerAdapter);
+            if (images.size() > 0) {
+                ImagesSliderAdapter mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
+                imagesSlider.setAdapter(mSectionsPagerAdapter);
+            } else {
+                imagesSlider.setVisibility(View.GONE);
+            }
         }
 
         callButton.setOnClickListener(new View.OnClickListener() {
@@ -161,8 +166,9 @@ public class AdvertActivity extends UniversalActivity {
                     sitesInteractor.loadAvitoAdvertPhone(advert, new LoadingAdvertPhonesInterface() {
                         @Override
                         public void onLoaded(List<String> phones) {
-                            for (String phone: phones) {
-                                Log.e("onLoaded", phone);
+                            if (phones.size() > 0) {
+                                Intent callPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phones.get(0)));
+                                startActivity(callPhone);
                             }
                         }
                     });

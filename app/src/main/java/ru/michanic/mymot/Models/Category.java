@@ -12,6 +12,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
+import ru.michanic.mymot.Utils.ModelsSortComparator;
 
 public class Category extends RealmObject {
 
@@ -61,12 +62,4 @@ public class Category extends RealmObject {
         return modelsList;
     }
 
-}
-
-
-class ModelsSortComparator implements Comparator<Model> {
-    @Override
-    public int compare(Model m1, Model m2) {
-        return m1.getSort() - m2.getSort();
-    }
 }

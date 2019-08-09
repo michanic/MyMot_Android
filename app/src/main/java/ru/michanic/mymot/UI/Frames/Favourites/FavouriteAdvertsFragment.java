@@ -36,7 +36,7 @@ public class FavouriteAdvertsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_favourite_adverts, null);
         resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
         placeholder = (TextView) rootView.findViewById(R.id.listIsEmpty);
-        placeholder.setTypeface(Font.suzuki);
+        placeholder.setTypeface(Font.oswald);
 
         glm = new GridLayoutManager(getActivity(), 1);
         resultView.setLayoutManager(glm);

@@ -74,7 +74,7 @@ public class SearchHomeFragment extends Fragment {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
         titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
         resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
-        titleView.setTypeface(Font.suzuki);
+        titleView.setTypeface(Font.oswald);
 
         glm = new GridLayoutManager(getActivity(), 2);
         resultView.setLayoutManager(glm);

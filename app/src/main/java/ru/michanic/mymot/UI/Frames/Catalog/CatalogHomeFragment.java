@@ -45,9 +45,9 @@ public class CatalogHomeFragment extends Fragment {
         TextView volumesTitleView = (TextView) rootView.findViewById(R.id.volumesTitle);
         RecyclerView volumesRecyclerView = (RecyclerView) rootView.findViewById(R.id.volumesSlider);
 
-        classesTitleView.setTypeface(Font.suzuki);
-        manufacturersTitleView.setTypeface(Font.suzuki);
-        volumesTitleView.setTypeface(Font.suzuki);
+        classesTitleView.setTypeface(Font.oswald);
+        manufacturersTitleView.setTypeface(Font.oswald);
+        volumesTitleView.setTypeface(Font.oswald);
 
 
         LinearLayoutManager classesLayoutManager = new LinearLayoutManager(getActivity());

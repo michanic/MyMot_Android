@@ -91,6 +91,11 @@ public class ConfigStorage {
 
 
     public void saveCsrfToken(String token) {
+        String oldToken = settings.getString(CSRF_TOKEN, "");
+        if (oldToken.length() > 0) {
+            return;
+        }
+
         if (token != null) {
             if (token.length() > 0) {
                 Log.e("saveCsrfToken", token);
@@ -99,6 +104,12 @@ public class ConfigStorage {
                 editor.commit();
             }
         }
+    }
+
+    public void clearCsrfToken() {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(CSRF_TOKEN, "");
+        editor.commit();
     }
 
     public String getCsrfToken() {

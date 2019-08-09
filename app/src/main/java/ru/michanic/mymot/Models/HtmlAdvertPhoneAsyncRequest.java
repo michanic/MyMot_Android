@@ -43,6 +43,7 @@ public class HtmlAdvertPhoneAsyncRequest extends AsyncTask<String, Void, List<St
                         .userAgent("Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36")
                         .get();
                 phones.add(htmlParser.parsePhoneFromAvito(doc));
+
             } else if (sourceType == SourceType.AUTO_RU) {
 
                 Map<String, String> headers = new HashMap<String, String>() {{
@@ -51,18 +52,19 @@ public class HtmlAdvertPhoneAsyncRequest extends AsyncTask<String, Void, List<St
                 }};
 
                 doc = Jsoup.connect(path).headers(headers).ignoreContentType(true).get();
+                //Log.e("doc.text()", doc.html());
                 try {
-                    JSONObject obj = new JSONObject(doc.text());
-                    String cardPhones = obj.getJSONObject("blocks").get("card-phones").toString();
-                    Log.e("cardPhones", cardPhones);
+                    //JSONObject obj = new JSONObject(doc.text());
+                    //String cardPhonesHtml = obj.getJSONObject("blocks").getString("card-phones");
+                    Document cardPhonesDoc = Jsoup.parse(doc.html());
+                    Log.e("cardPhonesDoc", cardPhonesDoc.html());
+                    phones = htmlParser.parsePhonesFromAutoRu(cardPhonesDoc);
                 } catch (Throwable t) {
                     Log.e("My App", "Could not parse malformed JSON");
                 }
 
                 //doc = res.parse();
-                phones = htmlParser.parsePhonesFromAutoRu(doc);
             }
-            Log.e("doc", doc.text());
 
         } catch (IOException e) {
             e.printStackTrace();

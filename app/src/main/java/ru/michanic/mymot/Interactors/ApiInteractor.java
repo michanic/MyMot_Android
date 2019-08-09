@@ -49,6 +49,7 @@ public class ApiInteractor {
     public void loadData(final LoadingInterface loadingInterface) {
 
         dataManager.cleanAdverts();
+        MyMotApplication.configStorage.clearCsrfToken();
 
         loadExteptedWords(new LoadingInterface() {
 
