@@ -32,7 +32,7 @@ import ru.michanic.mymot.Utils.DataManager;
 
 public class ApiInteractor {
 
-    private Gson gson = new GsonBuilder().create();
+    //private Gson gson = new GsonBuilder().create();
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(Const.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -49,7 +49,7 @@ public class ApiInteractor {
     public void loadData(final LoadingInterface loadingInterface) {
 
         dataManager.cleanAdverts();
-        MyMotApplication.configStorage.clearCsrfToken();
+        //MyMotApplication.configStorage.clearCsrfToken();
 
         loadExteptedWords(new LoadingInterface() {
 
@@ -266,6 +266,9 @@ public class ApiInteractor {
 
                 realm.beginTransaction();
                 for (Manufacturer manufacturer: response.body()) {
+
+                    Log.e("manufacturer", manufacturer.getName());
+
                     for (Model model: manufacturer.getModels()) {
 
                         String volumeText = model.getVolume();
@@ -284,6 +287,7 @@ public class ApiInteractor {
                         }
 
                         model.setFavourite(favoriteModels.contains(model.getId()));
+                        model.setManufacturer(manufacturer);
 
                         realm.copyToRealmOrUpdate(model);
                     }

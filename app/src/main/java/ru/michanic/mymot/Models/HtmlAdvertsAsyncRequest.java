@@ -1,13 +1,16 @@
 package ru.michanic.mymot.Models;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
 import ru.michanic.mymot.Enums.SourceType;
+import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
 
 public class HtmlAdvertsAsyncRequest extends AsyncTask<String, Void, ParseAdvertsResult> {
@@ -25,9 +28,10 @@ public class HtmlAdvertsAsyncRequest extends AsyncTask<String, Void, ParseAdvert
     @Override
     protected ParseAdvertsResult doInBackground(String... arg) {
         String path = arg[0];
+        Connection.Response response = MyMotApplication.networkService.getHtmlData(path);
         Document doc = null;
         try {
-            doc = Jsoup.connect(path).get();
+            doc = response.parse();
         } catch (IOException e) {
             e.printStackTrace();
         }

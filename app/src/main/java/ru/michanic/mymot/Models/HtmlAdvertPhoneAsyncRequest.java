@@ -37,38 +37,32 @@ public class HtmlAdvertPhoneAsyncRequest extends AsyncTask<String, Void, List<St
         List<String> phones = new ArrayList<>();
         final String csrfToken = MyMotApplication.configStorage.getCsrfToken();
         Log.e("csrfToken", csrfToken);
-        try {
-            if (sourceType == SourceType.AVITO) {
-                doc = Jsoup.connect(path)
-                        .userAgent("Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36")
-                        .get();
-                phones.add(htmlParser.parsePhoneFromAvito(doc));
 
-            } else if (sourceType == SourceType.AUTO_RU) {
+        if (sourceType == SourceType.AVITO) {
+            Connection.Response response = MyMotApplication.networkService.getHtmlDataAsMobile(path);
+            try {
+                doc = response.parse();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            phones.add(htmlParser.parsePhoneFromAvito(doc));
 
-                Map<String, String> headers = new HashMap<String, String>() {{
-                    put("x-csrf-token", csrfToken);
-                    put("Cookie", "_csrf_token=" + csrfToken);
-                }};
-
-                doc = Jsoup.connect(path).headers(headers).ignoreContentType(true).get();
-                //Log.e("doc.text()", doc.html());
+        } else if (sourceType == SourceType.AUTO_RU) {
+            doc = MyMotApplication.networkService.getAutoRuPhonesData(path, csrfToken);
+            if (doc != null) {
                 try {
-                    //JSONObject obj = new JSONObject(doc.text());
-                    //String cardPhonesHtml = obj.getJSONObject("blocks").getString("card-phones");
-                    Document cardPhonesDoc = Jsoup.parse(doc.html());
-                    Log.e("cardPhonesDoc", cardPhonesDoc.html());
-                    phones = htmlParser.parsePhonesFromAutoRu(cardPhonesDoc);
+                    phones = htmlParser.parsePhonesFromAutoRu(doc);
                 } catch (Throwable t) {
                     Log.e("My App", "Could not parse malformed JSON");
                 }
-
-                //doc = res.parse();
+            } else {
+                Log.e("doc", "is empty");
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            //doc = res.parse();
         }
+
+
         return phones;
     }
 

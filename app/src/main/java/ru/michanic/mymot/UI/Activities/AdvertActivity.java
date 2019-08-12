@@ -1,5 +1,6 @@
 package ru.michanic.mymot.UI.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -49,6 +52,7 @@ public class AdvertActivity extends UniversalActivity {
     SitesInteractor sitesInteractor = new SitesInteractor();
     Advert advert;
     AdvertDetails advertDetails;
+    List<String> sellerPhones = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +126,7 @@ public class AdvertActivity extends UniversalActivity {
 
     private void fillProperties() {
 
+        RelativeLayout imagesSliderWrapper = (RelativeLayout)findViewById(R.id.imagesSliderWrapper);
         ImageSlider imagesSlider = (ImageSlider)findViewById(R.id.imagesSlider);
         TextView titleLabel = (TextView) findViewById(R.id.titleLabel);
         TextView cityLabel = (TextView) findViewById(R.id.cityLabel);
@@ -129,12 +134,12 @@ public class AdvertActivity extends UniversalActivity {
         TextView dateLabel = (TextView) findViewById(R.id.dateLabel);
         TextView aboutLabel = (TextView) findViewById(R.id.aboutLabel);
         NonScrollListView parametersListView  = (NonScrollListView) findViewById(R.id.parametersView);
-        Button callButton = (Button) findViewById(R.id.callButton);
+        final Button callButton = (Button) findViewById(R.id.callButton);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
-        imagesSlider.getLayoutParams().height = (int) ((float)width * 0.75);
+        imagesSliderWrapper.getLayoutParams().height = (int) ((float)width * 0.75);
 
         titleLabel.setTypeface(Font.oswald);
         callButton.setTypeface(Font.progress);
@@ -156,19 +161,23 @@ public class AdvertActivity extends UniversalActivity {
             }
         }
 
+        //registerForContextMenu(callButton);
+        callButton.setOnCreateContextMenuListener(this);
+
+
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //showImagesGallery(images);
-
+                sellerPhones.clear();
                 SourceType sourceType = advert.getSourceType();
                 if (sourceType == SourceType.AVITO) {
                     sitesInteractor.loadAvitoAdvertPhone(advert, new LoadingAdvertPhonesInterface() {
                         @Override
                         public void onLoaded(List<String> phones) {
+                            sellerPhones = phones;
                             if (phones.size() > 0) {
-                                Intent callPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phones.get(0)));
-                                startActivity(callPhone);
+                                makeCall(phones.get(0));
                             }
                         }
                     });
@@ -176,37 +185,35 @@ public class AdvertActivity extends UniversalActivity {
                     sitesInteractor.loadAutoRuAdvertPhones(advert.getId(), advertDetails.getSaleHash(), new LoadingAdvertPhonesInterface() {
                         @Override
                         public void onLoaded(List<String> phones) {
-                            for (String phone: phones) {
-                                Log.e("onLoaded", phone);
-                            }
+                            sellerPhones = phones;
+                            openContextMenu(callButton);
                         }
                     });
                 }
             }
         });
 
-        /*imagesSlider.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.e("setOnClickListener", "showImagesGallery");
-                return false;
-            }
-        });
-        imagesSlider.setOnClickListener(new View.OnClickListener() {
+        imagesSliderWrapper.setClickable(true);
+        imagesSliderWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("setOnClickListener", "showImagesGallery");
                 //Intent imagesActivity = new Intent(getApplicationContext(), ImagesViewerActivity.class);
                 //startActivity(imagesActivity);
-                showImagesGallery();
+                //showImagesGallery();
             }
-        });*/
+        });
 
         List<LinkedTreeMap<String,String>> parameters = advertDetails.getParameters();
         ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
         parametersListView.setAdapter(parametersListAdapter);
         parametersListView.setEnabled(false);
 
+    }
+
+    private void makeCall(String phone) {
+        Intent callPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+        startActivity(callPhone);
     }
 
     private void showImagesGallery(List<String> images) {
@@ -236,6 +243,25 @@ public class AdvertActivity extends UniversalActivity {
                 .build();
 
         dialog.show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        for (String phone: sellerPhones) {
+            menu.add(phone);
+        }
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        String phone = sellerPhones.get(item.getItemId());
+        Log.e("call", phone);
+        return super.onContextItemSelected(item);
+    }
+
+    public void imageSliderClick(View v) {
+        Log.e("imageSliderClick", "click");
     }
 
 }

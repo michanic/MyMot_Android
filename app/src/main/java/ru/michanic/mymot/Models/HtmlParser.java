@@ -249,9 +249,11 @@ public class HtmlParser {
         List<String> phones = new ArrayList<>();
         Elements elements = document.select(".card-phones__item");
         for (Element element: elements) {
+            Log.e("element", element.html());
             phones.add(element.text());
         }
-        return new ArrayList<>();
+        Log.e("phones", String.valueOf(phones.size()));
+        return phones;
     }
 
 }

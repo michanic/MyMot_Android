@@ -7,6 +7,7 @@ import android.util.Log;
 import io.realm.Realm;
 import ru.michanic.mymot.Utils.ConfigStorage;
 import ru.michanic.mymot.Utils.DataManager;
+import ru.michanic.mymot.Utils.NetworkService;
 import ru.michanic.mymot.Utils.SearchManager;
 
 public class MyMotApplication extends Application {
@@ -15,6 +16,7 @@ public class MyMotApplication extends Application {
     public static SearchManager searchManager;
     public static DataManager dataManager;
     public static ConfigStorage configStorage;
+    public static NetworkService networkService;
 
     @Override
     public void onCreate() {
@@ -26,7 +28,7 @@ public class MyMotApplication extends Application {
         dataManager = new DataManager();
         configStorage = new ConfigStorage(appContext);
         searchManager = new SearchManager();
-
+        networkService = new NetworkService();
         //Realm.init(appContext);
     }
 

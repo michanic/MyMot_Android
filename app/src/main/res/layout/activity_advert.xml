@@ -14,18 +14,26 @@
             android:layout_height="wrap_content"
             android:paddingBottom="50dp">
 
-            <com.shivam.library.imageslider.ImageSlider
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:id="@+id/imagesSlider"
+                android:id="@+id/imagesSliderWrapper"
                 android:clickable="true"
-                />
+                android:onClick="imageSliderClick">
+
+                <com.shivam.library.imageslider.ImageSlider
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imagesSlider"
+                    android:clickable="false"
+                    />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/titleLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imagesSlider"
+                android:layout_below="@+id/imagesSliderWrapper"
                 android:layout_marginLeft="26dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="26dp"
@@ -49,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleLabel"
-                android:layout_alignEnd="@+id/imagesSlider"
-                android:layout_alignRight="@+id/imagesSlider"
+                android:layout_alignEnd="@+id/imagesSliderWrapper"
+                android:layout_alignRight="@+id/imagesSliderWrapper"
                 android:layout_gravity="right"
                 android:layout_marginTop="11dp"
                 android:layout_marginEnd="26dp"

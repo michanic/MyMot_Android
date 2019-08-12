@@ -28,26 +28,16 @@ public class HtmlAdvertAsyncRequest extends AsyncTask<String, Void, AdvertDetail
     @Override
     protected AdvertDetails doInBackground(String... arg) {
         String path = arg[0];
+        Connection.Response response = MyMotApplication.networkService.getHtmlData(path);
         Document doc = null;
-        String csrf_token = "";
-
-        Log.e("try", "res.parse");
+        String csrf_token = response.cookie("_csrf_token");
+        Log.e("csrf_token", "csrf_token");
         try {
-            Connection.Response res = Jsoup.connect(path).execute();
-            doc = res.parse();
-            csrf_token = res.cookie("_csrf_token");
-
-            Log.e("csrf_token", "csrf_token");
-
+            doc = response.parse();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        /*try {
-            doc = Jsoup.connect(path).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         AdvertDetails advertDetails = htmlParser.parseAdvertDetails(doc, sourceType);
         advertDetails.setCsrfToken(csrf_token);
         return advertDetails;
