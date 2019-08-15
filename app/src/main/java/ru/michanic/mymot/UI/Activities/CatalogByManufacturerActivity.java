@@ -36,7 +36,7 @@ public class CatalogByManufacturerActivity extends UniversalActivity {
         for (Category category : dataManager.getCategories(true)) {
             List<Model> models = dataManager.getManufacturerModels(manufacturer, category);
             if (models.size() > 0) {
-                items.add(new SectionModelItem(category.getName()));
+                items.add(new SectionModelItem(category.getName().toUpperCase()));
                 for (Model model : models) {
                     items.add(new SectionModelItem(model));
                 }

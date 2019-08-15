@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.halfbit.pinnedsection.PinnedSectionListView;
+import ru.michanic.mymot.Extensions.Font;
 import ru.michanic.mymot.Models.Category;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
@@ -77,6 +78,7 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
                 view = View.inflate(parent.getContext(), R.layout.cell_section_title, null);
                 TextView title = (TextView) view.findViewById(R.id.section_title);
                 title.setText(item.getSectionTitle());
+                title.setTypeface(Font.oswald);
                 break;
 
             case SectionModelItem.LIST_MODEL:

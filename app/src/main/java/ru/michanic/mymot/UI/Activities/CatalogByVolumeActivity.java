@@ -39,7 +39,7 @@ public class CatalogByVolumeActivity extends UniversalActivity {
             List<Model> models = dataManager.getManufacturerModelsOfVolume(manufacturer, volume);
 
             if (models.size() > 0) {
-                items.add(new SectionModelItem(manufacturer.getName()));
+                items.add(new SectionModelItem(manufacturer.getName().toUpperCase()));
                 for (Model model : models) {
                     items.add(new SectionModelItem(model));
                 }

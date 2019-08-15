@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyMot</string>
     <string name="app_subname">Каталог мотоциклов и все объявления об их продаже в одном приложении</string>
-    <string name="app_version">Версия 1.0.1</string>
+    <string name="app_version">Версия 1.0.7</string>
     <string name="app_author">Создание приложения: michanic.ru</string>
 
     <string name="title_catalog">Каталог</string>
