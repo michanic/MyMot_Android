@@ -31,7 +31,7 @@ public class HtmlAdvertAsyncRequest extends AsyncTask<String, Void, AdvertDetail
         Connection.Response response = MyMotApplication.networkService.getHtmlData(path);
         Document doc = null;
         String csrf_token = response.cookie("_csrf_token");
-        Log.e("csrf_token", "csrf_token");
+        //Log.e("csrf_token", csrf_token);
         try {
             doc = response.parse();
         } catch (IOException e) {

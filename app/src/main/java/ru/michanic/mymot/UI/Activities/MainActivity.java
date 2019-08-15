@@ -102,6 +102,8 @@ public class MainActivity extends UniversalActivity {
 
         searchResultsView = (PinnedSectionListView) findViewById(R.id.listView);
         searchResultsView.setVisibility(View.GONE);
+
+
     }
 
     @Override

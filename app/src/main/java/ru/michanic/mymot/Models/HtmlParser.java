@@ -112,12 +112,14 @@ public class HtmlParser {
         String id = jsonParser.parse(element.attr("data-bem")).getAsJsonObject().getAsJsonObject("listing-item").get("id").getAsString();
 
         Advert advert = new Advert();
-
+        String previewImage = "";
         String city = element.select(".listing-item__place").text();
         String link = element.select(".listing-item__link").attr("href");
-        String previewImage = "https:" + element.selectFirst(".image.tile__image").attr("data-original");
+        Element firstImage = element.selectFirst(".image.tile__image");
+        if (firstImage != null) {
+            previewImage = "https:" + element.selectFirst(".image.tile__image").attr("data-original");
+        }
         String date = element.select(".listing-item__date").text();
-
         String priceText = element.select(".listing-item__price").text();
         priceText = priceText.replace(" ", "");
         priceText = priceText.replace(" ", "");

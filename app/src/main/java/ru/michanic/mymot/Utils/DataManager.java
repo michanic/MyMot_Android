@@ -149,7 +149,7 @@ public class DataManager {
     }
 
     public List<Advert> getFavouriteAdverts() {
-        RealmResults<Advert> adverts = realm.where(Advert.class).equalTo("favourite", true).findAll();
+        RealmResults<Advert> adverts = realm.where(Advert.class).equalTo("favourite", true).findAll().sort("id");
         return realm.copyFromRealm(adverts);
     }
 
