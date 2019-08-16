@@ -11,7 +11,7 @@ public class AdvertDetails {
     private List<LinkedTreeMap<String,String>> parameters;
     private String date;
     private String saleHash;
-    private String warning;
+    private String warning = "";
     private String csrfToken;
 
     public List<String> getImages() {

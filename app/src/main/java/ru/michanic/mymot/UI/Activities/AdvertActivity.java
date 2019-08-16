@@ -146,16 +146,6 @@ public class AdvertActivity extends UniversalActivity {
         dateLabel.setText(advertDetails.getDate());
         priceLabel.setText(advert.getPriceString());
 
-        String aboutText = advertDetails.getText();
-        if (aboutText.length() > 0) {
-            aboutLabel.setText(Html.fromHtml(aboutText));
-        } else {
-            aboutLabel.setText("");
-            final RelativeLayout.LayoutParams layoutparams = (RelativeLayout.LayoutParams)aboutLabel.getLayoutParams();
-            layoutparams.setMargins(0, 0, 0, 0);
-            aboutLabel.setLayoutParams(layoutparams);
-        }
-        //parametersListView.
 
         final List<String> images = advertDetails.getImages();
         if (images != null) {
@@ -175,6 +165,28 @@ public class AdvertActivity extends UniversalActivity {
             }
         });
 
+
+        String warning = advertDetails.getWarning();
+        if (warning.length() > 0) {
+            MyMotApplication.dataManager.setAdvertActive(advert.getId(), false);
+            aboutLabel.setText(warning);
+            imagesSlider.setAlpha((float) 0.5);
+            callButton.setVisibility(View.GONE);
+        } else {
+            MyMotApplication.dataManager.setAdvertActive(advert.getId(), true);
+            imagesSlider.setAlpha((float) 1);
+            callButton.setVisibility(View.VISIBLE);
+
+            String aboutText = advertDetails.getText();
+            if (aboutText.length() > 0) {
+                aboutLabel.setText(Html.fromHtml(aboutText));
+            } else {
+                aboutLabel.setText("");
+                final RelativeLayout.LayoutParams layoutparams = (RelativeLayout.LayoutParams)aboutLabel.getLayoutParams();
+                layoutparams.setMargins(0, 0, 0, 0);
+                aboutLabel.setLayoutParams(layoutparams);
+            }
+        }
 
         callButton.setOnCreateContextMenuListener(this);
         callButton.setOnClickListener(new View.OnClickListener() {

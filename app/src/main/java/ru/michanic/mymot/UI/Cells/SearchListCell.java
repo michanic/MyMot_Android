@@ -35,6 +35,9 @@ public class SearchListCell extends RecyclerView.ViewHolder  {
         priceText.setText(advert.getPriceString());
         detailsText.setText(advert.getDetails());
 
+        imageView.setAlpha(advert.isActive() ? 1 : (float) 0.5);
+        priceText.setAlpha(advert.isActive() ? 1 : (float) 0.5);
+
         switchFavouriteButton(advert.isFavourite());
 
         favouriteIcon.setOnClickListener(new View.OnClickListener() {

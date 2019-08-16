@@ -148,10 +148,19 @@ public class DataManager {
         realm.commitTransaction();
     }
 
+    public void setAdvertActive(String advertId, boolean active) {
+        Advert advert = getAdvertById(advertId);
+        realm.beginTransaction();
+        advert.setActive(active);
+        realm.commitTransaction();
+    }
+
     public List<Advert> getFavouriteAdverts() {
         RealmResults<Advert> adverts = realm.where(Advert.class).equalTo("favourite", true).findAll().sort("id");
         return realm.copyFromRealm(adverts);
     }
+
+
 
     public void cleanAdverts() {
         realm.beginTransaction();
