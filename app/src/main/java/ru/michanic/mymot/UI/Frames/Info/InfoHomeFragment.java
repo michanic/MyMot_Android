@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Activities.TextActivity;
+import ru.michanic.mymot.Kotlin.UI.Activities.TextActivity;
 
 public class InfoHomeFragment extends Fragment {
 

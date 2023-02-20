@@ -1,291 +1,225 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.Html;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.text.Html
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.ContextMenu
+import android.view.ContextMenu.ContextMenuInfo
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.*
+import com.kodmap.app.library.PopopDialogBuilder
+import com.kodmap.app.library.model.BaseItem
+import com.shivam.library.imageslider.ImageSlider
+import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Interactors.SitesInteractor
+import ru.michanic.mymot.Models.Advert
+import ru.michanic.mymot.Models.AdvertDetails
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface
+import ru.michanic.mymot.R
+import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter
+import ru.michanic.mymot.UI.Adapters.ParametersListAdapter
+import ru.michanic.mymot.UI.NonScrollListView
 
-import com.google.gson.internal.LinkedTreeMap;
-import com.kodmap.app.library.PopopDialogBuilder;
-import com.kodmap.app.library.model.BaseItem;
-import com.shivam.library.imageslider.ImageSlider;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Interactors.SitesInteractor;
-import ru.michanic.mymot.Models.Advert;
-import ru.michanic.mymot.Models.AdvertDetails;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
-import ru.michanic.mymot.Protocols.LoadingAdvertPhonesInterface;
-import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter;
-import ru.michanic.mymot.UI.Adapters.ParametersListAdapter;
-import ru.michanic.mymot.UI.NonScrollListView;
-
-public class AdvertActivity extends UniversalActivity {
-
-    private ProgressBar loadingIndicator;
-    private ScrollView contentView;
-    SitesInteractor sitesInteractor = new SitesInteractor();
-    Advert advert;
-    AdvertDetails advertDetails;
-    List<String> sellerPhones = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_advert);
-
-        Intent intent = getIntent();
-        String advertId = intent.getStringExtra("advertId");
-        advert = MyMotApplication.dataManager.getAdvertById(advertId);
-
-        setNavigationTitle(advert.getTitle());
-
-        contentView = (ScrollView) findViewById(R.id.content_view);
-        contentView.setVisibility(View.GONE);
-
-        loadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
-        loadingIndicator.setVisibility(View.VISIBLE);
-
-        loadAdvertDetails();
+class AdvertActivity : UniversalActivity() {
+    private var loadingIndicator: ProgressBar? = null
+    private var contentView: ScrollView? = null
+    var sitesInteractor = SitesInteractor()
+    lateinit var advert: Advert
+    var advertDetails: AdvertDetails? = null
+    var sellerPhones: MutableList<String> = ArrayList()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_advert)
+        val intent = intent
+        val advertId = intent.getStringExtra("advertId")
+        advert = MyMotApplication.dataManager.getAdvertById(advertId)
+        setNavigationTitle(advert.getTitle())
+        contentView = findViewById<View>(R.id.content_view) as ScrollView
+        contentView!!.visibility = View.GONE
+        loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
+        loadingIndicator!!.visibility = View.VISIBLE
+        loadAdvertDetails()
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.favourite_menu, menu);
-        switchFavouriteButton(menu.findItem(R.id.favourite_icon), advert.isFavourite());
-        return super.onCreateOptionsMenu(menu);
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.favourite_menu, menu)
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), advert!!.isFavourite)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.favourite_icon) {
-            MyMotApplication.dataManager.setAdvertFavourite(advert.getId(), !advert.isFavourite());
-            switchFavouriteButton(item, advert.isFavourite());
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.favourite_icon) {
+            MyMotApplication.dataManager.setAdvertFavourite(advert!!.id, !advert!!.isFavourite)
+            switchFavouriteButton(item, advert!!.isFavourite)
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void switchFavouriteButton(MenuItem menuItem, boolean active) {
-        if (advert.isFavourite()) {
-            menuItem.setIcon(R.drawable.ic_navigation_favourite_active);
+    private fun switchFavouriteButton(menuItem: MenuItem, active: Boolean) {
+        if (advert!!.isFavourite) {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_active)
         } else {
-            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive);
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive)
         }
     }
 
-    private void loadAdvertDetails() {
-
-        sitesInteractor.loadAdvertDetails(advert, new LoadingAdvertDetailsInterface() {
-            @Override
-            public void onLoaded(AdvertDetails details) {
-
-                advertDetails = details;
-                loadingIndicator.setVisibility(View.GONE);
-                fillProperties();
-                contentView.setVisibility(View.VISIBLE);
-                MyMotApplication.configStorage.saveCsrfToken(advertDetails.getCsrfToken());
+    private fun loadAdvertDetails() {
+        sitesInteractor.loadAdvertDetails(advert, object : LoadingAdvertDetailsInterface {
+            override fun onLoaded(details: AdvertDetails) {
+                advertDetails = details
+                loadingIndicator!!.visibility = View.GONE
+                fillProperties()
+                contentView!!.visibility = View.VISIBLE
+                MyMotApplication.configStorage.saveCsrfToken(advertDetails!!.csrfToken)
             }
 
-            @Override
-            public void onFailed() {
-                showNoConnectionDialog(new NoConnectionRepeatInterface() {
-                    @Override
-                    public void repeatPressed() {
-                        loadAdvertDetails();
-                    }
-                });
+            override fun onFailed() {
+                showNoConnectionDialog { loadAdvertDetails() }
             }
-        });
-
+        })
     }
 
-    private void fillProperties() {
-
-        ImageView fullscreenIcon = (ImageView)findViewById(R.id.fullscreenIcon);
-        RelativeLayout imagesSliderWrapper = (RelativeLayout)findViewById(R.id.imagesSliderWrapper);
-        ImageSlider imagesSlider = (ImageSlider)findViewById(R.id.imagesSlider);
-        TextView titleLabel = (TextView) findViewById(R.id.titleLabel);
-        TextView cityLabel = (TextView) findViewById(R.id.cityLabel);
-        TextView priceLabel = (TextView) findViewById(R.id.priceLabel);
-        TextView dateLabel = (TextView) findViewById(R.id.dateLabel);
-        TextView aboutLabel = (TextView) findViewById(R.id.aboutLabel);
-        NonScrollListView parametersListView  = (NonScrollListView) findViewById(R.id.parametersView);
-        final Button callButton = (Button) findViewById(R.id.callButton);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
-        imagesSliderWrapper.getLayoutParams().height = (int) ((float)width * 0.75);
-
-        titleLabel.setTypeface(Font.oswald);
-        callButton.setTypeface(Font.progress);
-
-        titleLabel.setText(advert.getTitle());
-        cityLabel.setText(advert.getCity());
-        dateLabel.setText(advertDetails.getDate());
-        priceLabel.setText(advert.getPriceString());
-
-
-        final List<String> images = advertDetails.getImages();
+    private fun fillProperties() {
+        val fullscreenIcon = findViewById<View>(R.id.fullscreenIcon) as ImageView
+        val imagesSliderWrapper = findViewById<View>(R.id.imagesSliderWrapper) as RelativeLayout
+        val imagesSlider = findViewById<View>(R.id.imagesSlider) as ImageSlider
+        val titleLabel = findViewById<View>(R.id.titleLabel) as TextView
+        val cityLabel = findViewById<View>(R.id.cityLabel) as TextView
+        val priceLabel = findViewById<View>(R.id.priceLabel) as TextView
+        val dateLabel = findViewById<View>(R.id.dateLabel) as TextView
+        val aboutLabel = findViewById<View>(R.id.aboutLabel) as TextView
+        val parametersListView = findViewById<View>(R.id.parametersView) as NonScrollListView
+        val callButton = findViewById<View>(R.id.callButton) as Button
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = displayMetrics.widthPixels
+        imagesSliderWrapper.layoutParams.height = (width.toFloat() * 0.75).toInt()
+        titleLabel.typeface = Font.oswald
+        callButton.typeface = Font.progress
+        titleLabel.text = advert!!.title
+        cityLabel.text = advert!!.city
+        dateLabel.text = advertDetails!!.date
+        priceLabel.text = advert!!.priceString
+        val images = advertDetails!!.images
         if (images != null) {
-            if (images.size() > 0) {
-                ImagesSliderAdapter mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
-                imagesSlider.setAdapter(mSectionsPagerAdapter);
+            if (images.size > 0) {
+                val mSectionsPagerAdapter = ImagesSliderAdapter(supportFragmentManager, images)
+                imagesSlider.setAdapter(mSectionsPagerAdapter)
             } else {
-                imagesSlider.setVisibility(View.GONE);
-                fullscreenIcon.setVisibility(View.GONE);
+                imagesSlider.visibility = View.GONE
+                fullscreenIcon.visibility = View.GONE
             }
         }
-
-        fullscreenIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImagesGallery(images);
-            }
-        });
-
-
-        String warning = advertDetails.getWarning();
-        if (warning.length() > 0) {
-            MyMotApplication.dataManager.setAdvertActive(advert.getId(), false);
-            aboutLabel.setText(warning);
-            imagesSlider.setAlpha((float) 0.5);
-            callButton.setVisibility(View.GONE);
+        fullscreenIcon.setOnClickListener { showImagesGallery(images) }
+        val warning = advertDetails!!.warning
+        if (warning.length > 0) {
+            MyMotApplication.dataManager.setAdvertActive(advert!!.id, false)
+            aboutLabel.text = warning
+            imagesSlider.alpha = 0.5.toFloat()
+            callButton.visibility = View.GONE
         } else {
-            MyMotApplication.dataManager.setAdvertActive(advert.getId(), true);
-            imagesSlider.setAlpha((float) 1);
-            callButton.setVisibility(View.VISIBLE);
-
-            String aboutText = advertDetails.getText();
-            if (aboutText.length() > 0) {
-                aboutLabel.setText(Html.fromHtml(aboutText));
+            MyMotApplication.dataManager.setAdvertActive(advert!!.id, true)
+            imagesSlider.alpha = 1f
+            callButton.visibility = View.VISIBLE
+            val aboutText = advertDetails!!.text
+            if (aboutText.length > 0) {
+                aboutLabel.text = Html.fromHtml(aboutText)
             } else {
-                aboutLabel.setText("");
-                final RelativeLayout.LayoutParams layoutparams = (RelativeLayout.LayoutParams)aboutLabel.getLayoutParams();
-                layoutparams.setMargins(0, 0, 0, 0);
-                aboutLabel.setLayoutParams(layoutparams);
+                aboutLabel.text = ""
+                val layoutparams = aboutLabel.layoutParams as RelativeLayout.LayoutParams
+                layoutparams.setMargins(0, 0, 0, 0)
+                aboutLabel.layoutParams = layoutparams
             }
         }
-
-        callButton.setOnCreateContextMenuListener(this);
-        callButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sellerPhones.clear();
-                SourceType sourceType = advert.getSourceType();
-                if (sourceType == SourceType.AVITO) {
-                    sitesInteractor.loadAvitoAdvertPhone(advert, new LoadingAdvertPhonesInterface() {
-                        @Override
-                        public void onLoaded(List<String> phones) {
-                            sellerPhones = phones;
-                            if (phones.size() > 0) {
-                                makeCall(phones.get(0));
-                            }
+        callButton.setOnCreateContextMenuListener(this)
+        callButton.setOnClickListener {
+            sellerPhones.clear()
+            val sourceType = advert!!.sourceType
+            if (sourceType == SourceType.AVITO) {
+                sitesInteractor.loadAvitoAdvertPhone(advert) { phones ->
+                    sellerPhones = phones
+                    if (phones.size > 0) {
+                        makeCall(phones[0])
+                    }
+                }
+            } else if (sourceType == SourceType.AUTO_RU) {
+                sitesInteractor.loadAutoRuAdvertPhones(
+                    advert!!.id,
+                    advertDetails!!.saleHash
+                ) { phones ->
+                    sellerPhones = phones
+                    if (phones.size == 1) {
+                        val phone = phones[0]
+                        if (phone.contains("c")) {
+                            openContextMenu(callButton)
+                        } else {
+                            makeCall(phone)
                         }
-                    });
-                } else if (sourceType == SourceType.AUTO_RU) {
-                    sitesInteractor.loadAutoRuAdvertPhones(advert.getId(), advertDetails.getSaleHash(), new LoadingAdvertPhonesInterface() {
-                        @Override
-                        public void onLoaded(List<String> phones) {
-                            sellerPhones = phones;
-                            if (phones.size() == 1) {
-                                String phone = phones.get(0);
-                                if (phone.contains("c")) {
-                                    openContextMenu(callButton);
-                                } else {
-                                    makeCall(phone);
-                                }
-                            } else if (phones.size() > 1) {
-                                openContextMenu(callButton);
-                            }
-                        }
-                    });
+                    } else if (phones.size > 1) {
+                        openContextMenu(callButton)
+                    }
                 }
             }
-        });
-
-        List<LinkedTreeMap<String,String>> parameters = advertDetails.getParameters();
-        ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
-        parametersListView.setAdapter(parametersListAdapter);
-        parametersListView.setEnabled(false);
-
+        }
+        val parameters = advertDetails!!.parameters
+        val parametersListAdapter = ParametersListAdapter(parameters)
+        parametersListView.adapter = parametersListAdapter
+        parametersListView.isEnabled = false
     }
 
-    private void makeCall(String phone) {
+    private fun makeCall(phone: String) {
+        var phone = phone
         if (phone.contains("c")) {
-            phone = phone.substring(0, phone.indexOf("c") - 1);
+            phone = phone.substring(0, phone.indexOf("c") - 1)
         }
-        Intent callPhone = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
-        startActivity(callPhone);
+        val callPhone = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+        startActivity(callPhone)
     }
 
-    private void showImagesGallery(List<String> images) {
-
-        List<BaseItem> item_list = new ArrayList<>();
-
-        for (String imagePath: images) {
-            BaseItem item = new BaseItem();
-            item.setImageUrl(imagePath);
-            item_list.add(item);
+    private fun showImagesGallery(images: List<String>?) {
+        val item_list: MutableList<BaseItem> = ArrayList()
+        for (imagePath in images!!) {
+            val item = BaseItem()
+            item.imageUrl = imagePath
+            item_list.add(item)
         }
-
-        Dialog dialog = new PopopDialogBuilder(this)
-                .showThumbSlider(true)
-                .setList(item_list)
-                .setHeaderBackgroundColor(android.R.color.black)
-                .setDialogBackgroundColor(android.R.color.black)
-                .setCloseDrawable(R.drawable.ic_close_white_24dp)
-                // Set loading view for pager image and preview image
-                //.setLoadingView(R.layout.loading_view)
-                //.setDialogStyle(R.style.DialogStyle)
-                //.showThumbSlider(true)
-                // Set image scale type for slider image
-                //.setSliderImageScaleType(ImageView.ScaleType.CENTER_INSIDE)
-                //.setSelectorIndicator(R.drawable.sample_indicator_selector)
-                // Build Km Slider Popup Dialog
-                .build();
-
-        dialog.show();
+        val dialog = PopopDialogBuilder(this)
+            .showThumbSlider(true)
+            .setList(item_list)
+            .setHeaderBackgroundColor(android.R.color.black)
+            .setDialogBackgroundColor(android.R.color.black)
+            .setCloseDrawable(R.drawable.ic_close_white_24dp) // Set loading view for pager image and preview image
+            //.setLoadingView(R.layout.loading_view)
+            //.setDialogStyle(R.style.DialogStyle)
+            //.showThumbSlider(true)
+            // Set image scale type for slider image
+            //.setSliderImageScaleType(ImageView.ScaleType.CENTER_INSIDE)
+            //.setSelectorIndicator(R.drawable.sample_indicator_selector)
+            // Build Km Slider Popup Dialog
+            .build()
+        dialog.show()
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        for (String phone: sellerPhones) {
-            menu.add(phone);
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+        for (phone in sellerPhones) {
+            menu.add(phone)
         }
-
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        String phone = sellerPhones.get(item.getItemId());
-        makeCall(phone);
-        return super.onContextItemSelected(item);
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val phone = sellerPhones[item.itemId]
+        makeCall(phone)
+        return super.onContextItemSelected(item)
     }
 
-    public void imageSliderClick(View v) {
-        Log.e("imageSliderClick", "click");
+    fun imageSliderClick(v: View?) {
+        Log.e("imageSliderClick", "click")
     }
-
 }

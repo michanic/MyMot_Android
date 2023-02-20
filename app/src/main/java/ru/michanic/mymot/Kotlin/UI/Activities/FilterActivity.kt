@@ -1,119 +1,89 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
+import android.content.Intent
+import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.Button
+import de.halfbit.pinnedsection.PinnedSectionListView
+import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Models.SectionModelItem
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.FilterSettedInterface
+import ru.michanic.mymot.R
+import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.halfbit.pinnedsection.PinnedSectionListView;
-import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Models.SearchFilterConfig;
-import ru.michanic.mymot.Models.SectionModelItem;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.FilterSettedInterface;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
-
-public class FilterActivity extends UniversalActivity {
-
-    private Boolean goBackOnSearch = false;
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        setNavigationTitle("Фильтр");
-
-        goBackOnSearch = getIntent().getBooleanExtra("goBackOnSearch", false);
-
-        Button searchButton = (Button) findViewById(R.id.searchButton);
-        searchButton.setTypeface(Font.progress);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (goBackOnSearch) {
-                    MyMotApplication.searchManager.backPressed();
-                    finish();
-                } else {
-                    Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
-                    startActivity(searchResultsActivity);
-                }
+class FilterActivity : UniversalActivity() {
+    private var goBackOnSearch = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_filter)
+        setNavigationTitle("Фильтр")
+        goBackOnSearch = intent.getBooleanExtra("goBackOnSearch", false)
+        val searchButton = findViewById<View>(R.id.searchButton) as Button
+        searchButton.typeface = Font.progress
+        searchButton.setOnClickListener {
+            if (goBackOnSearch) {
+                MyMotApplication.searchManager.backPressed()
+                finish()
+            } else {
+                val searchResultsActivity =
+                    Intent(applicationContext, SearchResultsActivity::class.java)
+                startActivity(searchResultsActivity)
             }
-        });
-
-        createCells();
-
-        MyMotApplication.searchManager.filterUpdated = new FilterSettedInterface() {
-            @Override
-            public void onSelected(SearchFilterConfig filterConfig) {
-                createCells();
-            }
-        };
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        MyMotApplication.searchManager.backPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                MyMotApplication.searchManager.backPressed();
-                break;
         }
-        return super.onOptionsItemSelected(item);
+        createCells()
+        MyMotApplication.searchManager.filterUpdated = FilterSettedInterface { createCells() }
     }
 
-    private void createCells() {
-        final List<SectionModelItem> items = new ArrayList();
-        items.add(new SectionModelItem("Регион поиска"));
-        items.add(new SectionModelItem(MyMotApplication.searchManager.getRegionTitle(), null));
+    override fun onBackPressed() {
+        super.onBackPressed()
+        MyMotApplication.searchManager.backPressed()
+    }
 
-        items.add(new SectionModelItem("Модель"));
-        items.add(new SectionModelItem(MyMotApplication.searchManager.getModelTitle(), null));
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> MyMotApplication.searchManager.backPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-        items.add(new SectionModelItem("Цена"));
-        String priceFromString = "";
-        int priceFromInt = MyMotApplication.searchManager.getPriceFrom();
+    private fun createCells() {
+        val items: MutableList<SectionModelItem?> = ArrayList()
+        items.add(SectionModelItem("Регион поиска"))
+        items.add(SectionModelItem(MyMotApplication.searchManager.regionTitle, null))
+        items.add(SectionModelItem("Модель"))
+        items.add(SectionModelItem(MyMotApplication.searchManager.modelTitle, null))
+        items.add(SectionModelItem("Цена"))
+        var priceFromString = ""
+        val priceFromInt = MyMotApplication.searchManager.priceFrom
         if (priceFromInt != 0) {
-            priceFromString = String.valueOf(priceFromInt);
+            priceFromString = priceFromInt.toString()
         }
-        items.add(new SectionModelItem(SectionModelItem.PRICE_FROM_NAME, priceFromString));
-
-        String priceForString = "";
-        int priceForInt = MyMotApplication.searchManager.getPriceFor();
+        items.add(SectionModelItem(SectionModelItem.PRICE_FROM_NAME, priceFromString))
+        var priceForString = ""
+        val priceForInt = MyMotApplication.searchManager.priceFor
         if (priceForInt != 0) {
-            priceForString = String.valueOf(priceForInt);
+            priceForString = priceForInt.toString()
         }
-        items.add(new SectionModelItem(SectionModelItem.PRICE_FOR_NAME, priceForString));
-
-        PinnedSectionListView listView = (PinnedSectionListView) findViewById(R.id.listView);
-        SectionItemsListAdapter sectionItemsListAdapter = new SectionItemsListAdapter(items);
-        listView.setAdapter(sectionItemsListAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 1:
-                        Intent regionsActivity = new Intent(getApplicationContext(), FilterRegionsActivity.class);
-                        startActivity(regionsActivity);
-                        break;
-                    case 3:
-                        Intent modelsActivity = new Intent(getApplicationContext(), FilterModelsActivity.class);
-                        startActivity(modelsActivity);
-                        break;
+        items.add(SectionModelItem(SectionModelItem.PRICE_FOR_NAME, priceForString))
+        val listView = findViewById<View>(R.id.listView) as PinnedSectionListView
+        val sectionItemsListAdapter = SectionItemsListAdapter(items)
+        listView.adapter = sectionItemsListAdapter
+        listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+            when (position) {
+                1 -> {
+                    val regionsActivity =
+                        Intent(applicationContext, FilterRegionsActivity::class.java)
+                    startActivity(regionsActivity)
+                }
+                3 -> {
+                    val modelsActivity =
+                        Intent(applicationContext, FilterModelsActivity::class.java)
+                    startActivity(modelsActivity)
                 }
             }
-        });
+        }
     }
-
 }

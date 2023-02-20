@@ -1,7 +1,3 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-public class ImagesViewerActivity extends UniversalActivity {
-
-
-
-}
+class ImagesViewerActivity : UniversalActivity()

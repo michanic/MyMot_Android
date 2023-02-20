@@ -1,207 +1,151 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.ScrollView
+import android.widget.TextView
+import com.shivam.library.imageslider.ImageSlider
+import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Interactors.ApiInteractor
+import ru.michanic.mymot.Models.Model
+import ru.michanic.mymot.Models.ModelDetails
+import ru.michanic.mymot.Models.YoutubeVideo
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface
+import ru.michanic.mymot.R
+import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter
+import ru.michanic.mymot.UI.Adapters.ParametersListAdapter
+import ru.michanic.mymot.UI.Adapters.ReviewsSliderAdapter
+import ru.michanic.mymot.UI.NonScrollListView
+import ru.michanic.mymot.Utils.DataManager
 
-import com.google.gson.internal.LinkedTreeMap;
-import com.shivam.library.imageslider.ImageSlider;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Interactors.ApiInteractor;
-import ru.michanic.mymot.Models.Model;
-import ru.michanic.mymot.Models.ModelDetails;
-import ru.michanic.mymot.Models.YoutubeVideo;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.ClickListener;
-import ru.michanic.mymot.Protocols.Const;
-import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface;
-import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter;
-import ru.michanic.mymot.UI.Adapters.ParametersListAdapter;
-import ru.michanic.mymot.UI.Adapters.ReviewsSliderAdapter;
-import ru.michanic.mymot.UI.NonScrollListView;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class CatalogModelActivity extends UniversalActivity {
-
-    private ProgressBar loadingIndicator;
-    private ScrollView contentView;
-    ApiInteractor apiInteractor = new ApiInteractor();
-    Model model;
-    ModelDetails modelDetails;
-    DataManager dataManager = new DataManager();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog_model);
-
-        Intent intent = getIntent();
-        int modelId = intent.getIntExtra("modelId", 0);
-        model = dataManager.getModelById(modelId);
-
-        setNavigationTitle(model.getName());
-
-        contentView = (ScrollView) findViewById(R.id.content_view);
-        contentView.setVisibility(View.GONE);
-
-        loadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
-        loadingIndicator.setVisibility(View.VISIBLE);
-
-        loadModelDetails(modelId);
+class CatalogModelActivity : UniversalActivity() {
+    private var loadingIndicator: ProgressBar? = null
+    private var contentView: ScrollView? = null
+    var apiInteractor = ApiInteractor()
+    lateinit var model: Model
+    var modelDetails: ModelDetails? = null
+    var dataManager = DataManager()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_catalog_model)
+        val intent = intent
+        val modelId = intent.getIntExtra("modelId", 0)
+        model = dataManager.getModelById(modelId)
+        setNavigationTitle(model.getName())
+        contentView = findViewById<View>(R.id.content_view) as ScrollView
+        contentView!!.visibility = View.GONE
+        loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
+        loadingIndicator!!.visibility = View.VISIBLE
+        loadModelDetails(modelId)
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.favourite_menu, menu);
-        switchFavouriteButton(menu.findItem(R.id.favourite_icon), model.isFavourite());
-        return super.onCreateOptionsMenu(menu);
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.favourite_menu, menu)
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), model!!.isFavourite)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.favourite_icon) {
-            dataManager.setModelFavourite(model, !model.isFavourite());
-            switchFavouriteButton(item, model.isFavourite());
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.favourite_icon) {
+            dataManager.setModelFavourite(model, !model!!.isFavourite)
+            switchFavouriteButton(item, model!!.isFavourite)
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-    private void switchFavouriteButton(MenuItem menuItem, boolean active) {
-        if (model.isFavourite()) {
-            menuItem.setIcon(R.drawable.ic_navigation_favourite_active);
+    private fun switchFavouriteButton(menuItem: MenuItem, active: Boolean) {
+        if (model!!.isFavourite) {
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_active)
         } else {
-            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive);
+            menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive)
         }
     }
 
-
-    private void loadModelDetails(final int modelId) {
-        apiInteractor.loadModelDetails(modelId, new LoadingModelDetailsInterface() {
-            @Override
-            public void onLoaded(ModelDetails details) {
-                modelDetails = details;
-                loadingIndicator.setVisibility(View.GONE);
-                fillProperties();
-                contentView.setVisibility(View.VISIBLE);
+    private fun loadModelDetails(modelId: Int) {
+        apiInteractor.loadModelDetails(modelId, object : LoadingModelDetailsInterface {
+            override fun onLoaded(details: ModelDetails) {
+                modelDetails = details
+                loadingIndicator!!.visibility = View.GONE
+                fillProperties()
+                contentView!!.visibility = View.VISIBLE
             }
 
-            @Override
-            public void onFailed() {
-                showNoConnectionDialog(new NoConnectionRepeatInterface() {
-                    @Override
-                    public void repeatPressed() {
-                        loadModelDetails(modelId);
-                    }
-                });
+            override fun onFailed() {
+                showNoConnectionDialog { loadModelDetails(modelId) }
             }
-        });
+        })
     }
 
-
-    private void fillProperties() {
-        ImageSlider imagesSlider = (ImageSlider)findViewById(R.id.imagesSlider);
-        TextView modelLabel = (TextView) findViewById(R.id.modelLabel);
-        TextView manufacturerLabel = (TextView) findViewById(R.id.manufacturerLabel);
-        TextView classLabel = (TextView) findViewById(R.id.classLabel);
-        TextView yearsLabel = (TextView) findViewById(R.id.yearsLabel);
-        Button searchButton = (Button) findViewById(R.id.searchButton);
-        TextView aboutLabel = (TextView) findViewById(R.id.aboutLabel);
-        TextView parametersTitle = (TextView) findViewById(R.id.parametersTitle);
-        NonScrollListView parametersListView  = (NonScrollListView) findViewById(R.id.parametersView);
-        TextView reviewsTitle = (TextView) findViewById(R.id.reviewsTitle);
-        RecyclerView reviewsSlider = (RecyclerView) findViewById(R.id.reviewsSlider);
-
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int width = displayMetrics.widthPixels;
-        imagesSlider.getLayoutParams().height = (int) ((float)width * 0.75);
-
-        modelLabel.setTypeface(Font.oswald);
-        searchButton.setTypeface(Font.progress);
-        parametersTitle.setTypeface(Font.oswald);
-        reviewsTitle.setTypeface(Font.oswald);
-
-        modelLabel.setText(model.getName());
-        manufacturerLabel.setText(model.getManufacturer().getName());
-        classLabel.setText(model.getCategory().getName());
-        yearsLabel.setText(model.getYears());
-        aboutLabel.setText(modelDetails.getPreview_text());
-
-
-        List<String> images = modelDetails.getImages();
+    private fun fillProperties() {
+        val imagesSlider = findViewById<View>(R.id.imagesSlider) as ImageSlider
+        val modelLabel = findViewById<View>(R.id.modelLabel) as TextView
+        val manufacturerLabel = findViewById<View>(R.id.manufacturerLabel) as TextView
+        val classLabel = findViewById<View>(R.id.classLabel) as TextView
+        val yearsLabel = findViewById<View>(R.id.yearsLabel) as TextView
+        val searchButton = findViewById<View>(R.id.searchButton) as Button
+        val aboutLabel = findViewById<View>(R.id.aboutLabel) as TextView
+        val parametersTitle = findViewById<View>(R.id.parametersTitle) as TextView
+        val parametersListView = findViewById<View>(R.id.parametersView) as NonScrollListView
+        val reviewsTitle = findViewById<View>(R.id.reviewsTitle) as TextView
+        val reviewsSlider = findViewById<View>(R.id.reviewsSlider) as RecyclerView
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = displayMetrics.widthPixels
+        imagesSlider.layoutParams.height = (width.toFloat() * 0.75).toInt()
+        modelLabel.typeface = Font.oswald
+        searchButton.typeface = Font.progress
+        parametersTitle.typeface = Font.oswald
+        reviewsTitle.typeface = Font.oswald
+        modelLabel.text = model!!.name
+        manufacturerLabel.text = model!!.manufacturer.name
+        classLabel.text = model!!.category.name
+        yearsLabel.text = model!!.years
+        aboutLabel.text = modelDetails!!.preview_text
+        val images = modelDetails!!.images
         if (images != null) {
-            ImagesSliderAdapter  mSectionsPagerAdapter = new ImagesSliderAdapter(getSupportFragmentManager(), images);
-            imagesSlider.setAdapter(mSectionsPagerAdapter);
+            val mSectionsPagerAdapter = ImagesSliderAdapter(supportFragmentManager, images)
+            imagesSlider.setAdapter(mSectionsPagerAdapter)
         }
-
-        List<LinkedTreeMap<String,String>> parameters = modelDetails.getParameters();
-        ParametersListAdapter parametersListAdapter = new ParametersListAdapter(parameters);
-
-        parametersListView.setAdapter(parametersListAdapter);
-        parametersListView.setEnabled(false);
-
-
-        List<String> videoIDs = modelDetails.getVideo_reviews();
+        val parameters = modelDetails!!.parameters
+        val parametersListAdapter = ParametersListAdapter(parameters)
+        parametersListView.adapter = parametersListAdapter
+        parametersListView.isEnabled = false
+        val videoIDs = modelDetails!!.video_reviews
         if (videoIDs != null) {
-            LinearLayoutManager reviewsLayoutManager = new LinearLayoutManager(this);
-            reviewsLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            reviewsSlider.setLayoutManager(reviewsLayoutManager);
-
-            final List<YoutubeVideo> videos = new ArrayList();
-            for (String videoId: videoIDs) {
-                videos.add(new YoutubeVideo(videoId));
+            val reviewsLayoutManager = LinearLayoutManager(this)
+            reviewsLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            reviewsSlider.layoutManager = reviewsLayoutManager
+            val videos: MutableList<YoutubeVideo?> = ArrayList()
+            for (videoId in videoIDs) {
+                videos.add(YoutubeVideo(videoId))
             }
-            ClickListener reviewPressed = new ClickListener() {
-                @Override
-                public void onClick(int section, int row) {
-                    YoutubeVideo video = videos.get(row);
-                    Intent videoActivity = new Intent(getApplicationContext(), VideoViewActivity.class);
-                    videoActivity.putExtra("videoId", video.getVideoId());
-                    startActivity(videoActivity);
-                }
-            };
-            ReviewsSliderAdapter reviewsAdapter = new ReviewsSliderAdapter(this, videos, reviewPressed);
-            reviewsSlider.setAdapter(reviewsAdapter);
-
+            val reviewPressed = ClickListener { section, row ->
+                val video = videos[row]
+                val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
+                videoActivity.putExtra("videoId", video!!.videoId)
+                startActivity(videoActivity)
+            }
+            val reviewsAdapter = ReviewsSliderAdapter(this, videos, reviewPressed)
+            reviewsSlider.adapter = reviewsAdapter
         } else {
-            reviewsTitle.setVisibility(View.GONE);
-            reviewsSlider.setVisibility(View.GONE);
+            reviewsTitle.visibility = View.GONE
+            reviewsSlider.visibility = View.GONE
         }
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyMotApplication.searchManager.setModel(model);
-                Intent searchResultsActivity = new Intent(getApplicationContext(), SearchResultsActivity.class);
-                startActivity(searchResultsActivity);
-            }
-        });
-
+        searchButton.setOnClickListener {
+            MyMotApplication.searchManager.model = model
+            val searchResultsActivity =
+                Intent(applicationContext, SearchResultsActivity::class.java)
+            startActivity(searchResultsActivity)
+        }
     }
-
 }

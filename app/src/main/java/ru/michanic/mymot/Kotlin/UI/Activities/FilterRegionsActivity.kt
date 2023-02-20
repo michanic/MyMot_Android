@@ -1,114 +1,81 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.os.Bundle;
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ExpandableListView
+import ru.michanic.mymot.Interactors.ApiInteractor
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.LoadingInterface
+import ru.michanic.mymot.R
+import ru.michanic.mymot.UI.Adapters.RegionsExpandableListAdapter
+import ru.michanic.mymot.Utils.DataManager
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.SearchView;
-
-import java.util.List;
-
-import ru.michanic.mymot.Interactors.ApiInteractor;
-import ru.michanic.mymot.Models.Location;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.LoadingInterface;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Adapters.RegionsExpandableListAdapter;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class FilterRegionsActivity extends UniversalActivity {
-
-    private RegionsExpandableListAdapter regionsExpandableListAdapter;
-    private ApiInteractor apiInteractor = new ApiInteractor();
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter_regions);
-        setNavigationTitle("Регион");
-
-        int expandGroupPosition = 0;
-        int expandedRegionId = 0;
-        Location filterRegion = MyMotApplication.searchManager.getRegion();
+class FilterRegionsActivity : UniversalActivity() {
+    private var regionsExpandableListAdapter: RegionsExpandableListAdapter? = null
+    private val apiInteractor = ApiInteractor()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_filter_regions)
+        setNavigationTitle("Регион")
+        var expandGroupPosition = 0
+        var expandedRegionId = 0
+        val filterRegion = MyMotApplication.searchManager.region
         if (filterRegion != null) {
-            Location cityRegion = MyMotApplication.dataManager.getRegionById(filterRegion.getRegionId());
-            if (cityRegion != null) {
-                expandedRegionId = cityRegion.getId();
-            } else {
-                expandedRegionId = filterRegion.getId();
-            }
+            val cityRegion = MyMotApplication.dataManager.getRegionById(filterRegion.regionId)
+            expandedRegionId = cityRegion?.id ?: filterRegion.id
         }
-
-        final List<Location> regions = new DataManager().getRegions();
-
+        val regions = DataManager().regions
         if (expandedRegionId > 0) {
-            int row = 1;
-            for (Location region : regions) {
-                int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
-                if (expandedRegionId == region.getId()) {
-                    expandGroupPosition = row;
+            var row = 1
+            for (region in regions) {
+                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                if (expandedRegionId == region.id) {
+                    expandGroupPosition = row
                 }
-                row ++;
+                row++
             }
         }
-        regionsExpandableListAdapter = new RegionsExpandableListAdapter(regions, this);
+        regionsExpandableListAdapter = RegionsExpandableListAdapter(regions, this)
+        val expandableListView = findViewById<View>(R.id.expandable_list_view) as ExpandableListView
+        expandableListView.setAdapter(regionsExpandableListAdapter)
+        expandableListView.setOnGroupClickListener { parent, v, groupPosition, id ->
+            if (groupPosition == 0) {
+                MyMotApplication.searchManager.region = null
+                onBackPressed()
+            } else {
+                val region = regions[groupPosition - 1]
+                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                if (citiesCount == 0) {
+                    apiInteractor.loadRegionCities(region, object : LoadingInterface {
+                        override fun onLoaded() {
+                            Log.e("expandGroup", groupPosition.toString())
+                            expandableListView.collapseGroup(groupPosition)
+                            expandableListView.expandGroup(groupPosition)
+                        }
 
-        final ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.expandable_list_view);
-        expandableListView.setAdapter(regionsExpandableListAdapter);
-
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
-                if (groupPosition == 0) {
-                    MyMotApplication.searchManager.setRegion(null);
-                    onBackPressed();
-                } else {
-                    Location region = regions.get(groupPosition - 1);
-                    int citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.getId());
-
-                    if (citiesCount == 0) {
-                        apiInteractor.loadRegionCities(region, new LoadingInterface() {
-                            @Override
-                            public void onLoaded() {
-                                Log.e("expandGroup", String.valueOf(groupPosition));
-                                expandableListView.collapseGroup(groupPosition);
-                                expandableListView.expandGroup(groupPosition);
-                            }
-                            @Override
-                            public void onFailed() {
-
-                            }
-                        });
-                    }
+                        override fun onFailed() {}
+                    })
                 }
-                return false;
             }
-        });
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (childPosition == 0) {
-                    Location region = regions.get(groupPosition - 1);
-                    MyMotApplication.searchManager.setRegion(region);
-                } else {
-                    Location region = regions.get(groupPosition - 1);
-                    Location city = MyMotApplication.dataManager.getRegionCities(region.getId()).get(childPosition - 1);
-                    MyMotApplication.searchManager.setRegion(city);
-                }
-                onBackPressed();
-                return false;
+            false
+        }
+        expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+            if (childPosition == 0) {
+                val region = regions[groupPosition - 1]
+                MyMotApplication.searchManager.region = region
+            } else {
+                val region = regions[groupPosition - 1]
+                val city =
+                    MyMotApplication.dataManager.getRegionCities(region.id)[childPosition - 1]
+                MyMotApplication.searchManager.region = city
             }
-        });
-
+            onBackPressed()
+            false
+        }
         if (expandGroupPosition > 0) {
-            expandableListView.expandGroup(expandGroupPosition);
-            expandableListView.setSelectedGroup(expandGroupPosition);
+            expandableListView.expandGroup(expandGroupPosition)
+            expandableListView.setSelectedGroup(expandGroupPosition)
         }
     }
-
 }

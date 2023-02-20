@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import de.halfbit.pinnedsection.PinnedSectionListView;
@@ -34,6 +37,10 @@ public class SectionItemsListAdapter extends BaseAdapter implements PinnedSectio
 
     public SectionItemsListAdapter(List<SectionModelItem> items) {
         this.items = items;
+    }
+
+    public SectionItemsListAdapter(@NotNull ArrayList<Object> items) {
+
     }
 
     public void setItems(List<SectionModelItem> items) {

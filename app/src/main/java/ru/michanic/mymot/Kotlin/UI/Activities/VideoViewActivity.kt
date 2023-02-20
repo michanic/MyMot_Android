@@ -1,45 +1,41 @@
-package ru.michanic.mymot.UI.Activities;
+package ru.michanic.mymot.Kotlin.UI.Activities
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Toast;
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import com.google.android.youtube.player.YouTubeBaseActivity
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayerView
+import ru.michanic.mymot.R
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
-
-import ru.michanic.mymot.R;
-
-public class VideoViewActivity extends YouTubeBaseActivity implements
-        YouTubePlayer.OnInitializedListener {
-
-    static private final String DEVELOPER_KEY = "AIzaSyDgXIyncKP8yvta4U0pEhGikCUirliV_oU";
-    private String videoId = "";
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_view);
-
-        Intent intent = getIntent();
-        videoId = intent.getStringExtra("videoId");
-
-        YouTubePlayerView youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(DEVELOPER_KEY, this);
+class VideoViewActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
+    private var videoId = ""
+    override fun onCreate(savedInstanceState: Bundle) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_video_view)
+        val intent = intent
+        videoId = intent.getStringExtra("videoId")
+        val youTubeView = findViewById<View>(R.id.youtube_view) as YouTubePlayerView
+        youTubeView.initialize(DEVELOPER_KEY, this)
     }
 
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                        YouTubeInitializationResult error) {
-        Toast.makeText(this, "Ошибка! " + error.toString(), Toast.LENGTH_LONG)
-                .show();
+    override fun onInitializationFailure(
+        provider: YouTubePlayer.Provider,
+        error: YouTubeInitializationResult
+    ) {
+        Toast.makeText(this, "Ошибка! $error", Toast.LENGTH_LONG)
+            .show()
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                        YouTubePlayer player, boolean wasRestored) {
-        player.loadVideo(videoId);
+    override fun onInitializationSuccess(
+        provider: YouTubePlayer.Provider,
+        player: YouTubePlayer, wasRestored: Boolean
+    ) {
+        player.loadVideo(videoId)
     }
 
+    companion object {
+        private const val DEVELOPER_KEY = "AIzaSyDgXIyncKP8yvta4U0pEhGikCUirliV_oU"
+    }
 }
