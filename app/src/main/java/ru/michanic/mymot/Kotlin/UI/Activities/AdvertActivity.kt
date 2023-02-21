@@ -42,28 +42,28 @@ class AdvertActivity : UniversalActivity() {
         advert = MyMotApplication.dataManager.getAdvertById(advertId)
         setNavigationTitle(advert.getTitle())
         contentView = findViewById<View>(R.id.content_view) as ScrollView
-        contentView!!.visibility = View.GONE
+        contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
-        loadingIndicator!!.visibility = View.VISIBLE
+        loadingIndicator?.visibility = View.VISIBLE
         loadAdvertDetails()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.favourite_menu, menu)
-        switchFavouriteButton(menu.findItem(R.id.favourite_icon), advert!!.isFavourite)
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), advert.isFavourite)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.favourite_icon) {
-            MyMotApplication.dataManager.setAdvertFavourite(advert!!.id, !advert!!.isFavourite)
-            switchFavouriteButton(item, advert!!.isFavourite)
+            MyMotApplication.dataManager.setAdvertFavourite(advert.id, !advert.isFavourite)
+            switchFavouriteButton(item, advert.isFavourite)
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun switchFavouriteButton(menuItem: MenuItem, active: Boolean) {
-        if (advert!!.isFavourite) {
+        if (advert.isFavourite) {
             menuItem.setIcon(R.drawable.ic_navigation_favourite_active)
         } else {
             menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive)
@@ -74,9 +74,9 @@ class AdvertActivity : UniversalActivity() {
         sitesInteractor.loadAdvertDetails(advert, object : LoadingAdvertDetailsInterface {
             override fun onLoaded(details: AdvertDetails) {
                 advertDetails = details
-                loadingIndicator!!.visibility = View.GONE
+                loadingIndicator?.visibility = View.GONE
                 fillProperties()
-                contentView!!.visibility = View.VISIBLE
+                contentView?.visibility = View.VISIBLE
                 MyMotApplication.configStorage.saveCsrfToken(advertDetails!!.csrfToken)
             }
 
@@ -103,11 +103,11 @@ class AdvertActivity : UniversalActivity() {
         imagesSliderWrapper.layoutParams.height = (width.toFloat() * 0.75).toInt()
         titleLabel.typeface = Font.oswald
         callButton.typeface = Font.progress
-        titleLabel.text = advert!!.title
-        cityLabel.text = advert!!.city
-        dateLabel.text = advertDetails!!.date
-        priceLabel.text = advert!!.priceString
-        val images = advertDetails!!.images
+        titleLabel.text = advert.title
+        cityLabel.text = advert.city
+        dateLabel.text = advertDetails?.date
+        priceLabel.text = advert.priceString
+        val images = advertDetails?.images
         if (images != null) {
             if (images.size > 0) {
                 val mSectionsPagerAdapter = ImagesSliderAdapter(supportFragmentManager, images)
@@ -118,30 +118,32 @@ class AdvertActivity : UniversalActivity() {
             }
         }
         fullscreenIcon.setOnClickListener { showImagesGallery(images) }
-        val warning = advertDetails!!.warning
-        if (warning.length > 0) {
-            MyMotApplication.dataManager.setAdvertActive(advert!!.id, false)
-            aboutLabel.text = warning
-            imagesSlider.alpha = 0.5.toFloat()
-            callButton.visibility = View.GONE
-        } else {
-            MyMotApplication.dataManager.setAdvertActive(advert!!.id, true)
-            imagesSlider.alpha = 1f
-            callButton.visibility = View.VISIBLE
-            val aboutText = advertDetails!!.text
-            if (aboutText.length > 0) {
-                aboutLabel.text = Html.fromHtml(aboutText)
+        val warning = advertDetails?.warning
+        if (warning != null) {
+            if (warning.length > 0) {
+                MyMotApplication.dataManager.setAdvertActive(advert.id, false)
+                aboutLabel.text = warning
+                imagesSlider.alpha = 0.5.toFloat()
+                callButton.visibility = View.GONE
             } else {
-                aboutLabel.text = ""
-                val layoutparams = aboutLabel.layoutParams as RelativeLayout.LayoutParams
-                layoutparams.setMargins(0, 0, 0, 0)
-                aboutLabel.layoutParams = layoutparams
+                MyMotApplication.dataManager.setAdvertActive(advert.id, true)
+                imagesSlider.alpha = 1f
+                callButton.visibility = View.VISIBLE
+                val aboutText = advertDetails!!.text
+                if (aboutText.length > 0) {
+                    aboutLabel.text = Html.fromHtml(aboutText)
+                } else {
+                    aboutLabel.text = ""
+                    val layoutParams = aboutLabel.layoutParams as RelativeLayout.LayoutParams
+                    layoutParams.setMargins(0, 0, 0, 0)
+                    aboutLabel.layoutParams = layoutParams
+                }
             }
         }
         callButton.setOnCreateContextMenuListener(this)
         callButton.setOnClickListener {
             sellerPhones.clear()
-            val sourceType = advert!!.sourceType
+            val sourceType = advert.sourceType
             if (sourceType == SourceType.AVITO) {
                 sitesInteractor.loadAvitoAdvertPhone(advert) { phones ->
                     sellerPhones = phones
@@ -151,8 +153,8 @@ class AdvertActivity : UniversalActivity() {
                 }
             } else if (sourceType == SourceType.AUTO_RU) {
                 sitesInteractor.loadAutoRuAdvertPhones(
-                    advert!!.id,
-                    advertDetails!!.saleHash
+                    advert.id,
+                    advertDetails?.saleHash
                 ) { phones ->
                     sellerPhones = phones
                     if (phones.size == 1) {
@@ -168,7 +170,7 @@ class AdvertActivity : UniversalActivity() {
                 }
             }
         }
-        val parameters = advertDetails!!.parameters
+        val parameters = advertDetails?.parameters
         val parametersListAdapter = ParametersListAdapter(parameters)
         parametersListView.adapter = parametersListAdapter
         parametersListView.isEnabled = false
@@ -185,24 +187,19 @@ class AdvertActivity : UniversalActivity() {
 
     private fun showImagesGallery(images: List<String>?) {
         val item_list: MutableList<BaseItem> = ArrayList()
-        for (imagePath in images!!) {
-            val item = BaseItem()
-            item.imageUrl = imagePath
-            item_list.add(item)
+        if (images != null) {
+            for (imagePath in images) {
+                val item = BaseItem()
+                item.imageUrl = imagePath
+                item_list.add(item)
+            }
         }
         val dialog = PopopDialogBuilder(this)
             .showThumbSlider(true)
             .setList(item_list)
             .setHeaderBackgroundColor(android.R.color.black)
             .setDialogBackgroundColor(android.R.color.black)
-            .setCloseDrawable(R.drawable.ic_close_white_24dp) // Set loading view for pager image and preview image
-            //.setLoadingView(R.layout.loading_view)
-            //.setDialogStyle(R.style.DialogStyle)
-            //.showThumbSlider(true)
-            // Set image scale type for slider image
-            //.setSliderImageScaleType(ImageView.ScaleType.CENTER_INSIDE)
-            //.setSelectorIndicator(R.drawable.sample_indicator_selector)
-            // Build Km Slider Popup Dialog
+            .setCloseDrawable(R.drawable.ic_close_white_24dp)
             .build()
         dialog.show()
     }

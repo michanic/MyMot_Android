@@ -11,7 +11,7 @@ import ru.michanic.mymot.R
 
 class VideoViewActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     private var videoId = ""
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_view)
         val intent = intent

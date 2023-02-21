@@ -13,7 +13,7 @@ open class UniversalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!rootActivity) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
     }
 
@@ -30,7 +30,7 @@ open class UniversalActivity : AppCompatActivity() {
             s.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        supportActionBar!!.title = s
+        supportActionBar?.title = s
     }
 
     fun showNoConnectionDialog(noConnectionRepeatInterface: NoConnectionRepeatInterface) {

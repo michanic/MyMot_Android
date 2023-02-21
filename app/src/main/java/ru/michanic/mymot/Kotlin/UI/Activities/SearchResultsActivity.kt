@@ -46,14 +46,14 @@ class SearchResultsActivity : UniversalActivity() {
             startActivity(adveryActivity)
         }
         glm = GridLayoutManager(this, 1)
-        resultView!!.layoutManager = glm
+        resultView?.layoutManager = glm
         searchAdapter = AdvertsListAdapter(this, loadedAdverts, advertPressed)
-        resultView!!.adapter = searchAdapter
-        resultView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        resultView?.adapter = searchAdapter
+        resultView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                val lastvisibleitemposition = glm!!.findLastVisibleItemPosition()
-                if (lastvisibleitemposition == searchAdapter!!.itemCount - 1) {
+                val lastvisibleitemposition = glm?.findLastVisibleItemPosition()
+                if (lastvisibleitemposition == searchAdapter?.itemCount?.minus(1)) {
                     if (!loading && !isLastPage) {
                         loading = true
                         loadMore()
@@ -69,9 +69,9 @@ class SearchResultsActivity : UniversalActivity() {
     private fun reloadResults() {
         filterConfig = MyMotApplication.searchManager.filterConfig
         loadedAdverts.clear()
-        searchAdapter!!.notifyDataSetChanged()
+        searchAdapter?.notifyDataSetChanged()
         currentPage = 1
-        progressBar!!.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
         loadMore()
     }
 
@@ -79,10 +79,10 @@ class SearchResultsActivity : UniversalActivity() {
         loading = true
         sitesInteractor.searchAdverts(currentPage, filterConfig, object : LoadingAdvertsInterface {
             override fun onLoaded(adverts: List<Advert>, loadMore: Boolean) {
-                progressBar!!.visibility = View.GONE
+                progressBar?.visibility = View.GONE
                 Log.e("onLoaded", adverts.size.toString())
                 loadedAdverts.addAll(adverts)
-                searchAdapter!!.notifyDataSetChanged()
+                searchAdapter?.notifyDataSetChanged()
                 loading = false
                 isLastPage = !loadMore
                 currentPage++

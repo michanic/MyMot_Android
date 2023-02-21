@@ -104,7 +104,7 @@ class MainActivity : UniversalActivity() {
 
     private fun showSearchIcon(show: Boolean) {
         if (searchIcon != null) {
-            searchIcon!!.isVisible = show
+            searchIcon?.isVisible = show
         }
     }
 

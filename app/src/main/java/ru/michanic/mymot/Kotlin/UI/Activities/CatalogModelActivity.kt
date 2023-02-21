@@ -43,28 +43,28 @@ class CatalogModelActivity : UniversalActivity() {
         model = dataManager.getModelById(modelId)
         setNavigationTitle(model.getName())
         contentView = findViewById<View>(R.id.content_view) as ScrollView
-        contentView!!.visibility = View.GONE
+        contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
-        loadingIndicator!!.visibility = View.VISIBLE
+        loadingIndicator?.visibility = View.VISIBLE
         loadModelDetails(modelId)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.favourite_menu, menu)
-        switchFavouriteButton(menu.findItem(R.id.favourite_icon), model!!.isFavourite)
+        switchFavouriteButton(menu.findItem(R.id.favourite_icon), model.isFavourite)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.favourite_icon) {
-            dataManager.setModelFavourite(model, !model!!.isFavourite)
-            switchFavouriteButton(item, model!!.isFavourite)
+            dataManager.setModelFavourite(model, !model.isFavourite)
+            switchFavouriteButton(item, model.isFavourite)
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun switchFavouriteButton(menuItem: MenuItem, active: Boolean) {
-        if (model!!.isFavourite) {
+        if (model.isFavourite) {
             menuItem.setIcon(R.drawable.ic_navigation_favourite_active)
         } else {
             menuItem.setIcon(R.drawable.ic_navigation_favourite_inactive)
@@ -75,9 +75,9 @@ class CatalogModelActivity : UniversalActivity() {
         apiInteractor.loadModelDetails(modelId, object : LoadingModelDetailsInterface {
             override fun onLoaded(details: ModelDetails) {
                 modelDetails = details
-                loadingIndicator!!.visibility = View.GONE
+                loadingIndicator?.visibility = View.GONE
                 fillProperties()
-                contentView!!.visibility = View.VISIBLE
+                contentView?.visibility = View.VISIBLE
             }
 
             override fun onFailed() {
@@ -106,33 +106,33 @@ class CatalogModelActivity : UniversalActivity() {
         searchButton.typeface = Font.progress
         parametersTitle.typeface = Font.oswald
         reviewsTitle.typeface = Font.oswald
-        modelLabel.text = model!!.name
-        manufacturerLabel.text = model!!.manufacturer.name
-        classLabel.text = model!!.category.name
-        yearsLabel.text = model!!.years
-        aboutLabel.text = modelDetails!!.preview_text
-        val images = modelDetails!!.images
+        modelLabel.text = model.name
+        manufacturerLabel.text = model.manufacturer.name
+        classLabel.text = model.category.name
+        yearsLabel.text = model.years
+        aboutLabel.text = modelDetails?.preview_text
+        val images = modelDetails?.images
         if (images != null) {
             val mSectionsPagerAdapter = ImagesSliderAdapter(supportFragmentManager, images)
             imagesSlider.setAdapter(mSectionsPagerAdapter)
         }
-        val parameters = modelDetails!!.parameters
+        val parameters = modelDetails?.parameters
         val parametersListAdapter = ParametersListAdapter(parameters)
         parametersListView.adapter = parametersListAdapter
         parametersListView.isEnabled = false
-        val videoIDs = modelDetails!!.video_reviews
+        val videoIDs = modelDetails?.video_reviews
         if (videoIDs != null) {
             val reviewsLayoutManager = LinearLayoutManager(this)
             reviewsLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
             reviewsSlider.layoutManager = reviewsLayoutManager
-            val videos: MutableList<YoutubeVideo?> = ArrayList()
+            val videos: MutableList<YoutubeVideo> = ArrayList()
             for (videoId in videoIDs) {
                 videos.add(YoutubeVideo(videoId))
             }
             val reviewPressed = ClickListener { section, row ->
                 val video = videos[row]
                 val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
-                videoActivity.putExtra("videoId", video!!.videoId)
+                videoActivity.putExtra("videoId", video.videoId)
                 startActivity(videoActivity)
             }
             val reviewsAdapter = ReviewsSliderAdapter(this, videos, reviewPressed)

@@ -34,7 +34,7 @@ class CatalogByVolumeActivity : UniversalActivity() {
         val sectionItemsListAdapter = SectionItemsListAdapter(items)
         listView.adapter = sectionItemsListAdapter
         listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val model = items[position]!!.model
+            val model = items[position]?.model
             if (model != null) {
                 val catalogModelActivity =
                     Intent(applicationContext, CatalogModelActivity::class.java)

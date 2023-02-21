@@ -20,7 +20,7 @@ class LoadingActivity : UniversalActivity() {
         binding = ActivityLoadingBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        supportActionBar!!.hide()
+        supportActionBar?.hide()
         MyMotApplication.setAppContext(applicationContext)
         val bigTitle = findViewById<View>(R.id.bigTitle) as TextView
         bigTitle.typeface = Font.progress

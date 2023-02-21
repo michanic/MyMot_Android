@@ -19,14 +19,14 @@ class TextActivity : UniversalActivity() {
         val pageTitle = intent.getStringExtra("title")
         setNavigationTitle(pageTitle)
         loadingIndicator = findViewById<View>(R.id.progressBarAgreement) as ProgressBar
-        loadingIndicator!!.visibility = View.VISIBLE
+        loadingIndicator?.visibility = View.VISIBLE
         pageText = findViewById<View>(R.id.pageText) as TextView
-        pageText!!.visibility = View.GONE
+        pageText?.visibility = View.GONE
         val apiInteractor = ApiInteractor()
         apiInteractor.loadAgreementText { text ->
-            loadingIndicator!!.visibility = View.GONE
-            pageText!!.text = Html.fromHtml(text)
-            pageText!!.visibility = View.VISIBLE
+            loadingIndicator?.visibility = View.GONE
+            pageText?.text = Html.fromHtml(text)
+            pageText?.visibility = View.VISIBLE
         }
     }
 }
