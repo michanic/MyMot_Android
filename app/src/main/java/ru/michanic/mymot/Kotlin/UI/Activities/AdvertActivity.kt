@@ -77,7 +77,7 @@ class AdvertActivity : UniversalActivity() {
                 loadingIndicator?.visibility = View.GONE
                 fillProperties()
                 contentView?.visibility = View.VISIBLE
-                MyMotApplication.configStorage.saveCsrfToken(advertDetails!!.csrfToken)
+                MyMotApplication.configStorage.saveCsrfToken(advertDetails?.csrfToken)
             }
 
             override fun onFailed() {
@@ -129,8 +129,8 @@ class AdvertActivity : UniversalActivity() {
                 MyMotApplication.dataManager.setAdvertActive(advert.id, true)
                 imagesSlider.alpha = 1f
                 callButton.visibility = View.VISIBLE
-                val aboutText = advertDetails!!.text
-                if (aboutText.length > 0) {
+                val aboutText = advertDetails?.text
+                if (aboutText != null) {
                     aboutLabel.text = Html.fromHtml(aboutText)
                 } else {
                     aboutLabel.text = ""

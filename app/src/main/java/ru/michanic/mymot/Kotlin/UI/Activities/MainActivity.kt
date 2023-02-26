@@ -22,7 +22,7 @@ import ru.michanic.mymot.UI.Frames.Search.SearchHomeFragment
 import ru.michanic.mymot.Utils.DataManager
 
 class MainActivity : UniversalActivity() {
-    //private TextView mTextMessage;
+
     private lateinit var navView: BottomNavigationView
     private var searchIcon: MenuItem? = null
     private var filterIcon: MenuItem? = null
@@ -67,7 +67,7 @@ class MainActivity : UniversalActivity() {
         navView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         searchResultsView = findViewById<View>(R.id.listView) as PinnedSectionListView
-        searchResultsView!!.visibility = View.GONE
+        searchResultsView?.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -110,7 +110,7 @@ class MainActivity : UniversalActivity() {
 
     private fun showFilterIcon(show: Boolean) {
         if (filterIcon != null) {
-            filterIcon!!.isVisible = show
+            filterIcon?.isVisible = show
         }
     }
 
@@ -127,7 +127,7 @@ class MainActivity : UniversalActivity() {
 
     private fun showSearchResults(searchText: String) {
         if (searchText.length < 1) {
-            searchResultsView!!.visibility = View.GONE
+            searchResultsView?.visibility = View.GONE
         } else {
             val models = dataManager.searchModelsByName(searchText)
             if (models.size > 0) {
@@ -136,28 +136,23 @@ class MainActivity : UniversalActivity() {
                     items.add(SectionModelItem(model))
                 }
                 if (searchResultsAdapter != null) {
-                    searchResultsAdapter!!.setItems(items)
-                    searchResultsAdapter!!.notifyDataSetChanged()
+                    searchResultsAdapter?.setItems(items)
+                    searchResultsAdapter?.notifyDataSetChanged()
                 } else {
                     searchResultsAdapter = SectionItemsListAdapter(items)
-                    searchResultsView!!.adapter = searchResultsAdapter
+                    searchResultsView?.adapter = searchResultsAdapter
                 }
-                searchResultsView!!.visibility = View.VISIBLE
-                searchResultsView!!.onItemClickListener =
+                searchResultsView?.visibility = View.VISIBLE
+                searchResultsView?.onItemClickListener =
                     OnItemClickListener { parent, view, position, id ->
-                        val model = items[position]!!.model
+                        val model = items[position]?.model
                         MyMotApplication.searchManager.model = model
                         val searchResultsActivity =
                             Intent(applicationContext, SearchResultsActivity::class.java)
                         startActivity(searchResultsActivity)
-                        /*if (model != null) {
-                                    Intent catalogModelActivity = new Intent(getApplicationContext(), CatalogModelActivity.class);
-                                    catalogModelActivity.putExtra("modelId", model.getId());
-                                    startActivity(catalogModelActivity);
-                                }*/
                     }
             } else {
-                searchResultsView!!.visibility = View.GONE
+                searchResultsView?.visibility = View.GONE
             }
         }
     }
