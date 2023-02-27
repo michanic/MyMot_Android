@@ -19,7 +19,7 @@ import ru.michanic.mymot.Models.Advert;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Activities.AdvertActivity;
+import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity;
 import ru.michanic.mymot.UI.Adapters.AdvertsListAdapter;
 
 public class FavouriteAdvertsFragment extends Fragment {

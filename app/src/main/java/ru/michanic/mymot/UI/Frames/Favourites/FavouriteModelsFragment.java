@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,12 @@ import java.util.List;
 
 import de.halfbit.pinnedsection.PinnedSectionListView;
 import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Models.Manufacturer;
 import ru.michanic.mymot.Models.Model;
 import ru.michanic.mymot.Models.SectionModelItem;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Activities.CatalogModelActivity;
+import ru.michanic.mymot.Kotlin.UI.Activities.CatalogModelActivity;
 import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter;
-import ru.michanic.mymot.Utils.DataManager;
 
 public class FavouriteModelsFragment extends Fragment {
 

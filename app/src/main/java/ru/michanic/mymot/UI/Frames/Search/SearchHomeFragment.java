@@ -1,29 +1,19 @@
 package ru.michanic.mymot.UI.Frames.Search;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +28,7 @@ import ru.michanic.mymot.Protocols.ClickListener;
 import ru.michanic.mymot.Protocols.FilterSettedInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
 import ru.michanic.mymot.R;
-import ru.michanic.mymot.UI.Activities.AdvertActivity;
-import ru.michanic.mymot.UI.Activities.CatalogByClassActivity;
+import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity;
 import ru.michanic.mymot.UI.Adapters.SearchMainAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
