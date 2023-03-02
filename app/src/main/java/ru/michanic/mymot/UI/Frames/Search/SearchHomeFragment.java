@@ -29,7 +29,7 @@ import ru.michanic.mymot.Protocols.FilterSettedInterface;
 import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
 import ru.michanic.mymot.R;
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity;
-import ru.michanic.mymot.UI.Adapters.SearchMainAdapter;
+import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class SearchHomeFragment extends Fragment {

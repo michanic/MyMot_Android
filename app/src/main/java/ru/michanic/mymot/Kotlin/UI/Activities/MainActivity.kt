@@ -14,7 +14,7 @@ import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Models.SectionModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.UI.Frames.Catalog.CatalogHomeFragment
 import ru.michanic.mymot.UI.Frames.Favourites.FavouritesHomeFragment
 import ru.michanic.mymot.UI.Frames.Info.InfoHomeFragment

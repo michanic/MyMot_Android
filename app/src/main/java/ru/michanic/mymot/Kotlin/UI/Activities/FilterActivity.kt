@@ -12,7 +12,7 @@ import ru.michanic.mymot.Models.SectionModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.FilterSettedInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 
 class FilterActivity : UniversalActivity() {
     private var goBackOnSearch = false

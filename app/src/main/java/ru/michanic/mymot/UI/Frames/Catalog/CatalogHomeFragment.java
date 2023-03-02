@@ -22,9 +22,9 @@ import ru.michanic.mymot.R;
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity;
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity;
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity;
-import ru.michanic.mymot.UI.Adapters.ClassesSliderAdapter;
-import ru.michanic.mymot.UI.Adapters.ManufacturersSliderAdapter;
-import ru.michanic.mymot.UI.Adapters.VolumessSliderAdapter;
+import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter;
+import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter;
+import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter;
 import ru.michanic.mymot.Utils.DataManager;
 
 public class CatalogHomeFragment extends Fragment {
