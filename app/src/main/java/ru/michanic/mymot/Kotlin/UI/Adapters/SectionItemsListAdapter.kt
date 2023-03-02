@@ -17,15 +17,15 @@ import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R
 
 class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
-    var items: MutableList<SectionModelItem>? = null
+    var items: List<SectionModelItem>? = null
 
-    constructor(items: MutableList<SectionModelItem>?) {
+    constructor(items: List<SectionModelItem>?) {
         this.items = items
     }
 
     constructor(items: ArrayList<Any?>) {}
 
-    fun setItems(items: MutableList<SectionModelItem>?) {
+    fun setItems(items: List<SectionModelItem>?) {
         this.items = items
     }
 
