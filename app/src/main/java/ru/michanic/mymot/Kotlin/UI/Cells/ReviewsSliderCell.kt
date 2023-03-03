@@ -1,26 +1,20 @@
-package ru.michanic.mymot.UI.Cells;
+package ru.michanic.mymot.Kotlin.UI.Cells
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
+import ru.michanic.mymot.Models.YoutubeVideo
+import ru.michanic.mymot.R
 
-import com.squareup.picasso.Picasso;
+class ReviewsSliderCell(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var imageView: ImageView
 
-import ru.michanic.mymot.Models.YoutubeVideo;
-import ru.michanic.mymot.Protocols.Const;
-import ru.michanic.mymot.R;
-
-public class ReviewsSliderCell extends RecyclerView.ViewHolder {
-
-    ImageView imageView;
-
-    public ReviewsSliderCell(View itemView) {
-        super(itemView);
-        imageView = (ImageView) itemView.findViewById(R.id.cell_image);
+    init {
+        imageView = itemView.findViewById<View>(R.id.cell_image) as ImageView
     }
 
-    public void fillWithVideo(YoutubeVideo video) {
-        Picasso.get().load(video.getPreviewPath()).placeholder(R.drawable.ic_placeholder).into(imageView);
+    fun fillWithVideo(video: YoutubeVideo) {
+        Picasso.get().load(video.previewPath).placeholder(R.drawable.ic_placeholder).into(imageView)
     }
-
 }

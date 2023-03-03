@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import ru.michanic.mymot.Models.Manufacturer
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Cells.CatalogSliderCell
+import ru.michanic.mymot.Kotlin.UI.Cells.CatalogSliderCell
 
 class ManufacturersSliderAdapter(
     var context: Context,

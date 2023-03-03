@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import ru.michanic.mymot.Models.Advert
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Cells.SearchListCell
+import ru.michanic.mymot.Kotlin.UI.Cells.SearchListCell
 
 class AdvertsListAdapter(
     var context: Context,

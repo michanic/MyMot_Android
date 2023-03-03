@@ -1,53 +1,33 @@
-package ru.michanic.mymot.UI.Cells;
+package ru.michanic.mymot.Kotlin.UI.Cells
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.view.View
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import ru.michanic.mymot.Enums.CellAccessoryType
+import ru.michanic.mymot.R
 
-import ru.michanic.mymot.Enums.CellAccessoryType;
-import ru.michanic.mymot.R;
-
-
-public class SimpleCell  {
-
-    public static void fillWithTitle(View view, String title, CellAccessoryType accessoryType, int level) {
-
-        ImageView arrowImage = (ImageView) view.findViewById(R.id.arrowView);
-        TextView simpleLabel = (TextView) view.findViewById(R.id.textView);
-        ProgressBar loadingIndicator = (ProgressBar) view.findViewById(R.id.progressBar);
-
+object SimpleCell {
+    fun fillWithTitle(view: View, title: String, accessoryType: CellAccessoryType?, level: Int) {
+        var title = title
+        val arrowImage = view.findViewById<View>(R.id.arrowView) as ImageView
+        val simpleLabel = view.findViewById<View>(R.id.textView) as TextView
+        val loadingIndicator = view.findViewById<View>(R.id.progressBar) as ProgressBar
         if (level == 2) {
-            title = "    " + title;
+            title = "    $title"
         }
-
-        simpleLabel.setText(title);
-        loadingIndicator.setVisibility(View.GONE);
-
-        switch (accessoryType) {
-            case RIGHT:
-                arrowImage.setImageResource(R.drawable.ic_arrow_right);
-                break;
-            case TOP:
-                arrowImage.setImageResource(R.drawable.ic_arrow_up);
-                break;
-            case BOTTOM:
-                arrowImage.setImageResource(R.drawable.ic_arrow_down);
-                break;
-            case HIDDEN:
-                arrowImage.setVisibility(View.GONE);
-                break;
-            case CHECKED:
-                arrowImage.setImageResource(R.drawable.ic_checked);
-                break;
-            case LOADING:
-                arrowImage.setVisibility(View.GONE);
-                loadingIndicator.setVisibility(View.VISIBLE);
-                break;
+        simpleLabel.text = title
+        loadingIndicator.visibility = View.GONE
+        when (accessoryType) {
+            CellAccessoryType.RIGHT -> arrowImage.setImageResource(R.drawable.ic_arrow_right)
+            CellAccessoryType.TOP -> arrowImage.setImageResource(R.drawable.ic_arrow_up)
+            CellAccessoryType.BOTTOM -> arrowImage.setImageResource(R.drawable.ic_arrow_down)
+            CellAccessoryType.HIDDEN -> arrowImage.visibility = View.GONE
+            CellAccessoryType.CHECKED -> arrowImage.setImageResource(R.drawable.ic_checked)
+            CellAccessoryType.LOADING -> {
+                arrowImage.visibility = View.GONE
+                loadingIndicator.visibility = View.VISIBLE
+            }
         }
     }
-
 }

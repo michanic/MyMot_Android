@@ -9,7 +9,7 @@ import ru.michanic.mymot.Enums.CellAccessoryType
 import ru.michanic.mymot.Models.Location
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Cells.SimpleCell
+import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
 
 class RegionsExpandableListAdapter(private val regions: List<Location>, var context: Context) :
     BaseExpandableListAdapter() {

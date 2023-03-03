@@ -9,7 +9,7 @@ import android.widget.TextView
 import ru.michanic.mymot.Models.Advert
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Cells.SearchMainCell
+import ru.michanic.mymot.Kotlin.UI.Cells.SearchMainCell
 
 class SearchMainAdapter(
     var context: Context,

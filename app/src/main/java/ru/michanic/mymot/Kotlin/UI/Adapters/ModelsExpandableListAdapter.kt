@@ -12,7 +12,7 @@ import ru.michanic.mymot.Models.FilterModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Cells.SimpleCell
+import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
 
 class ModelsExpandableListAdapter(
     var context: Context,
