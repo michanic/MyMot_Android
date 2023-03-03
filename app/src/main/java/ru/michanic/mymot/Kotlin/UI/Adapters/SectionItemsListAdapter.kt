@@ -17,17 +17,16 @@ import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R
 
 class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
-    var items: List<SectionModelItem>? = null
+   private var items: List<SectionModelItem>? = null
 
-    constructor(items: List<SectionModelItem>?) {
-        this.items = items
+    constructor(nullableItems: List<SectionModelItem?>) {
+        this.items = nullableItems.filterNotNull()
     }
 
-    constructor(items: ArrayList<Any?>) {}
-
-    fun setItems(items: List<SectionModelItem>?) {
-        this.items = items
+    fun setItems(items: List<SectionModelItem?>) {
+        this.items = items.filterNotNull()
     }
+
 
     override fun isItemViewTypePinned(viewType: Int): Boolean {
         return viewType == SectionModelItem.SECTION_TITLE
@@ -53,7 +52,7 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
         return items!![position].type
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val item = items!![position]
         var view = convertView
         when (item.type) {
@@ -91,7 +90,7 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                         s: CharSequence,
                         start: Int,
                         count: Int,
-                        after: Int
+                        after: Int,
                     ) {
                     }
 
@@ -99,7 +98,7 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                         s: CharSequence,
                         start: Int,
                         before: Int,
-                        count: Int
+                        count: Int,
                     ) {
                         if (propertyTitle === SectionModelItem.PRICE_FROM_NAME) {
                             try {

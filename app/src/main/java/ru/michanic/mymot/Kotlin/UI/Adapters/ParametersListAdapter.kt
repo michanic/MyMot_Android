@@ -24,7 +24,7 @@ class ParametersListAdapter(private val parametersTree: List<LinkedTreeMap<Strin
         return position.toLong()
     }
 
-    override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         var convertView = convertView
         if (convertView == null) {
             convertView =
@@ -36,9 +36,9 @@ class ParametersListAdapter(private val parametersTree: List<LinkedTreeMap<Strin
             })[position]
         val title = parameter.keys.iterator().next()
         val value = parameter.values.iterator().next()
-        val parameterTitle = convertView.findViewById<View>(R.id.parameter_title) as TextView
+        val parameterTitle = convertView?.findViewById<View>(R.id.parameter_title) as TextView
         parameterTitle.text = title
-        val parameterValue = convertView.findViewById<View>(R.id.parameter_value) as TextView
+        val parameterValue = convertView?.findViewById<View>(R.id.parameter_value) as TextView
         parameterValue.text = value
         return convertView
     }
