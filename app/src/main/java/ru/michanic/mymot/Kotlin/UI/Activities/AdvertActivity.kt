@@ -25,7 +25,7 @@ import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
-import ru.michanic.mymot.UI.NonScrollListView
+import ru.michanic.mymot.Kotlin.UI.NonScrollListView
 
 class AdvertActivity : UniversalActivity() {
     private var loadingIndicator: ProgressBar? = null

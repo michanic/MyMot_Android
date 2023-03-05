@@ -114,7 +114,7 @@
                 android:textColor="@color/textLightGray"
                 android:textSize="14sp" />
 
-            <ru.michanic.mymot.UI.NonScrollListView
+            <ru.michanic.mymot.Kotlin.UI.NonScrollListView
                 android:id="@+id/parametersView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                 android:layout_below="@+id/aboutLabel"
                 android:layout_marginTop="16dp"
                 android:dividerHeight="0.25dp">
-            </ru.michanic.mymot.UI.NonScrollListView>
+            </ru.michanic.mymot.Kotlin.UI.NonScrollListView>
 
             <Button
                 android:id="@+id/callButton"

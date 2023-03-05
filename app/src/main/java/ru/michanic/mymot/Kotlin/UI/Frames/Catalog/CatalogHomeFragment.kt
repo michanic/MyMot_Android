@@ -1,107 +1,79 @@
-package ru.michanic.mymot.UI.Frames.Catalog;
+package ru.michanic.mymot.Kotlin.UI.Frames.Catalog
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity
+import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity
+import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity
+import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter
+import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.R
+import ru.michanic.mymot.Utils.DataManager
 
-import java.util.List;
-
-import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Models.Category;
-import ru.michanic.mymot.Models.Manufacturer;
-import ru.michanic.mymot.Models.Volume;
-import ru.michanic.mymot.Protocols.ClickListener;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity;
-import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity;
-import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity;
-import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter;
-import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter;
-import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class CatalogHomeFragment extends Fragment {
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_catalog_home, null);
-
-        DataManager dataManager = new DataManager();
-
-        TextView classesTitleView = (TextView) rootView.findViewById(R.id.classesTitle);
-        RecyclerView classesRecyclerView = (RecyclerView) rootView.findViewById(R.id.classesSlider);
-
-        TextView manufacturersTitleView = (TextView) rootView.findViewById(R.id.manufacturersTitle);
-        RecyclerView manufacturersRecyclerView = (RecyclerView) rootView.findViewById(R.id.manufacturersSlider);
-
-        TextView volumesTitleView = (TextView) rootView.findViewById(R.id.volumesTitle);
-        RecyclerView volumesRecyclerView = (RecyclerView) rootView.findViewById(R.id.volumesSlider);
-
-        classesTitleView.setTypeface(Font.oswald);
-        manufacturersTitleView.setTypeface(Font.oswald);
-        volumesTitleView.setTypeface(Font.oswald);
-
-
-        LinearLayoutManager classesLayoutManager = new LinearLayoutManager(getActivity());
-        classesLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        classesRecyclerView.setLayoutManager(classesLayoutManager);
-
-        final List<Category> classes = dataManager.getCategories(true);
-        ClickListener classPressed = new ClickListener() {
-            @Override
-            public void onClick(int section, int row) {
-                Intent catalogByClassActivity = new Intent(getActivity(), CatalogByClassActivity.class);
-                catalogByClassActivity.putExtra("classId", classes.get(row).getId());
-                getActivity().startActivity(catalogByClassActivity);
-            }
-        };
-        ClassesSliderAdapter classesAdapter = new ClassesSliderAdapter(getActivity(), classes, classPressed);
-        classesRecyclerView.setAdapter(classesAdapter);
-
-
-        LinearLayoutManager manufacturersLayoutManager = new LinearLayoutManager(getActivity());
-        manufacturersLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        manufacturersRecyclerView.setLayoutManager(manufacturersLayoutManager);
-
-        final List<Manufacturer> manufacturers = dataManager.getManufacturers(true);
-        ClickListener manufacturerPressed = new ClickListener() {
-            @Override
-            public void onClick(int section, int row) {
-                Intent catalogByManufacturerActivity = new Intent(getActivity(), CatalogByManufacturerActivity.class);
-                catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers.get(row).getId());
-                getActivity().startActivity(catalogByManufacturerActivity);
-            }
-        };
-        ManufacturersSliderAdapter manufacturersAdapter = new ManufacturersSliderAdapter(getActivity(), manufacturers, manufacturerPressed);
-        manufacturersRecyclerView.setAdapter(manufacturersAdapter);
-
-
-        LinearLayoutManager volumesLayoutManager = new LinearLayoutManager(getActivity());
-        volumesLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        volumesRecyclerView.setLayoutManager(volumesLayoutManager);
-
-        final List<Volume> volumes = dataManager.getVolumes();
-        ClickListener volumePressed = new ClickListener() {
-            @Override
-            public void onClick(int section, int row) {
-                Intent catalogByVolumeActivity = new Intent(getActivity(), CatalogByVolumeActivity.class);
-                catalogByVolumeActivity.putExtra("volumeId", volumes.get(row).getId());
-                getActivity().startActivity(catalogByVolumeActivity);
-            }
-        };
-        VolumessSliderAdapter volumesAdapter = new VolumessSliderAdapter(getActivity(), volumes, volumePressed);
-        volumesRecyclerView.setAdapter(volumesAdapter);
-
-
-        return rootView;
+class CatalogHomeFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_catalog_home, null)
+        val dataManager = DataManager()
+        val classesTitleView = rootView.findViewById<View>(R.id.classesTitle) as TextView
+        val classesRecyclerView = rootView.findViewById<View>(R.id.classesSlider) as RecyclerView
+        val manufacturersTitleView =
+            rootView.findViewById<View>(R.id.manufacturersTitle) as TextView
+        val manufacturersRecyclerView =
+            rootView.findViewById<View>(R.id.manufacturersSlider) as RecyclerView
+        val volumesTitleView = rootView.findViewById<View>(R.id.volumesTitle) as TextView
+        val volumesRecyclerView = rootView.findViewById<View>(R.id.volumesSlider) as RecyclerView
+        classesTitleView.typeface = Font.oswald
+        manufacturersTitleView.typeface = Font.oswald
+        volumesTitleView.typeface = Font.oswald
+        val classesLayoutManager = LinearLayoutManager(activity)
+        classesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        classesRecyclerView.layoutManager = classesLayoutManager
+        val classes = dataManager.getCategories(true)
+        val classPressed = ClickListener { section, row ->
+            val catalogByClassActivity = Intent(activity, CatalogByClassActivity::class.java)
+            catalogByClassActivity.putExtra("classId", classes[row].id)
+            activity?.startActivity(catalogByClassActivity)
+        }
+        val classesAdapter = ClassesSliderAdapter(this.requireContext(), classes, classPressed)
+        classesRecyclerView.adapter = classesAdapter
+        val manufacturersLayoutManager = LinearLayoutManager(activity)
+        manufacturersLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        manufacturersRecyclerView.layoutManager = manufacturersLayoutManager
+        val manufacturers = dataManager.getManufacturers(true)
+        val manufacturerPressed = ClickListener { section, row ->
+            val catalogByManufacturerActivity =
+                Intent(activity, CatalogByManufacturerActivity::class.java)
+            catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers[row].id)
+            activity?.startActivity(catalogByManufacturerActivity)
+        }
+        val manufacturersAdapter =
+            ManufacturersSliderAdapter(this.requireContext(), manufacturers, manufacturerPressed)
+        manufacturersRecyclerView.adapter = manufacturersAdapter
+        val volumesLayoutManager = LinearLayoutManager(activity)
+        volumesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        volumesRecyclerView.layoutManager = volumesLayoutManager
+        val volumes = dataManager.volumes
+        val volumePressed = ClickListener { section, row ->
+            val catalogByVolumeActivity = Intent(activity, CatalogByVolumeActivity::class.java)
+            catalogByVolumeActivity.putExtra("volumeId", volumes[row].id)
+            activity?.startActivity(catalogByVolumeActivity)
+        }
+        val volumesAdapter = VolumessSliderAdapter(this.requireContext(), volumes, volumePressed)
+        volumesRecyclerView.adapter = volumesAdapter
+        return rootView
     }
-
 }

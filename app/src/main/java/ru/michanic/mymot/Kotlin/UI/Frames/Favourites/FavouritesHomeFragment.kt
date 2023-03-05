@@ -1,55 +1,42 @@
-package ru.michanic.mymot.UI.Frames.Favourites;
+package ru.michanic.mymot.Kotlin.UI.Frames.Favourites
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import ru.michanic.mymot.Kotlin.UI.Adapters.FavouritesPagerAdapter
+import ru.michanic.mymot.R
+import ru.michanic.mymot.Utils.DataManager
 
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.Kotlin.UI.Adapters.FavouritesPagerAdapter;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class FavouritesHomeFragment extends Fragment {
-
-    private TabLayout tabs;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_favourites_home, null);
-        DataManager dataManager = new DataManager();
-
-        Fragment[] fragments = new Fragment[2];
-        fragments[0] = new FavouriteModelsFragment();
-        fragments[1] = new FavouriteAdvertsFragment();
-
-        ViewPager pager = (ViewPager) rootView.findViewById(R.id.base_pager);
-        pager.setAdapter(new FavouritesPagerAdapter(getChildFragmentManager(), fragments));
-
-        tabs = (TabLayout) rootView.findViewById(R.id.base_tabs);
-        tabs.setupWithViewPager(pager);
-        tabs.getTabAt(0).select();
+class FavouritesHomeFragment : Fragment() {
+    private var tabs: TabLayout? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_favourites_home, null)
+        val dataManager = DataManager()
+        val fragments = arrayOfNulls<Fragment>(2)
+        fragments[0] = FavouriteModelsFragment()
+        fragments[1] = FavouriteAdvertsFragment()
+        val pager = rootView.findViewById<View>(R.id.base_pager) as ViewPager
+        pager.adapter = FavouritesPagerAdapter(childFragmentManager, fragments)
+        tabs = rootView.findViewById<View>(R.id.base_tabs) as TabLayout
+        tabs?.setupWithViewPager(pager)
+        tabs?.getTabAt(0)?.select()
 
         //--> Adding tabs
-        for (int i = 0; i < tabs.getTabCount(); i++) {
-            switch (i) {
-                case 0:
-                    tabs.getTabAt(i).setText("Модели");
-                    break;
-                case 1:
-                    tabs.getTabAt(i).setText("Объявления");
-                    break;
-                default:
-                    tabs.getTabAt(i).setText("Unknown");
-                    break;
+        for (i in 0 until tabs!!.tabCount) {
+            when (i) {
+                0 -> tabs?.getTabAt(i)?.text = "Модели"
+                1 -> tabs?.getTabAt(i)?.text = "Объявления"
+                else -> tabs?.getTabAt(i)?.text = "Unknown"
             }
         }
-
-        return rootView;
+        return rootView
     }
-
 }

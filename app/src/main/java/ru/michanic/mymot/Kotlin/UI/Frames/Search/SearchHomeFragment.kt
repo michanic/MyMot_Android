@@ -1,174 +1,149 @@
-package ru.michanic.mymot.UI.Frames.Search;
+package ru.michanic.mymot.Kotlin.UI.Frames.Search
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
+import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Interactors.SitesInteractor
+import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
+import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter
+import ru.michanic.mymot.Models.Advert
+import ru.michanic.mymot.Models.SearchFilterConfig
+import ru.michanic.mymot.Models.Source
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Protocols.FilterSettedInterface
+import ru.michanic.mymot.Protocols.LoadingAdvertsInterface
+import ru.michanic.mymot.R
+import ru.michanic.mymot.Utils.DataManager
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.Extensions.Font;
-import ru.michanic.mymot.Interactors.SitesInteractor;
-import ru.michanic.mymot.Models.Advert;
-import ru.michanic.mymot.Models.SearchFilterConfig;
-import ru.michanic.mymot.Models.Source;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.ClickListener;
-import ru.michanic.mymot.Protocols.FilterSettedInterface;
-import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
-import ru.michanic.mymot.R;
-import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity;
-import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class SearchHomeFragment extends Fragment {
-
-    private Source currentSource;
-    private boolean avitoLoadMoreAvailable = true;
-    private boolean loadMoreAvailable = false;
-    private DataManager dataManager = new DataManager();
-
-    private SitesInteractor sitesInteractor = new SitesInteractor();
-    private SearchMainAdapter searchAdapter;
-    private LinearLayoutManager mLayoutManager;
-    private GridLayoutManager glm;
-    private ProgressBar progressBar;
-
-    private Boolean loading = false;
-    private Boolean isLastPage = false;
-
-    private TextView titleView;
-    private RecyclerView resultView;
-    private List<Advert> loadedAdverts = new ArrayList<Advert>();
-    private  SearchFilterConfig filterConfig;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_search_home, null);
-
-        //Log.e("saved adverts", String.valueOf(new DataManager().getFavouriteAdverts().size()));
-
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-        titleView = (TextView) rootView.findViewById(R.id.resultsTitle);
-        resultView = (RecyclerView) rootView.findViewById(R.id.resultsView);
-        titleView.setTypeface(Font.oswald);
-
-        glm = new GridLayoutManager(getActivity(), 2);
-        resultView.setLayoutManager(glm);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        //resultView.setLayoutManager(mLayoutManager);
-        resultView.setHasFixedSize(false);
-
-        ClickListener advertPressed = new ClickListener() {
-            @Override
-            public void onClick(int section, int row) {
-                Intent adveryActivity = new Intent(getActivity(), AdvertActivity.class);
-                adveryActivity.putExtra("advertId", loadedAdverts.get(row).getId());
-                getActivity().startActivity(adveryActivity);
-            }
-        };
-
-        searchAdapter = new SearchMainAdapter(getActivity(), loadedAdverts, advertPressed);
-        resultView.setAdapter(searchAdapter);
-
-        resultView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                int lastvisibleitemposition = glm.findLastVisibleItemPosition();
-                if (lastvisibleitemposition == searchAdapter.getItemCount() - 1) {
-
+class SearchHomeFragment : Fragment() {
+    private var currentSource: Source? = null
+    private var avitoLoadMoreAvailable = true
+    private var loadMoreAvailable = false
+    private val dataManager = DataManager()
+    private val sitesInteractor = SitesInteractor()
+    private var searchAdapter: SearchMainAdapter? = null
+    private var mLayoutManager: LinearLayoutManager? = null
+    private var glm: GridLayoutManager? = null
+    private var progressBar: ProgressBar? = null
+    private var loading = false
+    private val isLastPage = false
+    private var titleView: TextView? = null
+    private var resultView: RecyclerView? = null
+    private val loadedAdverts: MutableList<Advert> = ArrayList()
+    private var filterConfig: SearchFilterConfig? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_search_home, null)
+        
+        progressBar = rootView.findViewById<View>(R.id.progressBar) as ProgressBar
+        titleView = rootView.findViewById<View>(R.id.resultsTitle) as TextView
+        resultView = rootView.findViewById<View>(R.id.resultsView) as RecyclerView
+        titleView?.typeface = Font.oswald
+        glm = GridLayoutManager(activity, 2)
+        resultView?.layoutManager = glm
+        mLayoutManager = LinearLayoutManager(activity)
+        resultView?.setHasFixedSize(false)
+        val advertPressed = ClickListener { section, row ->
+            val advertActivity = Intent(activity, AdvertActivity::class.java)
+            advertActivity.putExtra("advertId", loadedAdverts[row].id)
+            activity?.startActivity(advertActivity)
+        }
+        searchAdapter = SearchMainAdapter(this.requireContext(), loadedAdverts, advertPressed)
+        resultView?.adapter = searchAdapter
+        resultView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val lastvisibleitemposition = glm?.findLastVisibleItemPosition()
+                if (lastvisibleitemposition == searchAdapter?.itemCount?.minus(1)) {
                     if (!loading && !isLastPage) {
-                        loading = true;
-                        loadMore();
+                        loading = true
+                        loadMore()
                     }
                 }
             }
-        });
-        progressBar.setVisibility(View.VISIBLE);
-
-        reloadResults();
-        return rootView;
+        })
+        progressBar?.visibility = View.VISIBLE
+        reloadResults()
+        return rootView
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MyMotApplication.searchManager.filterClosedCallback = new FilterSettedInterface() {
-            @Override
-            public void onSelected(SearchFilterConfig filterConfig) {
-                reloadResults();
-            }
-        };
+    override fun onResume() {
+        super.onResume()
+        MyMotApplication.searchManager.filterClosedCallback =
+            FilterSettedInterface { reloadResults() }
     }
 
-    private void reloadResults() {
-        filterConfig = MyMotApplication.searchManager.getFilterConfig();
-        titleView.setText(filterConfig.getMainSearchTitle());
-        loadedAdverts.clear();
-        currentSource = null;
-        loadMore();
+    private fun reloadResults() {
+        filterConfig = MyMotApplication.searchManager.filterConfig
+        titleView?.text = filterConfig?.mainSearchTitle
+        loadedAdverts.clear()
+        currentSource = null
+        loadMore()
     }
 
-    private void loadMore() {
-        loading = true;
-
+    private fun loadMore() {
+        loading = true
         if (currentSource == null) {
-            currentSource = new Source(SourceType.AVITO, filterConfig.getPriceFrom(), filterConfig.getPriceFor(), filterConfig.getSelectedRegion());
-            currentSource.setPage(1);
+            currentSource = Source(
+                SourceType.AVITO,
+                filterConfig!!.priceFrom,
+                filterConfig!!.priceFor,
+                filterConfig?.selectedRegion
+            )
+            currentSource?.page = 1
         } else {
-            //currentSource.page += 1;
-            if (currentSource.getType() == SourceType.AVITO && avitoLoadMoreAvailable) {
-                currentSource.updateTypeAndRegion(SourceType.AUTO_RU, filterConfig.getSelectedRegion());
+            if (currentSource?.type == SourceType.AVITO && avitoLoadMoreAvailable) {
+                currentSource?.updateTypeAndRegion(
+                    SourceType.AUTO_RU,
+                    filterConfig?.selectedRegion
+                )
             } else {
                 if (avitoLoadMoreAvailable) {
-                    currentSource.incrementPage();
-                    currentSource.updateTypeAndRegion(SourceType.AVITO, filterConfig.getSelectedRegion());
+                    currentSource?.incrementPage()
+                    currentSource?.updateTypeAndRegion(
+                        SourceType.AVITO,
+                        filterConfig?.selectedRegion
+                    )
                 } else {
-                    currentSource.updateTypeAndRegion(SourceType.AUTO_RU, filterConfig.getSelectedRegion());
-                    currentSource.incrementPage();
+                    currentSource?.updateTypeAndRegion(
+                        SourceType.AUTO_RU,
+                        filterConfig?.selectedRegion
+                    )
+                    currentSource?.incrementPage()
                 }
             }
         }
-
-        sitesInteractor.loadFeedAdverts(currentSource, new LoadingAdvertsInterface() {
-            @Override
-            public void onLoaded(List<Advert> adverts, boolean loadMore) {
-                progressBar.setVisibility(View.GONE);
-                Log.e("onLoaded", String.valueOf(adverts.size()));
-
-                loadedAdverts.addAll(adverts);
-                searchAdapter.notifyDataSetChanged();
-                loading = false;
-
-                if (currentSource.getType() == SourceType.AVITO) {
-                    avitoLoadMoreAvailable = loadMore;
-                    loadMoreAvailable = true;
+        sitesInteractor.loadFeedAdverts(currentSource, object : LoadingAdvertsInterface {
+            override fun onLoaded(adverts: List<Advert>, loadMore: Boolean) {
+                progressBar?.visibility = View.GONE
+                Log.e("onLoaded", adverts.size.toString())
+                loadedAdverts.addAll(adverts)
+                searchAdapter?.notifyDataSetChanged()
+                loading = false
+                if (currentSource?.type == SourceType.AVITO) {
+                    avitoLoadMoreAvailable = loadMore
+                    loadMoreAvailable = true
                 } else {
-                    loadMoreAvailable = loadMore;
+                    loadMoreAvailable = loadMore
                 }
-
             }
 
-            @Override
-            public void onFailed() {
-
-            }
-        });
-
+            override fun onFailed() {}
+        })
     }
-
 }
