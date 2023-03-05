@@ -22,10 +22,10 @@ import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Adapters.ImagesSliderAdapter
-import ru.michanic.mymot.UI.Adapters.ParametersListAdapter
-import ru.michanic.mymot.UI.Adapters.ReviewsSliderAdapter
-import ru.michanic.mymot.UI.NonScrollListView
+import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.ReviewsSliderAdapter
+import ru.michanic.mymot.Kotlin.UI.NonScrollListView
 import ru.michanic.mymot.Utils.DataManager
 
 class CatalogModelActivity : UniversalActivity() {

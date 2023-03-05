@@ -14,11 +14,11 @@ import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Models.SectionModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Adapters.SectionItemsListAdapter
-import ru.michanic.mymot.UI.Frames.Catalog.CatalogHomeFragment
-import ru.michanic.mymot.UI.Frames.Favourites.FavouritesHomeFragment
-import ru.michanic.mymot.UI.Frames.Info.InfoHomeFragment
-import ru.michanic.mymot.UI.Frames.Search.SearchHomeFragment
+import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
+import ru.michanic.mymot.Kotlin.UI.Frames.Catalog.CatalogHomeFragment
+import ru.michanic.mymot.Kotlin.UI.Frames.Favourites.FavouritesHomeFragment
+import ru.michanic.mymot.Kotlin.UI.Frames.Info.InfoHomeFragment
+import ru.michanic.mymot.Kotlin.UI.Frames.Search.SearchHomeFragment
 import ru.michanic.mymot.Utils.DataManager
 
 class MainActivity : UniversalActivity() {

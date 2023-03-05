@@ -8,7 +8,7 @@ import ru.michanic.mymot.Interactors.ApiInteractor
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.LoadingInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.UI.Adapters.RegionsExpandableListAdapter
+import ru.michanic.mymot.Kotlin.UI.Adapters.RegionsExpandableListAdapter
 import ru.michanic.mymot.Utils.DataManager
 
 class FilterRegionsActivity : UniversalActivity() {
