@@ -2,7 +2,7 @@ package ru.michanic.mymot.Utils;
 
 import java.util.Comparator;
 
-import ru.michanic.mymot.Models.Model;
+import ru.michanic.mymot.Kotlin.Models.Model;
 
 public class ModelsSortComparator implements Comparator<Model> {
     @Override

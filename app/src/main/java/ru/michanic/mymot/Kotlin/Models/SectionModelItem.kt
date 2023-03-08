@@ -1,63 +1,38 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-public class SectionModelItem {
+class SectionModelItem {
+    var sectionTitle: String? = null
+    var model: Model? = null
+    var propertyTitle: String? = null
+    var propertyValue: String? = null
+    val type: Int
 
-    public static final int SECTION_TITLE = 0;
-    public static final int LIST_MODEL = 1;
-    public static final int SIMPLE_CELL = 2;
-    public static final int PRICE_CELL = 3;
-
-    public static final String PRICE_FROM_NAME = "От";
-    public static final String PRICE_FOR_NAME = "До";
-
-    String sectionTitle = null;
-    Model model = null;
-    String propertyTitle = null;
-    String propertyValue = null;
-
-    public final int type;
-
-    public SectionModelItem(String sectionTitle) {
-        this.type = SECTION_TITLE;
-        this.sectionTitle = sectionTitle;
+    constructor(sectionTitle: String?) {
+        type = SECTION_TITLE
+        this.sectionTitle = sectionTitle
     }
 
-    public SectionModelItem(Model model) {
-        this.type = LIST_MODEL;
-        this.model = model;
+    constructor(model: Model?) {
+        type = LIST_MODEL
+        this.model = model
     }
 
-    public SectionModelItem(String propertyTitle, String propertyValue) {
-        this.propertyTitle = propertyTitle;
+    constructor(propertyTitle: String?, propertyValue: String?) {
+        this.propertyTitle = propertyTitle
         if (propertyValue != null) {
-            this.type = PRICE_CELL;
-            this.propertyValue = propertyValue;
+            type = PRICE_CELL
+            this.propertyValue = propertyValue
         } else {
-            this.type = SIMPLE_CELL;
+            type = SIMPLE_CELL
         }
     }
 
-    public String getSectionTitle() {
-        return sectionTitle;
-    }
-
-    public String getPropertyTitle() {
-        return propertyTitle;
-    }
-
-    public String getPropertyValue() {
-        return propertyValue;
-    }
-
-    public void setPropertyValue(String propertyValue) {
-        this.propertyValue = propertyValue;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public Model getModel() {
-        return model;
+    companion object {
+        const val SECTION_TITLE = 0
+        const val LIST_MODEL = 1
+        const val SIMPLE_CELL = 2
+        const val PRICE_CELL = 3
+        const val PRICE_FROM_NAME = "От"
+        const val PRICE_FOR_NAME = "До"
     }
 }

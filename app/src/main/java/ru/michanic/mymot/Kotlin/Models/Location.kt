@@ -1,66 +1,17 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-public class Location extends RealmObject {
+open class Location : RealmObject() {
 
     @PrimaryKey
-    private int id;
+    val id = 0
+    val autoru: String? = null
+    val avito: String? = null
+    val name: String? = null
+    private val sort = 0
 
-    private String autoru;
-    private String avito;
-    private String name;
-    private int sort;
 
-    // связи
-    private int region_id;
-    //private RealmList<Location> cities;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getRegionId() {
-        return region_id;
-    }
-
-    public void setRegionId(int regionId) {
-        this.region_id = regionId;
-    }
-
-    public String getAvito() {
-        return avito;
-    }
-
-    public String getAutoru() {
-        return autoru;
-    }
-
-    /*public int getCitiesCount() {
-        return cities.size();
-    }
-
-    public void setRegion(Location region) {
-        this.region = region;
-    }
-
-    public Location getRegion() {
-        return region;
-    }*/
-
-    /*public RealmList<Location> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<Location> cities) {
-        this.cities.clear();
-        for (Location city: cities) {
-            this.cities.add(city);
-        }
-    }*/
+    var regionId = 0
 }

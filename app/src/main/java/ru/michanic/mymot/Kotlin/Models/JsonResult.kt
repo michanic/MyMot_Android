@@ -1,7 +1,3 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-public class JsonResult {
-
-
-
-}
+class JsonResult 

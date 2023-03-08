@@ -2,10 +2,10 @@ package ru.michanic.mymot.Utils;
 
 import android.util.Log;
 
-import ru.michanic.mymot.Models.Location;
-import ru.michanic.mymot.Models.Manufacturer;
-import ru.michanic.mymot.Models.Model;
-import ru.michanic.mymot.Models.SearchFilterConfig;
+import ru.michanic.mymot.Kotlin.Models.Location;
+import ru.michanic.mymot.Kotlin.Models.Manufacturer;
+import ru.michanic.mymot.Kotlin.Models.Model;
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.FilterSettedInterface;
 

@@ -1,261 +1,222 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import android.util.Log;
+import android.util.Log
+import com.google.gson.JsonParser
+import com.google.gson.internal.LinkedTreeMap
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
+import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.MyMotApplication
+import java.util.*
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.internal.LinkedTreeMap;
-
-import org.json.JSONObject;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class HtmlParser {
-
-    private JsonParser jsonParser = new JsonParser();
-    private List<String> exteptedWords = MyMotApplication.getConfigStorage().exteptedWords;
-
-    public ParseAdvertsResult parseAdverts(Document document, SourceType sourceType) {
-        boolean loadMore = false;
-        List<Advert> adverts = new ArrayList();
+class HtmlParser {
+    private val jsonParser = JsonParser()
+    private val exteptedWords = MyMotApplication.getConfigStorage().exteptedWords
+    fun parseAdverts(document: Document?, sourceType: SourceType): ParseAdvertsResult {
+        var loadMore = false
+        val adverts: MutableList<Advert?> = ArrayList<Any?>()
         if (document == null) {
-            Log.e("document", "null");
-            return new ParseAdvertsResult(adverts, loadMore);
+            Log.e("document", "null")
+            return ParseAdvertsResult(adverts, loadMore)
         }
-        Elements elements = document.select(sourceType.itemSelector());//document.getElementsByClass("js-catalog-item-enum");
-        switch (sourceType) {
-            case AVITO:
-                for (Element element: elements) {
-                    Advert advert = createOrUpdateFromAvito(element);
+        val elements =
+            document.select(sourceType.itemSelector()) //document.getElementsByClass("js-catalog-item-enum");
+        when (sourceType) {
+            SourceType.AVITO -> {
+                for (element in elements) {
+                    val advert = createOrUpdateFromAvito(element)
                     if (advert != null) {
-                        adverts.add(advert);
+                        adverts.add(advert)
                     }
                 }
-                loadMore = document.select(".pagination-page.js-pagination-next").hasText();
-                break;
-            case AUTO_RU:
-                for (Element element: elements) {
-                    Advert advert = createOrUpdateFromAutoRu(element);
+                loadMore = document.select(".pagination-page.js-pagination-next").hasText()
+            }
+            SourceType.AUTO_RU -> {
+                for (element in elements) {
+                    val advert = createOrUpdateFromAutoRu(element)
                     if (advert != null) {
-                        adverts.add(advert);
+                        adverts.add(advert)
                     }
                 }
                 if (document.select(".pager__next.button__control .button__text").hasText()) {
-                    loadMore = !document.select(".pager__next.button__control").hasClass("button_disabled");
+                    loadMore =
+                        !document.select(".pager__next.button__control").hasClass("button_disabled")
                 }
-                break;
-        }
-        return new ParseAdvertsResult(adverts, loadMore);
-    }
-
-    private Advert createOrUpdateFromAvito(Element element) {
-
-        String title = element.select("a.item-description-title-link span").text();
-        if (title == null || title.length() == 0) {
-            title = element.select("a.description-title-link span").text();
-        }
-        if (!checkForException(title)) {
-            return null;
-        }
-        String id = element.attr("data-item-id");
-
-        Advert advert = new Advert();
-
-        String city = element.select(".item_table-description .data p:eq(1)").text();
-        String link = SourceType.AVITO.domain() + element.select(".item-description-title-link").attr("href");
-        String previewImage = element.selectFirst("img.large-picture-img").attr("src");
-        if (!previewImage.contains("http")) {
-            previewImage = "https:" + previewImage;
-        }
-        String date = element.select(".js-item-date").text();
-
-        String priceText = element.select("span.price").text();
-        priceText = priceText.replace(" ", "");
-        priceText = priceText.replace("\u20BD", "");
-        int priceInt;
-        try {
-            priceInt = Integer.parseInt(priceText);
-        }
-        catch (NumberFormatException e)
-        {
-            priceInt = 0;
-        }
-
-        advert.setId(id);
-        advert.setTitle(title);
-        advert.setCity(city);
-        advert.setLink(link);
-        advert.setPrice(priceInt);
-        advert.setPreviewImage(previewImage);
-        advert.setDate(date);
-
-        return advert;
-    }
-
-    private Advert createOrUpdateFromAutoRu(Element element) {
-
-        String title = element.select(".listing-item__link").text();
-        if (!checkForException(title)) {
-            return null;
-        }
-        String id = jsonParser.parse(element.attr("data-bem")).getAsJsonObject().getAsJsonObject("listing-item").get("id").getAsString();
-
-        Advert advert = new Advert();
-        String previewImage = "";
-        String city = element.select(".listing-item__place").text();
-        String link = element.select(".listing-item__link").attr("href");
-        Element firstImage = element.selectFirst(".image.tile__image");
-        if (firstImage != null) {
-            previewImage = "https:" + element.selectFirst(".image.tile__image").attr("data-original");
-        }
-        String date = element.select(".listing-item__date").text();
-        String priceText = element.select(".listing-item__price").text();
-        priceText = priceText.replace(" ", "");
-        priceText = priceText.replace(" ", "");
-        priceText = priceText.replace("\u20BD", "");
-        int priceInt;
-        try {
-            priceInt = Integer.parseInt(priceText);
-        }
-        catch (NumberFormatException e)
-        {
-            priceInt = 0;
-        }
-
-        advert.setId(id);
-        advert.setTitle(title);
-        advert.setCity(city);
-        advert.setLink(link);
-        advert.setPrice(priceInt);
-        advert.setPreviewImage(previewImage);
-        advert.setDate(date);
-
-        return advert;
-    }
-
-    private boolean checkForException(String title) {
-        for (String word: exteptedWords) {
-            if (title.toLowerCase().contains(word.toLowerCase())) {
-                //Log.e("except", title);
-                return false;
             }
         }
-        return true;
+        return ParseAdvertsResult(adverts, loadMore)
     }
 
-    public AdvertDetails parseAdvertDetails(Document document, SourceType sourceType) {
-        AdvertDetails advertDetails = new AdvertDetails();
-        switch (sourceType) {
-            case AVITO:
-                advertDetails = parseFromAvito(document, advertDetails);
-                break;
-            case AUTO_RU:
-                advertDetails = parseFromAutoRu(document, advertDetails);
-                break;
+    private fun createOrUpdateFromAvito(element: Element): Advert? {
+        var title = element.select("a.item-description-title-link span").text()
+        if (title == null || title.length == 0) {
+            title = element.select("a.description-title-link span").text()
         }
-        return advertDetails;
+        if (!checkForException(title)) {
+            return null
+        }
+        val id = element.attr("data-item-id")
+        val advert = Advert()
+        val city = element.select(".item_table-description .data p:eq(1)").text()
+        val link =
+            SourceType.AVITO.domain() + element.select(".item-description-title-link").attr("href")
+        var previewImage = element.selectFirst("img.large-picture-img").attr("src")
+        if (!previewImage.contains("http")) {
+            previewImage = "https:$previewImage"
+        }
+        val date = element.select(".js-item-date").text()
+        var priceText = element.select("span.price").text()
+        priceText = priceText.replace(" ", "")
+        priceText = priceText.replace("\u20BD", "")
+        val priceInt: Int
+        priceInt = try {
+            priceText.toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        advert.id = id
+        advert.title = title
+        advert.city = city
+        advert.link = link
+        advert.setPrice(priceInt)
+        advert.previewImage = previewImage
+        advert.date = date
+        return advert
     }
 
-    private AdvertDetails parseFromAvito(Document document, AdvertDetails advertDetails) {
+    private fun createOrUpdateFromAutoRu(element: Element): Advert? {
+        val title = element.select(".listing-item__link").text()
+        if (!checkForException(title)) {
+            return null
+        }
+        val id =
+            jsonParser.parse(element.attr("data-bem")).asJsonObject.getAsJsonObject("listing-item")["id"].asString
+        val advert = Advert()
+        var previewImage = ""
+        val city = element.select(".listing-item__place").text()
+        val link = element.select(".listing-item__link").attr("href")
+        val firstImage = element.selectFirst(".image.tile__image")
+        if (firstImage != null) {
+            previewImage =
+                "https:" + element.selectFirst(".image.tile__image").attr("data-original")
+        }
+        val date = element.select(".listing-item__date").text()
+        var priceText = element.select(".listing-item__price").text()
+        priceText = priceText.replace(" ", "")
+        priceText = priceText.replace(" ", "")
+        priceText = priceText.replace("\u20BD", "")
+        val priceInt: Int
+        priceInt = try {
+            priceText.toInt()
+        } catch (e: NumberFormatException) {
+            0
+        }
+        advert.id = id
+        advert.title = title
+        advert.city = city
+        advert.link = link
+        advert.setPrice(priceInt)
+        advert.previewImage = previewImage
+        advert.date = date
+        return advert
+    }
 
-        String text = "";
-        if (!document.select(".item-description-text").html().isEmpty()) {
-            text = document.select(".item-description-text").html();
+    private fun checkForException(title: String?): Boolean {
+        for (word in exteptedWords) {
+            if (title!!.lowercase(Locale.getDefault())
+                    .contains(word.lowercase(Locale.getDefault()))
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun parseAdvertDetails(document: Document, sourceType: SourceType?): AdvertDetails {
+        var advertDetails = AdvertDetails()
+        when (sourceType) {
+            SourceType.AVITO -> advertDetails = parseFromAvito(document, advertDetails)
+            SourceType.AUTO_RU -> advertDetails = parseFromAutoRu(document, advertDetails)
+        }
+        return advertDetails
+    }
+
+    private fun parseFromAvito(document: Document, advertDetails: AdvertDetails): AdvertDetails {
+        var text: String? = ""
+        text = if (!document.select(".item-description-text").html().isEmpty()) {
+            document.select(".item-description-text").html()
         } else {
-            text = document.select(".item-description-html").html();
+            document.select(".item-description-html").html()
         }
-
-        String date = document.select(".title-info-actions-item .title-info-metadata-item-redesign").text();
-        String warning = document.select(".item-view-warning-content .has-bold").text();
-
-        List<String> images = new ArrayList<>();
-        Elements elements = document.select(".js-gallery-img-frame");
-        for (Element element: elements) {
-            images.add("https:" + element.attr("data-url"));
+        val date =
+            document.select(".title-info-actions-item .title-info-metadata-item-redesign").text()
+        val warning = document.select(".item-view-warning-content .has-bold").text()
+        val images: MutableList<String> = ArrayList()
+        val elements = document.select(".js-gallery-img-frame")
+        for (element in elements) {
+            images.add("https:" + element.attr("data-url"))
         }
-
-        advertDetails.setText(text);
-        advertDetails.setDate(date);
-        advertDetails.setWarning(warning);
-        advertDetails.setImages(images);
-
-        return advertDetails;
+        advertDetails.text = text
+        advertDetails.date = date
+        advertDetails.warning = warning
+        advertDetails.images = images
+        return advertDetails
     }
 
-    private AdvertDetails parseFromAutoRu(Document document, AdvertDetails advertDetails) {
-
-        Log.e("parseAdvertDetails", "parseFromAutoRu");
-
-        String text = document.select(".seller-details__text").html();
-        String date = document.select(".card__stat .card__stat-item:eq(1)").text();
-        String warning = document.select(".card__sold-message-header").text();
-
-        List<String> images = new ArrayList<>();
-        Elements elements = document.select(".gallery__thumb-item");
-        for (Element element: elements) {
-            images.add("https:" + element.attr("data-img"));
+    private fun parseFromAutoRu(document: Document, advertDetails: AdvertDetails): AdvertDetails {
+        Log.e("parseAdvertDetails", "parseFromAutoRu")
+        val text = document.select(".seller-details__text").html()
+        val date = document.select(".card__stat .card__stat-item:eq(1)").text()
+        val warning = document.select(".card__sold-message-header").text()
+        val images: MutableList<String> = ArrayList()
+        val elements = document.select(".gallery__thumb-item")
+        for (element in elements) {
+            images.add("https:" + element.attr("data-img"))
         }
-        Log.e("images", String.valueOf(images.size()));
-
-        List<LinkedTreeMap<String,String>> parametersArray = new ArrayList<>();
-        Elements parameters = document.select(".card__info .card__info-label");
-        for (Element element: parameters) {
-            String title = element.text();
-            String value = element.nextElementSibling().text();
-            LinkedTreeMap<String,String> parameter = new LinkedTreeMap<>();
-            parameter.put(title, value);
-            parametersArray.add(parameter);
+        Log.e("images", images.size.toString())
+        val parametersArray: MutableList<LinkedTreeMap<String, String>> = ArrayList()
+        val parameters = document.select(".card__info .card__info-label")
+        for (element in parameters) {
+            val title = element.text()
+            val value = element.nextElementSibling().text()
+            val parameter = LinkedTreeMap<String, String>()
+            parameter[title] = value
+            parametersArray.add(parameter)
         }
-        advertDetails.setParameters(parametersArray);
-
+        advertDetails.parameters = parametersArray
         try {
-            String saleHash = jsonParser.parse(document.select(".stat-publicapi").attr("data-bem")).getAsJsonObject().getAsJsonObject("card").get("sale_hash").getAsString();
-            advertDetails.setSaleHash(saleHash);
-        } catch (IllegalStateException error) {
-            Log.e("error", error.getLocalizedMessage());
+            val saleHash = jsonParser.parse(
+                document.select(".stat-publicapi").attr("data-bem")
+            ).asJsonObject.getAsJsonObject("card")["sale_hash"].asString
+            advertDetails.saleHash = saleHash
+        } catch (error: IllegalStateException) {
+            Log.e("error", error.localizedMessage)
         }
-
-        advertDetails.setText(text);
-        advertDetails.setDate(date);
-        advertDetails.setWarning(warning);
-        advertDetails.setImages(images);
-
-        return advertDetails;
+        advertDetails.text = text
+        advertDetails.date = date
+        advertDetails.warning = warning
+        advertDetails.images = images
+        return advertDetails
     }
 
-    public String parsePhoneFromAvito(Document document) {
+    fun parsePhoneFromAvito(document: Document): String {
 
-        //String selector = "[data-marker=\"item-contact-bar/call\"]";
-        //Element element = document.select(selector).first();
-
-        Elements phoneBar = document.getElementsByAttributeValue("data-marker", "item-contact-bar/call");
-        if (!phoneBar.isEmpty()) {
-            return phoneBar.first().attr("href").replace("tel:", "");
+        val phoneBar = document.getElementsByAttributeValue("data-marker", "item-contact-bar/call")
+        return if (!phoneBar.isEmpty()) {
+            phoneBar.first().attr("href").replace("tel:", "")
         } else {
-            return "";
+            ""
         }
     }
 
-    public List<String> parsePhonesFromAutoRu(Document document) {
-        List<String> phones = new ArrayList<>();
-        Elements elements = document.select(".card-phones__item");
-        for (Element element: elements) {
-            Log.e("element", element.html());
-            phones.add(element.text());
+    fun parsePhonesFromAutoRu(document: Document): List<String> {
+        val phones: MutableList<String> = ArrayList()
+        val elements = document.select(".card-phones__item")
+        for (element in elements) {
+            Log.e("element", element.html())
+            phones.add(element.text())
         }
-        Log.e("phones", String.valueOf(phones.size()));
-        return phones;
+        Log.e("phones", phones.size.toString())
+        return phones
     }
-
 }

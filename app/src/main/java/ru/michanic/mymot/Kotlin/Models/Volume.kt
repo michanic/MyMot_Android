@@ -1,49 +1,19 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import ru.michanic.mymot.Kotlin.Models.Model
 
-public class Volume extends RealmObject {
-
+open class Volume : RealmObject() {
     @PrimaryKey
-    private int id;
+    val id = 0
+    val code: String? = null
+    val image: String? = null
+    val name: String? = null
+    private val sort = 0
+    val min = 0
+    val max = 0
 
-    private String code;
-    private String image;
-    private String name;
-    private int sort;
-    private int min;
-    private int max;
-
-    // связи
-    private RealmList<Model> models;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public RealmList<Model> getModels() {
-        return models;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public int getMax() {
-        return max;
-    }
+    val models: RealmList<Model>? = null
 }

@@ -17,9 +17,9 @@ import ru.michanic.mymot.Extensions.Font
 import ru.michanic.mymot.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter
-import ru.michanic.mymot.Models.Advert
-import ru.michanic.mymot.Models.SearchFilterConfig
-import ru.michanic.mymot.Models.Source
+import ru.michanic.mymot.Kotlin.Models.Advert
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
+import ru.michanic.mymot.Kotlin.Models.Source
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.Protocols.FilterSettedInterface

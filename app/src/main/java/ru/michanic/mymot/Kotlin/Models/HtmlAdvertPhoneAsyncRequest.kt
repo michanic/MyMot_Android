@@ -1,74 +1,55 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import android.os.AsyncTask;
-import android.util.Log;
+import android.os.AsyncTask
+import android.util.Log
+import org.jsoup.nodes.Document
+import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.AsyncRequestCompleted
+import java.io.IOException
 
-import org.json.JSONObject;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+abstract class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
+    AsyncTask<String?, Void?, List<String?>>() {
+    var delegate: AsyncRequestCompleted? = null
+    private val htmlParser = HtmlParser()
+    private val sourceType: SourceType
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
-
-public class HtmlAdvertPhoneAsyncRequest extends AsyncTask<String, Void, List<String>> {
-
-    public AsyncRequestCompleted delegate = null;
-    private HtmlParser htmlParser = new HtmlParser();
-    private SourceType sourceType;
-
-    public HtmlAdvertPhoneAsyncRequest(AsyncRequestCompleted asyncResponse, SourceType sourceType) {
-        this.delegate = asyncResponse;
-        this.sourceType = sourceType;
+    init {
+        delegate = asyncResponse
+        this.sourceType = sourceType
     }
 
-    @Override
-    protected  List<String> doInBackground(String... arg) {
-        String path = arg[0];
-        Log.e("doInBackground", path);
-        Document doc = null;
-        List<String> phones = new ArrayList<>();
-        final String csrfToken = MyMotApplication.configStorage.getCsrfToken();
-        Log.e("csrfToken", csrfToken);
-
+    override fun doInBackground(vararg arg: String?): List<String?>? {
+        val path = arg[0]
+        Log.e("doInBackground", path)
+        var doc: Document? = null
+        var phones: MutableList<String?> = ArrayList()
+        val csrfToken = MyMotApplication.configStorage.csrfToken
+        Log.e("csrfToken", csrfToken)
         if (sourceType == SourceType.AVITO) {
-            Connection.Response response = MyMotApplication.networkService.getHtmlDataAsMobile(path);
+            val response = MyMotApplication.networkService.getHtmlDataAsMobile(path)
             try {
-                doc = response.parse();
-            } catch (IOException e) {
-                e.printStackTrace();
+                doc = response.parse()
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-            phones.add(htmlParser.parsePhoneFromAvito(doc));
-
+            phones.add(htmlParser.parsePhoneFromAvito(doc))
         } else if (sourceType == SourceType.AUTO_RU) {
-            doc = MyMotApplication.networkService.getAutoRuPhonesData(path, csrfToken);
+            doc = MyMotApplication.networkService.getAutoRuPhonesData(path, csrfToken)
             if (doc != null) {
                 try {
-                    phones = htmlParser.parsePhonesFromAutoRu(doc);
-                } catch (Throwable t) {
-                    Log.e("My App", "Could not parse malformed JSON");
+                    phones = htmlParser.parsePhonesFromAutoRu(doc).toMutableList()
+                } catch (t: Throwable) {
+                    Log.e("My App", "Could not parse malformed JSON")
                 }
             } else {
-                Log.e("doc", "is empty");
+                Log.e("doc", "is empty")
             }
-
-            //doc = res.parse();
         }
-
-
-        return phones;
+        return phones
     }
 
-    @Override
-    protected void onPostExecute(List<String> phones) {
-        delegate.processFinish(phones);
+    override fun onPostExecute(phones: List<String?>) {
+        delegate?.processFinish(phones)
     }
-
 }

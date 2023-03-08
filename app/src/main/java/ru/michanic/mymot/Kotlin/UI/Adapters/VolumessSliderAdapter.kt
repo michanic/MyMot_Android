@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import ru.michanic.mymot.Models.Volume
+import ru.michanic.mymot.Kotlin.Models.Volume
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Cells.CatalogSliderCell

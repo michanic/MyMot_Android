@@ -1,65 +1,32 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import android.os.Build;
-import android.util.Log;
+import android.os.Build
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import ru.michanic.mymot.Utils.ModelsSortComparator
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
-import io.realm.annotations.PrimaryKey;
-import ru.michanic.mymot.Utils.ModelsSortComparator;
-
-public class Category extends RealmObject {
-
+open class Category : RealmObject() {
     @PrimaryKey
-    private int id;
+    val id = 0
+    private val description: String? = null
+    private val code: String? = null
+    val image: String? = null
+    val name: String? = null
+    private val sort = 0
 
-    private String description;
-    private String code;
-    private String image;
-    private String name;
-    private int sort;
-
-    // связи
-    private RealmList<Model> models;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setModels(RealmList<Model> models) {
-        this.models = models;
-    }
-
-    public RealmList<Model> getModels() {
-        return models;
-    }
-
-    public List<Model> getManufacturerModels(int manufacturerId) {
-        List<Model> modelsList = new ArrayList<>();
-        for (Model model: getModels()) {
-            if (model.getManufacturer().getId() == manufacturerId) {
-                modelsList.add(model);
+    var models: RealmList<Model>? = null
+    fun getManufacturerModels(manufacturerId: Int): List<Model> {
+        val modelsList: MutableList<Model> = ArrayList()
+        for (model in models!!) {
+            if (model.manufacturer?.id == manufacturerId) {
+                modelsList.add(model)
             }
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Collections.sort(modelsList, new ModelsSortComparator());
+            Collections.sort(modelsList, ModelsSortComparator())
         }
-        return modelsList;
+        return modelsList
     }
-
 }

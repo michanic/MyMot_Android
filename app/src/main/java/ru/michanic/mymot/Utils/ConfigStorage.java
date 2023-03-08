@@ -4,16 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import ru.michanic.mymot.Models.Location;
-import ru.michanic.mymot.Models.Manufacturer;
-import ru.michanic.mymot.Models.Model;
-import ru.michanic.mymot.Models.SearchFilterConfig;
+import ru.michanic.mymot.Kotlin.Models.Location;
+import ru.michanic.mymot.Kotlin.Models.Manufacturer;
+import ru.michanic.mymot.Kotlin.Models.Model;
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig;
 import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.Const;
 
 public class ConfigStorage {
 

@@ -1,48 +1,37 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import android.os.AsyncTask;
-import android.util.Log;
+import android.os.AsyncTask
+import org.jsoup.nodes.Document
+import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Protocols.AsyncRequestCompleted
+import java.io.IOException
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+class HtmlAdvertsAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
+    AsyncTask<String?, Void?, ParseAdvertsResult>() {
+    var delegate: AsyncRequestCompleted? = null
+    private val htmlParser = HtmlParser()
+    private val sourceType: SourceType
 
-import java.io.IOException;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
-
-public class HtmlAdvertsAsyncRequest extends AsyncTask<String, Void, ParseAdvertsResult> {
-
-    public AsyncRequestCompleted delegate = null;
-    private HtmlParser htmlParser = new HtmlParser();
-    private SourceType sourceType;
-
-    public HtmlAdvertsAsyncRequest(AsyncRequestCompleted asyncResponse, SourceType sourceType) {
-        this.delegate = asyncResponse;
-        this.sourceType = sourceType;
+    init {
+        delegate = asyncResponse
+        this.sourceType = sourceType
     }
 
-
-    @Override
-    protected ParseAdvertsResult doInBackground(String... arg) {
-        String path = arg[0];
-        Connection.Response response = MyMotApplication.networkService.getHtmlData(path);
-        Document doc = null;
+    override fun doInBackground(vararg arg: String?): ParseAdvertsResult {
+        val path = arg[0]
+        val response =
+            MyMotApplication.networkService.getHtmlData(path)
+        var doc: Document? = null
         try {
-            doc = response.parse();
-        } catch (IOException e) {
-            e.printStackTrace();
+            doc = response.parse()
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
-        ParseAdvertsResult parsedAdverts = htmlParser.parseAdverts(doc, sourceType);
-        return parsedAdverts;
+        return htmlParser.parseAdverts(doc, sourceType)
     }
 
-    @Override
-    protected void onPostExecute(ParseAdvertsResult result) {
-        //super.onPostExecute(result);
-        delegate.processFinish(result);
+    override fun onPostExecute(result: ParseAdvertsResult) {
+        delegate!!.processFinish(result)
     }
-
 }

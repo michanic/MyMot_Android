@@ -2,26 +2,21 @@ package ru.michanic.mymot.Interactors;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.michanic.mymot.Models.AppPageText;
-import ru.michanic.mymot.Models.Category;
-import ru.michanic.mymot.Models.Location;
-import ru.michanic.mymot.Models.Manufacturer;
-import ru.michanic.mymot.Models.Model;
-import ru.michanic.mymot.Models.ModelDetails;
-import ru.michanic.mymot.Models.Volume;
+import ru.michanic.mymot.Kotlin.Models.AppPageText;
+import ru.michanic.mymot.Kotlin.Models.Category;
+import ru.michanic.mymot.Kotlin.Models.Location;
+import ru.michanic.mymot.Kotlin.Models.Manufacturer;
+import ru.michanic.mymot.Kotlin.Models.Model;
+import ru.michanic.mymot.Kotlin.Models.ModelDetails;
+import ru.michanic.mymot.Kotlin.Models.Volume;
 import ru.michanic.mymot.MyMotApplication;
 import ru.michanic.mymot.Protocols.ApiInterface;
 import ru.michanic.mymot.Protocols.Const;

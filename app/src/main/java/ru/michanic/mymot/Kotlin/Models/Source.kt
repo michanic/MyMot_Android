@@ -1,181 +1,161 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import android.util.Log;
+import android.util.Log
+import ru.michanic.mymot.Enums.SourceType
 
-import ru.michanic.mymot.Enums.SourceType;
+class Source {
+    var type: SourceType
+        private set
+    private var region: String? = "rossiya"
+    private var model: String? = null
+    private var pMin: Int? = null
+    private var pMax: Int? = null
+    var page: Int? = null
 
-public class Source {
-
-    private SourceType type;
-
-    private String region = "rossiya";
-    private String model;
-    private Integer pMin;
-    private Integer pMax;
-    private Integer page;
-
-    public Source(SourceType type) {
-        this.type = type;
+    constructor(type: SourceType) {
+        this.type = type
     }
 
-    public Source(SourceType type, int priceFrom, int priceFor, Location region) {
-        this.type = type;
-        this.pMin = priceFrom;
-        this.pMax = priceFor;
-
-        Log.e("priceFrom", String.valueOf(priceFrom));
-        Log.e("priceFor", String.valueOf(priceFor));
-
+    constructor(type: SourceType, priceFrom: Int, priceFor: Int, region: Location?) {
+        this.type = type
+        pMin = priceFrom
+        pMax = priceFor
+        Log.e("priceFrom", priceFrom.toString())
+        Log.e("priceFor", priceFor.toString())
         if (region != null) {
             if (type == SourceType.AVITO) {
-                this.region = region.getAvito();
+                this.region = region.avito
             } else if (type == SourceType.AVITO) {
-                this.region = region.getAutoru();
+                this.region = region.autoru
             }
         }
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    fun setRegion(region: String?) {
+        this.region = region
     }
 
-    public void setpMin(Integer pMin) {
-        this.pMin = pMin;
+    fun setpMin(pMin: Int?) {
+        this.pMin = pMin
     }
 
-    public void setpMax(Integer pMax) {
-        this.pMax = pMax;
+    fun setpMax(pMax: Int?) {
+        this.pMax = pMax
     }
 
-    public SourceType getType() {
-        return type;
-    }
-
-    public void updateTypeAndRegion(SourceType type, Location region) {
-        this.type = type;
+    fun updateTypeAndRegion(type: SourceType, region: Location?) {
+        this.type = type
         if (region != null) {
             if (type == SourceType.AVITO) {
-                this.region = region.getAvito();
+                this.region = region.avito
             } else if (type == SourceType.AVITO) {
-                this.region = region.getAutoru();
+                this.region = region.autoru
             }
         }
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    fun setModel(model: String?) {
+        this.model = model
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    fun incrementPage() {
+        page =+ 1
     }
 
-    public Integer getPage() {
-        return page;
-    }
-
-    public void incrementPage() {
-        this.page += 1;
-    }
-
-    public String getFeedPath() {
-
-        switch (type) {
-            case AVITO:
-                String avitoRequest = "";
-                if (pMin != null) {
-                    if (pMin > 0) {
-                        avitoRequest += "&pmin=" + pMin;
+    val feedPath: String?
+        get() {
+            return when (type) {
+                SourceType.AVITO -> {
+                    var avitoRequest = ""
+                    if (pMin != null) {
+                        if (pMin!! > 0) {
+                            avitoRequest += "&pmin=$pMin"
+                        }
                     }
-                }
-                if (pMax != null) {
-                    if (pMax > 0) {
-                        avitoRequest += "&pmax=" + pMax;
+                    if (pMax != null) {
+                        if (pMax!! > 0) {
+                            avitoRequest += "&pmax=$pMax"
+                        }
                     }
-                }
-                if (page != null) {
-                    avitoRequest += "&p=" + page;
-                }
-                if (avitoRequest.length() > 0) {
-                    avitoRequest = "?" + avitoRequest.substring(1);
-                }
-
-            return type.domain() + region + "/mototsikly_i_mototehnika/mototsikly" + avitoRequest;
-
-            case AUTO_RU:
-                String autoRuRequest = "";
-                if (pMin != null) {
-                    if (pMin > 0) {
-                        autoRuRequest += "&price_from=" + pMin;
+                    if (page != null) {
+                        avitoRequest += "&p=$page"
                     }
-                }
-                if (pMax != null) {
-                    if (pMax > 0) {
-                        autoRuRequest += "&price_to=" + pMax;
+                    if (avitoRequest.length > 0) {
+                        avitoRequest = "?" + avitoRequest.substring(1)
                     }
+                    type.domain() + region + "/mototsikly_i_mototehnika/mototsikly" + avitoRequest
                 }
-                if (page != null) {
-                    autoRuRequest += "&page_num_offers=" + page;
-                }
-                if (autoRuRequest.length() > 0) {
-                    autoRuRequest = "?" + autoRuRequest.substring(1);
-                }
-                return type.domain() + region + "/motorcycle/all/" + autoRuRequest;
-        }
-        return null;
-    }
-
-    public String getSearchPath() {
-
-        switch (type) {
-            case AVITO:
-                String avitoPath = type.domain() + region + "/mototsikly_i_mototehnika/mototsikly";
-                String avitoRequest = "?bt=1";
-                if (pMin != null) {
-                    if (pMin > 0) {
-                        avitoRequest += "&pmin=" + pMin;
+                SourceType.AUTO_RU -> {
+                    var autoRuRequest = ""
+                    if (pMin != null) {
+                        if (pMin!! > 0) {
+                            autoRuRequest += "&price_from=$pMin"
+                        }
                     }
-                }
-                if (pMax != null) {
-                    if (pMax > 0) {
-                        avitoRequest += "&pmax=" + pMax;
+                    if (pMax != null) {
+                        if (pMax!! > 0) {
+                            autoRuRequest += "&price_to=$pMax"
+                        }
                     }
-                }
-                if (model != null) {
-                    avitoRequest += "&q=" + model;
-                }
-                if (page != null) {
-                    avitoRequest += "&p=" + page;
-                }
-                return avitoPath + avitoRequest;
-
-            case AUTO_RU:
-                String autoRuPath = type.domain() + region + "/motorcycle/" + model + "all/";
-                String autoRuRequest = "";
-                if (pMin != null) {
-                    if (pMin > 0) {
-                        autoRuRequest += "&price_from=" + pMin;
+                    if (page != null) {
+                        autoRuRequest += "&page_num_offers=$page"
                     }
-                }
-                if (pMax != null) {
-                    if (pMax > 0) {
-                        autoRuRequest += "&price_to=" + pMax;
+                    if (autoRuRequest.length > 0) {
+                        autoRuRequest = "?" + autoRuRequest.substring(1)
                     }
+                    type.domain() + region + "/motorcycle/all/" + autoRuRequest
                 }
-                /*if (model != null) {
-                    autoRuRequest += "&mark-model-nameplate=" + model;
-                }*/
-                if (page != null) {
-                    autoRuRequest += "&page_num_offers=" + page;
-                }
-                if (autoRuRequest.length() > 0) {
-                    autoRuRequest = "?" + autoRuRequest.substring(1);
-                }
-                return autoRuPath + autoRuRequest;
+            }
+            return null
         }
 
+    val searchPath: String?
+        get() {
+            return when (type) {
+                SourceType.AVITO -> {
+                    val avitoPath = type.domain() + region + "/mototsikly_i_mototehnika/mototsikly"
+                    var avitoRequest = "?bt=1"
+                    if (pMin != null) {
+                        if (pMin!! > 0) {
+                            avitoRequest += "&pmin=$pMin"
+                        }
+                    }
+                    if (pMax != null) {
+                        if (pMax!! > 0) {
+                            avitoRequest += "&pmax=$pMax"
+                        }
+                    }
+                    if (model != null) {
+                        avitoRequest += "&q=$model"
+                    }
+                    if (page != null) {
+                        avitoRequest += "&p=$page"
+                    }
+                    avitoPath + avitoRequest
+                }
+                SourceType.AUTO_RU -> {
+                    val autoRuPath = type.domain() + region + "/motorcycle/" + model + "all/"
+                    var autoRuRequest = ""
+                    if (pMin != null) {
+                        if (pMin!! > 0) {
+                            autoRuRequest += "&price_from=$pMin"
+                        }
+                    }
+                    if (pMax != null) {
+                        if (pMax!! > 0) {
+                            autoRuRequest += "&price_to=$pMax"
+                        }
+                    }
 
-        return null;
-    }
-
+                    if (page != null) {
+                        autoRuRequest += "&page_num_offers=$page"
+                    }
+                    if (autoRuRequest.length > 0) {
+                        autoRuRequest = "?" + autoRuRequest.substring(1)
+                    }
+                    autoRuPath + autoRuRequest
+                }
+            }
+            return null
+        }
 }

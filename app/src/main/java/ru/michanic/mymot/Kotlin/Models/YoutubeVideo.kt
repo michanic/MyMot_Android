@@ -1,22 +1,9 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-public class YoutubeVideo {
+class YoutubeVideo(var videoId: String) {
 
-    String videoId;
-
-    public YoutubeVideo(String videoId) {
-        this.videoId = videoId;
-    }
-
-    public String getVideoId() {
-        return videoId;
-    }
-
-    public String getPreviewPath() {
-        return "https://img.youtube.com/vi/" + videoId + "/mqdefault.jpg";
-    }
-
-    public String getVideoPath() {
-        return "https://www.youtube.com/watch?v=" + videoId;
-    }
+    val previewPath: String
+        get() = "https://img.youtube.com/vi/$videoId/mqdefault.jpg"
+    val videoPath: String
+        get() = "https://www.youtube.com/watch?v=$videoId"
 }

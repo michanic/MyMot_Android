@@ -1,13 +1,8 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.Expose
 
-public class AppPageText {
-
+class AppPageText {
     @Expose
-    private String text;
-
-    public String getText() {
-        return text;
-    }
+    val text: String? = null
 }

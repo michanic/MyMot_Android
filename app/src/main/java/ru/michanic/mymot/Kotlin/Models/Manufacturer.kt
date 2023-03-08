@@ -1,49 +1,23 @@
-package ru.michanic.mymot.Models;
+package ru.michanic.mymot.Kotlin.Models
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import java.util.*
 
-public class Manufacturer extends RealmObject {
-
+open class Manufacturer : RealmObject() {
     @PrimaryKey
-    private int id;
+    val id = 0
+    val code: String? = null
+    val image: String? = null
+    val name: String? = null
+    private val sort = 0
 
-    private String code;
-    private String image;
-    private String name;
-    private int sort;
-
-    // связи
-    private RealmList<Model> models;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public RealmList<Model> getModels() {
-        return models;
-    }
+    val models: RealmList<Model>? = null
+    val avitoSearchName: String
+        get() = name!!.replace(" ", "%20").lowercase(Locale.getDefault())
 
 
-    public String getAvitoSearchName() {
-        return name.replace(" ", "%20").toLowerCase();
-    }
-
-    public String getAutoruSearchName() {
-        //return name.replace(" ", "_").toUpperCase();
-        return code + "/";
-    }
-
-    public String getCode() {
-        return code;
-    }
+    val autoruSearchName: String
+        get() = "$code/"
 }

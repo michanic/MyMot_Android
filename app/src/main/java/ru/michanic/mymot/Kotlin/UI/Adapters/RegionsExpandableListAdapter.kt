@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import ru.michanic.mymot.Enums.CellAccessoryType
-import ru.michanic.mymot.Models.Location
+import ru.michanic.mymot.Kotlin.Models.Location
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
