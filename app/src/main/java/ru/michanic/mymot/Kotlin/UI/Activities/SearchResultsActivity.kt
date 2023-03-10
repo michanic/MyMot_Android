@@ -10,8 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import ru.michanic.mymot.Interactors.SitesInteractor
-import ru.michanic.mymot.Models.Advert
-import ru.michanic.mymot.Models.SearchFilterConfig
+import ru.michanic.mymot.Kotlin.Models.Advert
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.Protocols.FilterSettedInterface

@@ -5,13 +5,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import ru.michanic.mymot.Models.AppPageText;
-import ru.michanic.mymot.Models.Category;
-import ru.michanic.mymot.Models.JsonResult;
-import ru.michanic.mymot.Models.Location;
-import ru.michanic.mymot.Models.Manufacturer;
-import ru.michanic.mymot.Models.ModelDetails;
-import ru.michanic.mymot.Models.Volume;
+import ru.michanic.mymot.Kotlin.Models.AppPageText;
+import ru.michanic.mymot.Kotlin.Models.Category;
+import ru.michanic.mymot.Kotlin.Models.Location;
+import ru.michanic.mymot.Kotlin.Models.Manufacturer;
+import ru.michanic.mymot.Kotlin.Models.ModelDetails;
+import ru.michanic.mymot.Kotlin.Models.Volume;
 
 public interface ApiInterface {
 

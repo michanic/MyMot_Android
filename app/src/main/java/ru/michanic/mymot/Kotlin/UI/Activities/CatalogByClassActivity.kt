@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import de.halfbit.pinnedsection.PinnedSectionListView
-import ru.michanic.mymot.Models.SectionModelItem
+import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.Utils.DataManager

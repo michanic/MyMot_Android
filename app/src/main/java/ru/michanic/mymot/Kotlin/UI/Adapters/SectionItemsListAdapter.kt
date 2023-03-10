@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import de.halfbit.pinnedsection.PinnedSectionListView.PinnedSectionListAdapter
 import ru.michanic.mymot.Extensions.Font
-import ru.michanic.mymot.Models.SectionModelItem
+import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R

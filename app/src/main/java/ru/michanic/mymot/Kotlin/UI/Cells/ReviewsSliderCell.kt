@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
-import ru.michanic.mymot.Models.YoutubeVideo
+import ru.michanic.mymot.Kotlin.Models.YoutubeVideo
 import ru.michanic.mymot.R
 
 class ReviewsSliderCell(itemView: View) : RecyclerView.ViewHolder(itemView) {

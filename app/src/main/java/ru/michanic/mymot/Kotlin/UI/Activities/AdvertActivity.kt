@@ -18,8 +18,8 @@ import com.shivam.library.imageslider.ImageSlider
 import ru.michanic.mymot.Enums.SourceType
 import ru.michanic.mymot.Extensions.Font
 import ru.michanic.mymot.Interactors.SitesInteractor
-import ru.michanic.mymot.Models.Advert
-import ru.michanic.mymot.Models.AdvertDetails
+import ru.michanic.mymot.Kotlin.Models.Advert
+import ru.michanic.mymot.Kotlin.Models.AdvertDetails
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface
 import ru.michanic.mymot.R
@@ -40,7 +40,7 @@ class AdvertActivity : UniversalActivity() {
         val intent = intent
         val advertId = intent.getStringExtra("advertId")
         advert = MyMotApplication.dataManager.getAdvertById(advertId)
-        setNavigationTitle(advert.getTitle())
+        setNavigationTitle(advert.title.toString())
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar

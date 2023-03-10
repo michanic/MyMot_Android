@@ -15,9 +15,9 @@ import android.widget.TextView
 import com.shivam.library.imageslider.ImageSlider
 import ru.michanic.mymot.Extensions.Font
 import ru.michanic.mymot.Interactors.ApiInteractor
-import ru.michanic.mymot.Models.Model
-import ru.michanic.mymot.Models.ModelDetails
-import ru.michanic.mymot.Models.YoutubeVideo
+import ru.michanic.mymot.Kotlin.Models.Model
+import ru.michanic.mymot.Kotlin.Models.ModelDetails
+import ru.michanic.mymot.Kotlin.Models.YoutubeVideo
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.ClickListener
 import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface
@@ -41,7 +41,7 @@ class CatalogModelActivity : UniversalActivity() {
         val intent = intent
         val modelId = intent.getIntExtra("modelId", 0)
         model = dataManager.getModelById(modelId)
-        setNavigationTitle(model.getName())
+        setNavigationTitle(model.name)
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar

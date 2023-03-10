@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import ru.michanic.mymot.Models.Category
-import ru.michanic.mymot.Models.Manufacturer
-import ru.michanic.mymot.Models.Volume
+import ru.michanic.mymot.Kotlin.Models.Category
+import ru.michanic.mymot.Kotlin.Models.Manufacturer
+import ru.michanic.mymot.Kotlin.Models.Volume
 import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R
 

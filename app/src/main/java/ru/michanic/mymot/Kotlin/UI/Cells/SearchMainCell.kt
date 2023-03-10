@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import ru.michanic.mymot.Models.Advert
+import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.R
 
 class SearchMainCell(itemView: View) : RecyclerView.ViewHolder(itemView) {

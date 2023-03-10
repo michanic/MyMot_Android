@@ -3,7 +3,7 @@ package ru.michanic.mymot.Kotlin.UI.Activities
 import android.os.Bundle
 import android.view.View
 import android.widget.ExpandableListView
-import ru.michanic.mymot.Models.FilterModelItem
+import ru.michanic.mymot.Kotlin.Models.FilterModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ModelsExpandableListAdapter

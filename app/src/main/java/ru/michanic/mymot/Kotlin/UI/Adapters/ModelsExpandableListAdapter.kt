@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import ru.michanic.mymot.Enums.CellAccessoryType
-import ru.michanic.mymot.Models.FilterModelItem
+import ru.michanic.mymot.Kotlin.Models.FilterModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.Const
 import ru.michanic.mymot.R

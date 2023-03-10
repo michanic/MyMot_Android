@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SearchView
 import de.halfbit.pinnedsection.PinnedSectionListView
-import ru.michanic.mymot.Models.SectionModelItem
+import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
