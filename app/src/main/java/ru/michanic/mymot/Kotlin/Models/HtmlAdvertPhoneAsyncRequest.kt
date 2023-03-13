@@ -8,7 +8,7 @@ import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted
 import java.io.IOException
 
-abstract class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
+class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
     AsyncTask<String?, Void?, List<String?>>() {
     var delegate: AsyncRequestCompleted? = null
     private val htmlParser = HtmlParser()
@@ -22,7 +22,7 @@ abstract class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?
     override fun doInBackground(vararg arg: String?): List<String?>? {
         val path = arg[0]
         Log.e("doInBackground", path)
-        var doc: Document? = null
+        var doc: Document
         var phones: MutableList<String?> = ArrayList()
         val csrfToken = MyMotApplication.configStorage.csrfToken
         Log.e("csrfToken", csrfToken)
@@ -32,6 +32,7 @@ abstract class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?
                 doc = response.parse()
             } catch (e: IOException) {
                 e.printStackTrace()
+                return phones
             }
             phones.add(htmlParser.parsePhoneFromAvito(doc))
         } else if (sourceType == SourceType.AUTO_RU) {

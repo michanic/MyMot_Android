@@ -7,7 +7,7 @@ import ru.michanic.mymot.MyMotApplication
 import ru.michanic.mymot.Protocols.AsyncRequestCompleted
 import java.io.IOException
 
-abstract class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
+class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
     AsyncTask<String?, Void?, AdvertDetails>() {
     var delegate: AsyncRequestCompleted? = null
     private val htmlParser = HtmlParser()
@@ -21,13 +21,14 @@ abstract class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sou
     override fun doInBackground(vararg arg: String?): AdvertDetails? {
         val path = arg[0]
         val response = MyMotApplication.networkService.getHtmlData(path)
-        var doc: Document? = null
+        var doc: Document
         val csrf_token = response.cookie("_csrf_token")
 
         try {
             doc = response.parse()
         } catch (e: IOException) {
             e.printStackTrace()
+            return  null
         }
         val advertDetails = htmlParser.parseAdvertDetails(doc, sourceType)
         advertDetails.csrfToken = csrf_token

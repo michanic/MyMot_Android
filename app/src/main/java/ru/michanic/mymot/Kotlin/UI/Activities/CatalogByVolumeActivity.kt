@@ -19,12 +19,12 @@ class CatalogByVolumeActivity : UniversalActivity() {
         val intent = intent
         val volumeId = intent.getIntExtra("volumeId", 0)
         val volume = dataManager.getVolumeById(volumeId)
-        setNavigationTitle(volume.name)
+        setNavigationTitle(volume.name ?: "")
         val items: MutableList<SectionModelItem?> = ArrayList()
         for (manufacturer in dataManager.getManufacturers(true)) {
             val models = dataManager.getManufacturerModelsOfVolume(manufacturer, volume)
             if (models.size > 0) {
-                items.add(SectionModelItem(manufacturer.name.uppercase(Locale.getDefault())))
+                items.add(SectionModelItem(manufacturer.name?.uppercase(Locale.getDefault())))
                 for (model in models) {
                     items.add(SectionModelItem(model))
                 }

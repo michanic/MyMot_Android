@@ -69,11 +69,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                 val years = view.findViewById<View>(R.id.model_years) as TextView
                 val volume = view.findViewById<View>(R.id.model_volume) as TextView
                 val model = item.model
-                Picasso.get().load(Const.DOMAIN + model.preview_picture)
+                Picasso.get().load(Const.DOMAIN + model?.preview_picture)
                     .placeholder(R.drawable.ic_placeholder).into(imageView)
-                modelTitle.text = model.name
-                years.text = model.years
-                volume.text = model.volume
+                modelTitle.text = model?.name
+                years.text = model?.years
+                volume.text = model?.volume
             }
             SectionModelItem.SIMPLE_CELL -> {
                 view = View.inflate(parent.context, R.layout.cell_simple, null)

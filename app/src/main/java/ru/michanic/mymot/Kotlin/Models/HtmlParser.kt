@@ -14,7 +14,7 @@ class HtmlParser {
     private val exteptedWords = MyMotApplication.getConfigStorage().exteptedWords
     fun parseAdverts(document: Document?, sourceType: SourceType): ParseAdvertsResult {
         var loadMore = false
-        val adverts: MutableList<Advert?> = ArrayList<Any?>()
+        val adverts: MutableList<Advert> = ArrayList<Advert>()
         if (document == null) {
             Log.e("document", "null")
             return ParseAdvertsResult(adverts, loadMore)

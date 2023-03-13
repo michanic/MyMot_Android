@@ -26,8 +26,8 @@ class FilterModelsActivity : UniversalActivity() {
         var expandedCategoryId = 0
         val filterModel = MyMotApplication.searchManager.model
         if (filterModel != null) {
-            expandedManufacturerId = filterModel.manufacturer.id
-            expandedCategoryId = filterModel.category.id
+            expandedManufacturerId = filterModel.manufacturer?.id ?: 0
+            expandedCategoryId = filterModel.category?.id ?: 0
         }
         for (manufacturer in dataManager.getManufacturers(true)) {
             topCells.add(FilterModelItem(manufacturer.name))
@@ -67,7 +67,7 @@ class FilterModelsActivity : UniversalActivity() {
             false
         }
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            val model = topCells[groupPosition].models[childPosition]
+            val model = topCells[groupPosition].models?.get(childPosition)
             MyMotApplication.searchManager.model = model
             onBackPressed()
             false

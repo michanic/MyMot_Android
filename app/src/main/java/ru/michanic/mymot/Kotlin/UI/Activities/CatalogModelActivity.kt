@@ -41,7 +41,7 @@ class CatalogModelActivity : UniversalActivity() {
         val intent = intent
         val modelId = intent.getIntExtra("modelId", 0)
         model = dataManager.getModelById(modelId)
-        setNavigationTitle(model.name)
+        setNavigationTitle(model.name ?: "")
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
@@ -107,8 +107,8 @@ class CatalogModelActivity : UniversalActivity() {
         parametersTitle.typeface = Font.oswald
         reviewsTitle.typeface = Font.oswald
         modelLabel.text = model.name
-        manufacturerLabel.text = model.manufacturer.name
-        classLabel.text = model.category.name
+        manufacturerLabel.text = model.manufacturer?.name
+        classLabel.text = model.category?.name
         yearsLabel.text = model.years
         aboutLabel.text = modelDetails?.preview_text
         val images = modelDetails?.images
