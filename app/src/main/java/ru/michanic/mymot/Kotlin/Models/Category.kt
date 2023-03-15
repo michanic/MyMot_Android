@@ -4,7 +4,7 @@ import android.os.Build
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import ru.michanic.mymot.Utils.ModelsSortComparator
+import ru.michanic.mymot.Kotlin.Utils.ModelsSortComparator
 import java.util.*
 
 open class Category : RealmObject() {

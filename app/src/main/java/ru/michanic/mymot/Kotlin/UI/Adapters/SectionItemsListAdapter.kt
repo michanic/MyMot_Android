@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import de.halfbit.pinnedsection.PinnedSectionListView.PinnedSectionListAdapter
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.R
 
 class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {

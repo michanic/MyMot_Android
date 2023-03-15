@@ -5,8 +5,7 @@ import android.text.Html
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
-import ru.michanic.mymot.Interactors.ApiInteractor
-import ru.michanic.mymot.Kotlin.UI.Activities.UniversalActivity
+import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.R
 
 class TextActivity : UniversalActivity() {

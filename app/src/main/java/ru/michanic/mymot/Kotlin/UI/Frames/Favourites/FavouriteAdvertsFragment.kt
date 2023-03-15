@@ -10,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.AdvertsListAdapter
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
 import ru.michanic.mymot.R
 
 class FavouriteAdvertsFragment : Fragment() {

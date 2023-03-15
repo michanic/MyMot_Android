@@ -9,13 +9,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
-import ru.michanic.mymot.Interactors.SitesInteractor
+import ru.michanic.mymot.Kotlin.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.ClickListener
-import ru.michanic.mymot.Protocols.FilterSettedInterface
-import ru.michanic.mymot.Protocols.LoadingAdvertsInterface
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.AdvertsListAdapter
 

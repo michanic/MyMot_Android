@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
 import de.halfbit.pinnedsection.PinnedSectionListView
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.FilterSettedInterface
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 

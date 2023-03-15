@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import ru.michanic.mymot.Enums.CellAccessoryType
+import ru.michanic.mymot.Kotlin.Enums.CellAccessoryType
 import ru.michanic.mymot.R
 
 object SimpleCell {

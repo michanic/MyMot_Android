@@ -2,8 +2,8 @@ package ru.michanic.mymot.Kotlin.Models
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*

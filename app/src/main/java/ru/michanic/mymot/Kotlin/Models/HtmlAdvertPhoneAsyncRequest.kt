@@ -3,9 +3,9 @@ package ru.michanic.mymot.Kotlin.Models
 import android.os.AsyncTask
 import android.util.Log
 import org.jsoup.nodes.Document
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.AsyncRequestCompleted
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.AsyncRequestCompleted
 import java.io.IOException
 
 class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :

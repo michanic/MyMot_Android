@@ -5,13 +5,13 @@ import com.google.gson.JsonParser
 import com.google.gson.internal.LinkedTreeMap
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import java.util.*
 
 class HtmlParser {
     private val jsonParser = JsonParser()
-    private val exteptedWords = MyMotApplication.getConfigStorage().exteptedWords
+    private val exteptedWords = MyMotApplication.configStorage.exteptedWords
     fun parseAdverts(document: Document?, sourceType: SourceType): ParseAdvertsResult {
         var loadMore = false
         val adverts: MutableList<Advert> = ArrayList<Advert>()

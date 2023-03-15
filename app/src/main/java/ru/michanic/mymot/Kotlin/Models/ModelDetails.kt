@@ -1,7 +1,7 @@
 package ru.michanic.mymot.Kotlin.Models
 
 import com.google.gson.internal.LinkedTreeMap
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.Protocols.Const
 
 class ModelDetails {
     val preview_text: String? = null

@@ -12,20 +12,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.Extensions.Font
-import ru.michanic.mymot.Interactors.SitesInteractor
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter
 import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.Models.Source
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.ClickListener
-import ru.michanic.mymot.Protocols.FilterSettedInterface
-import ru.michanic.mymot.Protocols.LoadingAdvertsInterface
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class SearchHomeFragment : Fragment() {
     private var currentSource: Source? = null
