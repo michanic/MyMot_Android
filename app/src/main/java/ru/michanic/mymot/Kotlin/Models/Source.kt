@@ -1,7 +1,7 @@
 package ru.michanic.mymot.Kotlin.Models
 
 import android.util.Log
-import ru.michanic.mymot.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Enums.SourceType
 
 class Source {
     var type: SourceType

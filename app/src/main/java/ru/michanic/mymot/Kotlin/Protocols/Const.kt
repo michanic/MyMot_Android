@@ -1,8 +1,9 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface Const {
-
-    String DOMAIN = "http://my-mot.ru";
-    String API_URL = DOMAIN + "/api/";
-    String RUB = " р.";
+interface Const {
+    companion object {
+        const val DOMAIN = "http://my-mot.ru"
+        const val API_URL = DOMAIN + "/api/"
+        const val RUB = " р."
+    }
 }

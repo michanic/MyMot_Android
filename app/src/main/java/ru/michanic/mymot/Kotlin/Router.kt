@@ -1,7 +1,3 @@
-package ru.michanic.mymot;
+package ru.michanic.mymot.Kotlin
 
-public class Router {
-
-
-
-}
+class Router 

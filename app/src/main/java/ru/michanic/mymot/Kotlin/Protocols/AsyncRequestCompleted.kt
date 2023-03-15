@@ -1,5 +1,5 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface AsyncRequestCompleted {
-    void processFinish(Object output);
+interface AsyncRequestCompleted {
+    fun processFinish(output: Any?)
 }

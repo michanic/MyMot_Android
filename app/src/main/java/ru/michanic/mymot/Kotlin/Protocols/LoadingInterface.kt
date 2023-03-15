@@ -1,7 +1,6 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface LoadingInterface {
-    void onLoaded();
-    void onFailed();
+interface LoadingInterface {
+    fun onLoaded()
+    fun onFailed()
 }
-

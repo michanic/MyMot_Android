@@ -10,11 +10,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import de.halfbit.pinnedsection.PinnedSectionListView
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogModelActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 
 class FavouriteModelsFragment : Fragment() {

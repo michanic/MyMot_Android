@@ -1,45 +1,35 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-import java.util.List;
+import retrofit2.Call
+import retrofit2.http.POST
+import retrofit2.http.Query
+import ru.michanic.mymot.Kotlin.Models.*
 
-import retrofit2.Call;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
-import ru.michanic.mymot.Kotlin.Models.AppPageText;
-import ru.michanic.mymot.Kotlin.Models.Category;
-import ru.michanic.mymot.Kotlin.Models.Location;
-import ru.michanic.mymot.Kotlin.Models.Manufacturer;
-import ru.michanic.mymot.Kotlin.Models.ModelDetails;
-import ru.michanic.mymot.Kotlin.Models.Volume;
-
-public interface ApiInterface {
-
+interface ApiInterface {
     @POST("config.php?type=word_exceptions")
-    Call<List<String>> loadExteptedWords();
+    fun loadExteptedWords(): Call<List<String?>?>?
 
     @POST("config.php?type=about")
-    Call<AppPageText> loadAboutText();
+    fun loadAboutText(): Call<AppPageText?>?
 
     @POST("config.php?type=agreement")
-    Call<AppPageText> loadAgreementText();
-
+    fun loadAgreementText(): Call<AppPageText?>?
 
     @POST("catalog.php?type=only_regions")
-    Call<List<Location>> loadRegions();
+    fun loadRegions(): Call<List<Location?>?>?
 
     @POST("catalog.php?type=cities")
-    Call<List<Location>> loadRegionCities(@Query("id") int regionId);
+    fun loadRegionCities(@Query("id") regionId: Int): Call<List<Location?>?>?
 
     @POST("catalog.php?type=volumes")
-    Call<List<Volume>> loadVolumes();
+    fun loadVolumes(): Call<List<Volume?>?>?
 
     @POST("catalog.php?type=classes")
-    Call<List<Category>> loadClasses();
+    fun loadClasses(): Call<List<Category?>?>?
 
     @POST("catalog.php?type=models")
-    Call<List<Manufacturer>> loadModels();
+    fun loadModels(): Call<List<Manufacturer?>?>?
 
     @POST("catalog.php?type=model_details")
-    Call<ModelDetails> loadModelDetails(@Query("id") int modelId);
-
+    fun loadModelDetails(@Query("id") modelId: Int): Call<ModelDetails?>?
 }

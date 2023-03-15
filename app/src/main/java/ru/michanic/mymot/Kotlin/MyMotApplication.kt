@@ -1,39 +1,33 @@
-package ru.michanic.mymot;
+package ru.michanic.mymot.Kotlin
 
-import android.app.Application;
-import android.content.Context;
-import android.util.Log;
+import android.app.Application
+import android.content.Context
+import ru.michanic.mymot.Kotlin.Utils.ConfigStorage
+import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.NetworkService
+import ru.michanic.mymot.Kotlin.Utils.SearchManager
 
-import io.realm.Realm;
-import ru.michanic.mymot.Utils.ConfigStorage;
-import ru.michanic.mymot.Utils.DataManager;
-import ru.michanic.mymot.Utils.NetworkService;
-import ru.michanic.mymot.Utils.SearchManager;
-
-public class MyMotApplication extends Application {
-
-    public static volatile Context appContext;
-    public static SearchManager searchManager;
-    public static DataManager dataManager;
-    public static ConfigStorage configStorage;
-    public static NetworkService networkService;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
+class MyMotApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
     }
 
-    public static void setAppContext(Context appContext) {
-        MyMotApplication.appContext = appContext;
-        dataManager = new DataManager();
-        configStorage = new ConfigStorage(appContext);
-        searchManager = new SearchManager();
-        networkService = new NetworkService();
-        //Realm.init(appContext);
+    companion object {
+        @JvmField
+        @Volatile
+        var appContext: Context? = null
+        var searchManager: SearchManager? = null
+        @JvmField
+        var dataManager: DataManager? = null
+        @JvmField
+        var configStorage: ConfigStorage? = null
+        var networkService: NetworkService? = null
+        fun setAppContext(appContext: Context?) {
+            Companion.appContext = appContext
+            dataManager = DataManager()
+            configStorage = appContext?.let { ConfigStorage(it) }
+            searchManager = SearchManager()
+            networkService = NetworkService()
+        }
     }
-
-    public static ConfigStorage getConfigStorage() {
-        return configStorage;
-    }
-
 }

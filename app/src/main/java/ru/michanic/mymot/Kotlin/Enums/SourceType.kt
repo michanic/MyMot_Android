@@ -1,37 +1,29 @@
-package ru.michanic.mymot.Enums;
+package ru.michanic.mymot.Kotlin.Enums
 
-public enum SourceType {
-    AVITO,
-    AUTO_RU;
+enum class SourceType {
+    AVITO, AUTO_RU;
 
-    public String domain() {
-        switch (this) {
-            case AVITO:
-                return "https://www.avito.ru/";
-            case AUTO_RU:
-                return "https://auto.ru/";
+    fun domain(): String? {
+        return when (this) {
+            AVITO -> "https://www.avito.ru/"
+            AUTO_RU -> "https://auto.ru/"
         }
-        return null;
+        return null
     }
 
-    public String mobileDomain() {
-        switch (this) {
-            case AVITO:
-                return "https://m.avito.ru/";
-            case AUTO_RU:
-                return "https://m.auto.ru/";
+    fun mobileDomain(): String? {
+        return when (this) {
+            AVITO -> "https://m.avito.ru/"
+            AUTO_RU -> "https://m.auto.ru/"
         }
-        return null;
+        return null
     }
 
-    public String itemSelector() {
-        switch (this) {
-            case AVITO:
-                return ".js-catalog-item-enum.item-with-contact";
-            case AUTO_RU:
-                return ".listing-item.stat-publicapi_type_listing";
+    fun itemSelector(): String? {
+        return when (this) {
+            AVITO -> ".js-catalog-item-enum.item-with-contact"
+            AUTO_RU -> ".listing-item.stat-publicapi_type_listing"
         }
-        return null;
+        return null
     }
-
 }

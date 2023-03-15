@@ -1,5 +1,5 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface NoConnectionRepeatInterface {
-    void repeatPressed();
+interface NoConnectionRepeatInterface {
+    fun repeatPressed()
 }

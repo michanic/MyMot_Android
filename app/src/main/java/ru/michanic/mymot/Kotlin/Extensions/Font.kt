@@ -1,15 +1,11 @@
-package ru.michanic.mymot.Extensions;
+package ru.michanic.mymot.Kotlin.Extensions
 
-import android.graphics.Typeface;
+import android.graphics.Typeface
+import ru.michanic.mymot.Kotlin.MyMotApplication
 
-import ru.michanic.mymot.MyMotApplication;
-
-public class Font {
-
-    public static final Typeface progress = Typeface.createFromAsset(MyMotApplication.appContext.getAssets(), "fonts/Progress.ttf");
-
-    public static final Typeface suzuki = Typeface.createFromAsset(MyMotApplication.appContext.getAssets(), "fonts/Suzuki.ttf");
-
-    public static final Typeface oswald = Typeface.createFromAsset(MyMotApplication.appContext.getAssets(), "fonts/Oswald.ttf");
-
+object Font {
+    val progress =
+        Typeface.createFromAsset(MyMotApplication.appContext?.assets, "fonts/Progress.ttf")
+    val suzuki = Typeface.createFromAsset(MyMotApplication.appContext?.assets, "fonts/Suzuki.ttf")
+    val oswald = Typeface.createFromAsset(MyMotApplication.appContext?.assets, "fonts/Oswald.ttf")
 }

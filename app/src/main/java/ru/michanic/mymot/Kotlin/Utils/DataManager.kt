@@ -1,197 +1,209 @@
-package ru.michanic.mymot.Utils;
+package ru.michanic.mymot.Kotlin.Utils
 
-import android.util.Log;
+import android.util.Log
+import io.realm.Case
+import io.realm.Realm
+import io.realm.RealmList
+import ru.michanic.mymot.Kotlin.Models.*
+import ru.michanic.mymot.Kotlin.MyMotApplication
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+class DataManager {
+    private val realm: Realm
 
-import io.realm.Case;
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
-import ru.michanic.mymot.Kotlin.Models.Advert;
-import ru.michanic.mymot.Kotlin.Models.Category;
-import ru.michanic.mymot.Kotlin.Models.Location;
-import ru.michanic.mymot.Kotlin.Models.Manufacturer;
-import ru.michanic.mymot.Kotlin.Models.Model;
-import ru.michanic.mymot.Kotlin.Models.Volume;
-import ru.michanic.mymot.MyMotApplication;
-
-public class DataManager {
-
-    private Realm realm;
-
-    public DataManager() {
-        Realm.init(MyMotApplication.appContext);
-        realm = Realm.getDefaultInstance();
+    init {
+        Realm.init(MyMotApplication.appContext)
+        realm = Realm.getDefaultInstance()
     }
 
-    public void assignCategories() {
-
-        HashMap<String, Category> categoriesHashMap = new HashMap<String, Category>();
-        RealmResults<Category> categories = realm.where(Category.class).findAll();
-        for (Category category : categories) {
-            categoriesHashMap.put(String.valueOf(category.getId()), category);
+    fun assignCategories() {
+        val categoriesHashMap = HashMap<String, Category>()
+        val categories = realm.where(
+            Category::class.java
+        ).findAll()
+        for (category in categories) {
+            categoriesHashMap[category.id.toString()] = category
         }
-
-        HashMap<String, Manufacturer> manufacturersHashMap = new HashMap<String, Manufacturer>();
-        RealmResults<Manufacturer> manufacturers = realm.where(Manufacturer.class).findAll();
-        for (Manufacturer manufacturer : manufacturers) {
-            manufacturersHashMap.put(String.valueOf(manufacturer.getId()), manufacturer);
+        val manufacturersHashMap = HashMap<String, Manufacturer>()
+        val manufacturers = realm.where(Manufacturer::class.java).findAll()
+        for (manufacturer in manufacturers) {
+            manufacturersHashMap[manufacturer.id.toString()] = manufacturer
         }
-
-
-        realm.beginTransaction();
-        for (Model model : realm.where(Model.class).findAll()) {
-            Category category = categoriesHashMap.get(String.valueOf(model.getClass_id()));
-            Manufacturer manufacturer = manufacturersHashMap.get(String.valueOf(model.getM_id()));
-            model.setCategory(category);
-            model.setManufacturer(manufacturer);
+        realm.beginTransaction()
+        for (model in realm.where<Model>(
+            Model::class.java
+        ).findAll()) {
+            val category = categoriesHashMap[model.class_id.toString()]
+            val manufacturer = manufacturersHashMap[model.m_id.toString()]
+            model.category = category
+            model.manufacturer = manufacturer
         }
-        realm.commitTransaction();
-
-
-        realm.beginTransaction();
-        for (Category category : categories) {
-            RealmResults<Model> modelsResults = realm.where(Model.class).equalTo("class_id", category.getId()).findAll();
-            RealmList <Model> modelsList = new RealmList<Model>();
-            modelsList.addAll(modelsResults.subList(0, modelsResults.size()));
-            category.setModels(modelsList);
+        realm.commitTransaction()
+        realm.beginTransaction()
+        for (category in categories) {
+            val modelsResults = realm.where(
+                Model::class.java
+            ).equalTo("class_id", category.id).findAll()
+            val modelsList = RealmList<Model>()
+            modelsList.addAll(modelsResults.subList(0, modelsResults.size))
+            category.models = modelsList
         }
-        realm.commitTransaction();
+        realm.commitTransaction()
     }
 
-
-
-    public Model getModelById(int id) {
-        return realm.where(Model.class).equalTo("id", id).findFirst();
+    fun getModelById(id: Int): Model? {
+        return realm.where(Model::class.java).equalTo("id", id).findFirst()
     }
 
-    public List<Integer> getFavouriteModelIDs() {
-        List<Model> models = realm.copyFromRealm(realm.where(Model.class).equalTo("favourite", true).findAll());
-        List<Integer> modelIds = new ArrayList<Integer>();
-        for (Model model : models) {
-            modelIds.add(model.getId());
+    val favouriteModelIDs: List<Int>
+        get() {
+            val models = realm.copyFromRealm(
+                realm.where(
+                    Model::class.java
+                ).equalTo("favourite", true).findAll()
+            )
+            val modelIds: MutableList<Int> = ArrayList()
+            for (model in models) {
+                modelIds.add(model.id)
+            }
+            return modelIds
         }
-        return modelIds;
+    val favouriteModels: List<Model>
+        get() = realm.copyFromRealm(
+            realm.where(
+                Model::class.java
+            ).equalTo("favourite", true).findAll().sort("sort")
+        )
+
+    fun setModelFavourite(model: Model, favourite: Boolean) {
+        realm.beginTransaction()
+        model.isFavourite = favourite
+        realm.commitTransaction()
     }
 
-    public List<Model> getFavouriteModels() {
-        return realm.copyFromRealm(realm.where(Model.class).equalTo("favourite", true).findAll().sort("sort"));
+    fun searchModelsByName(searchText: String?): List<Model> {
+        return realm.copyFromRealm(
+            realm.where(
+                Model::class.java
+            ).contains("name", searchText, Case.INSENSITIVE).findAll().sort("sort")
+        )
     }
 
-    public void setModelFavourite(Model model, boolean favourite) {
-        realm.beginTransaction();
-        model.setFavourite(favourite);
-        realm.commitTransaction();
+    fun getCategoryById(id: Int): Category? {
+        return realm.where(Category::class.java).equalTo("id", id).findFirst()
     }
 
-    public List<Model> searchModelsByName(String searchText) {
-        return realm.copyFromRealm(realm.where(Model.class).contains("name", searchText, Case.INSENSITIVE).findAll().sort("sort"));
-    }
-
-
-    public Category getCategoryById(int id) {
-        return realm.where(Category.class).equalTo("id", id).findFirst();
-    }
-
-    public List<Category> getCategories(boolean notEmpty) {
-        if (notEmpty) {
-            return realm.copyFromRealm(realm.where(Category.class).isNotEmpty("models").findAll());
+    fun getCategories(notEmpty: Boolean): List<Category> {
+        return if (notEmpty) {
+            realm.copyFromRealm(
+                realm.where(
+                    Category::class.java
+                ).isNotEmpty("models").findAll()
+            )
         } else {
-            return realm.copyFromRealm(realm.where(Category.class).findAll());
+            realm.copyFromRealm(
+                realm.where(
+                    Category::class.java
+                ).findAll()
+            )
         }
     }
 
-    public Manufacturer getManufacturerById(int id) {
-        return realm.where(Manufacturer.class).equalTo("id", id).findFirst();
+    fun getManufacturerById(id: Int): Manufacturer? {
+        return realm.where(Manufacturer::class.java).equalTo("id", id).findFirst()
     }
 
-    public List<Manufacturer> getManufacturers(boolean notEmpty) {
-        if (notEmpty) {
-            return realm.copyFromRealm(realm.where(Manufacturer.class).isNotEmpty("models").findAll());
+    fun getManufacturers(notEmpty: Boolean): List<Manufacturer> {
+        return if (notEmpty) {
+            realm.copyFromRealm(
+                realm.where(Manufacturer::class.java).isNotEmpty("models").findAll()
+            )
         } else {
-            return realm.copyFromRealm(realm.where(Manufacturer.class).findAll());
+            realm.copyFromRealm(
+                realm.where(Manufacturer::class.java).findAll()
+            )
         }
     }
 
-    public List<Model> getManufacturerModels(Manufacturer manufacturer, Category category) {
-        RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("class_id", category.getId()).findAll().sort("sort");
+    fun getManufacturerModels(manufacturer: Manufacturer, category: Category): List<Model> {
+        val models = realm.where(
+            Model::class.java
+        ).equalTo("m_id", manufacturer.id).equalTo("class_id", category.id).findAll().sort("sort")
         //Log.e("getManufacturerModels", String.valueOf(models.size()));
-        return realm.copyFromRealm(models);
+        return realm.copyFromRealm(models)
     }
 
-    public List<Model> getManufacturerModelsOfVolume(Manufacturer manufacturer, Volume volume) {
-        RealmResults<Model> models = realm.where(Model.class).equalTo("m_id", manufacturer.getId()).equalTo("volume_id", volume.getId()).findAll().sort("volume_value");
+    fun getManufacturerModelsOfVolume(manufacturer: Manufacturer, volume: Volume): List<Model> {
+        val models = realm.where(
+            Model::class.java
+        ).equalTo("m_id", manufacturer.id).equalTo("volume_id", volume.id).findAll()
+            .sort("volume_value")
         //Log.e("getManufacturerModels", String.valueOf(models.size()));
-        return realm.copyFromRealm(models);
+        return realm.copyFromRealm(models)
     }
 
-
-    public void saveAdverts(Collection<Advert> adverts) {
-        realm.beginTransaction();
-        realm.insertOrUpdate(adverts);
-        realm.commitTransaction();
+    fun saveAdverts(adverts: Collection<Advert?>?) {
+        realm.beginTransaction()
+        realm.insertOrUpdate(adverts)
+        realm.commitTransaction()
     }
 
-    public Advert getAdvertById(String id) {
-        return realm.where(Advert.class).equalTo("id", id).findFirst();
+    fun getAdvertById(id: String?): Advert? {
+        return realm.where(Advert::class.java).equalTo("id", id).findFirst()
     }
 
-    public void setAdvertFavourite(String advertId, boolean favourite) {
-        Advert advert = getAdvertById(advertId);
-        realm.beginTransaction();
-        advert.setFavourite(favourite);
-        realm.commitTransaction();
+    fun setAdvertFavourite(advertId: String?, favourite: Boolean) {
+        val advert = getAdvertById(advertId)
+        realm.beginTransaction()
+        advert!!.isFavourite = favourite
+        realm.commitTransaction()
     }
 
-    public void setAdvertActive(String advertId, boolean active) {
-        Advert advert = getAdvertById(advertId);
-        realm.beginTransaction();
-        advert.setActive(active);
-        realm.commitTransaction();
+    fun setAdvertActive(advertId: String?, active: Boolean) {
+        val advert = getAdvertById(advertId)
+        realm.beginTransaction()
+        advert!!.isActive = active
+        realm.commitTransaction()
     }
 
-    public List<Advert> getFavouriteAdverts() {
-        RealmResults<Advert> adverts = realm.where(Advert.class).equalTo("favourite", true).findAll().sort("id");
-        return realm.copyFromRealm(adverts);
+    val favouriteAdverts: List<Advert>
+        get() {
+            val adverts =
+                realm.where(Advert::class.java).equalTo("favourite", true).findAll().sort("id")
+            return realm.copyFromRealm(adverts)
+        }
+
+    fun cleanAdverts() {
+        realm.beginTransaction()
+        realm.where(Advert::class.java).equalTo("favourite", false).findAll().deleteAllFromRealm()
+        realm.commitTransaction()
+        Log.e("cleanAdverts", "cleanAdverts")
     }
 
-
-
-    public void cleanAdverts() {
-        realm.beginTransaction();
-        realm.where(Advert.class).equalTo("favourite", false).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-        Log.e("cleanAdverts", "cleanAdverts");
+    fun getRegionById(regionId: Int): Location? {
+        return realm.where(Location::class.java).equalTo("id", regionId).findFirst()
     }
 
-    public Location getRegionById(int regionId) {
-        return realm.where(Location.class).equalTo("id", regionId).findFirst();
+    val regions: List<Location>
+        get() = getRegionCities(0)
+
+    fun getRegionCities(regionId: Int): List<Location> {
+        val regions = realm.where(
+            Location::class.java
+        ).equalTo("region_id", regionId).findAll().sort("sort")
+        return realm.copyFromRealm(regions)
     }
 
-    public List<Location> getRegions() {
-        return getRegionCities(0);
+    fun getRegionCitiesCount(regionId: Int): Int {
+        val regions = realm.where(
+            Location::class.java
+        ).equalTo("region_id", regionId).findAll().sort("sort")
+        return regions.size
     }
 
-    public List<Location> getRegionCities(int regionId) {
-        RealmResults<Location> regions = realm.where(Location.class).equalTo("region_id", regionId).findAll().sort("sort");
-        return realm.copyFromRealm(regions);
-    }
+    val volumes: List<Volume>
+        get() = realm.copyFromRealm(realm.where(Volume::class.java).findAll().sort("sort"))
 
-    public int getRegionCitiesCount(int regionId) {
-        RealmResults<Location> regions = realm.where(Location.class).equalTo("region_id", regionId).findAll().sort("sort");
-        return regions.size();
+    fun getVolumeById(id: Int): Volume? {
+        return realm.where(Volume::class.java).equalTo("id", id).findFirst()
     }
-
-    public List<Volume> getVolumes() {
-        return realm.copyFromRealm(realm.where(Volume.class).findAll().sort("sort"));
-    }
-
-    public Volume getVolumeById(int id) {
-        return realm.where(Volume.class).equalTo("id", id).findFirst();
-    }
-
 }

@@ -8,7 +8,7 @@ import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 import java.util.*
 
 class CatalogByClassActivity : UniversalActivity() {

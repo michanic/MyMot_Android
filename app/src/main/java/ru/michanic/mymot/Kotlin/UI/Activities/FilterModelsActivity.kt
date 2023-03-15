@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ExpandableListView
 import ru.michanic.mymot.Kotlin.Models.FilterModelItem
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ModelsExpandableListAdapter
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class FilterModelsActivity : UniversalActivity() {
     private var modelsExpandableListAdapter: ModelsExpandableListAdapter? = null

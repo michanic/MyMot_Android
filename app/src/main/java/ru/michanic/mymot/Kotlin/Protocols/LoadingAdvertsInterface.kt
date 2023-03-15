@@ -1,10 +1,8 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-import java.util.List;
+import ru.michanic.mymot.Kotlin.Models.Advert
 
-import ru.michanic.mymot.Kotlin.Models.Advert;
-
-public interface LoadingAdvertsInterface {
-    void onLoaded(List<Advert> adverts, boolean loadMore);
-    void onFailed();
+interface LoadingAdvertsInterface {
+    fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean)
+    fun onFailed()
 }

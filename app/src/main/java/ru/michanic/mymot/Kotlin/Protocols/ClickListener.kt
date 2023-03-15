@@ -1,5 +1,5 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface ClickListener {
-    void onClick(int section, int row);
+interface ClickListener {
+    fun onClick(section: Int, row: Int)
 }

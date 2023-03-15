@@ -1,7 +1,7 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig;
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 
-public interface FilterSettedInterface {
-    void onSelected(SearchFilterConfig filterConfig);
+interface FilterSettedInterface {
+    fun onSelected(filterConfig: SearchFilterConfig?)
 }

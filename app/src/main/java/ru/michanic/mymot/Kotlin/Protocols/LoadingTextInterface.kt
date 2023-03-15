@@ -1,5 +1,5 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-public interface LoadingTextInterface {
-    void onLoaded(String text);
+interface LoadingTextInterface {
+    fun onLoaded(text: String?)
 }

@@ -9,16 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter
-import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
 import ru.michanic.mymot.R
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class CatalogHomeFragment : Fragment() {
     override fun onCreateView(

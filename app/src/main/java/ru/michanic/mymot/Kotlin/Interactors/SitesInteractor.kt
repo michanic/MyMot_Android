@@ -1,171 +1,139 @@
-package ru.michanic.mymot.Interactors;
+package ru.michanic.mymot.Kotlin.Interactors
 
-import android.util.Log;
+import android.util.Log
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Models.*
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertDetailsInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.michanic.mymot.Enums.SourceType;
-import ru.michanic.mymot.Kotlin.Models.Advert;
-import ru.michanic.mymot.Kotlin.Models.AdvertDetails;
-import ru.michanic.mymot.Kotlin.Models.HtmlAdvertAsyncRequest;
-import ru.michanic.mymot.Kotlin.Models.HtmlAdvertPhoneAsyncRequest;
-import ru.michanic.mymot.Kotlin.Models.HtmlAdvertsAsyncRequest;
-import ru.michanic.mymot.Kotlin.Models.Location;
-import ru.michanic.mymot.Kotlin.Models.Manufacturer;
-import ru.michanic.mymot.Kotlin.Models.Model;
-import ru.michanic.mymot.Kotlin.Models.ParseAdvertsResult;
-import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig;
-import ru.michanic.mymot.Kotlin.Models.Source;
-import ru.michanic.mymot.Protocols.AsyncRequestCompleted;
-import ru.michanic.mymot.Protocols.LoadingAdvertDetailsInterface;
-import ru.michanic.mymot.Protocols.LoadingAdvertPhonesInterface;
-import ru.michanic.mymot.Protocols.LoadingAdvertsInterface;
-import ru.michanic.mymot.Utils.DataManager;
-
-public class SitesInteractor {
-
-    private DataManager dataManager = new DataManager();
-
-    public void loadFeedAdverts(Source source, final LoadingAdvertsInterface loadingInterface) {
-        Log.e("loadFeedAdverts", source.getFeedPath());
-        loadSourceAdverts(source.getType(), source.getFeedPath(), loadingInterface);
+class SitesInteractor {
+    private val dataManager = DataManager()
+    fun loadFeedAdverts(source: Source, loadingInterface: LoadingAdvertsInterface) {
+        Log.e("loadFeedAdverts", source.feedPath)
+        loadSourceAdverts(source.type, source.feedPath, loadingInterface)
     }
 
-    public void searchAdverts(final int page, final SearchFilterConfig config, final LoadingAdvertsInterface loadingInterface) {
-        Log.e("searchAdverts page: ", String.valueOf(page));
-
-        final List<Advert> loadedAdverts = new ArrayList<>();
-        final boolean[] loadMore = {false};
-
-        String avitoModelQuery = "";
-        Manufacturer avitoManufacturer = config.getSelectedManufacturer();
-        Model avitoModel = config.getSelectedModel();
+    fun searchAdverts(
+        page: Int,
+        config: SearchFilterConfig,
+        loadingInterface: LoadingAdvertsInterface
+    ) {
+        Log.e("searchAdverts page: ", page.toString())
+        val loadedAdverts: MutableList<Advert> = ArrayList()
+        val loadMore = booleanArrayOf(false)
+        var avitoModelQuery = ""
+        val avitoManufacturer = config.selectedManufacturer
+        val avitoModel = config.selectedModel
         if (avitoManufacturer != null) {
-            avitoModelQuery = avitoManufacturer.getAvitoSearchName();
+            avitoModelQuery = avitoManufacturer.avitoSearchName
         } else if (avitoModel != null) {
-            avitoModelQuery = avitoModel.getAvitoSearchName();
+            avitoModelQuery = avitoModel.avitoSearchName
         }
-
-        Source avitoSource = new Source(SourceType.AVITO);
-        avitoSource.setModel(avitoModelQuery);
-        Location avitoSelectedRegion = config.getSelectedRegion();
+        val avitoSource = Source(SourceType.AVITO)
+        avitoSource.setModel(avitoModelQuery)
+        val avitoSelectedRegion = config.selectedRegion
         if (avitoSelectedRegion != null) {
-            avitoSource.setRegion(avitoSelectedRegion.getAvito());
+            avitoSource.setRegion(avitoSelectedRegion.avito)
         }
-        avitoSource.setpMin(config.getPriceFrom());
-        avitoSource.setpMax(config.getPriceFor());
-        avitoSource.setPage(page);
-        String avitoUrl = avitoSource.getSearchPath();
-        Log.e("avitoUrl: ", avitoUrl);
-
-        loadSourceAdverts(avitoSource.getType(), avitoUrl, new LoadingAdvertsInterface() {
-            @Override
-            public void onLoaded(List<Advert> adverts, boolean avitoMore) {
-                loadedAdverts.addAll(adverts);
-                loadMore[0] = avitoMore;
-
-                String autoruModelQuery = "";
-                Manufacturer autoruManufacturer = config.getSelectedManufacturer();
-                Model autoruModel = config.getSelectedModel();
+        avitoSource.setpMin(config.priceFrom)
+        avitoSource.setpMax(config.priceFor)
+        avitoSource.page = page
+        val avitoUrl = avitoSource.searchPath
+        Log.e("avitoUrl: ", avitoUrl)
+        loadSourceAdverts(avitoSource.type, avitoUrl, object : LoadingAdvertsInterface {
+            override fun onLoaded(adverts: List<Advert>, avitoMore: Boolean) {
+                loadedAdverts.addAll(adverts)
+                loadMore[0] = avitoMore
+                var autoruModelQuery = ""
+                val autoruManufacturer = config.selectedManufacturer
+                val autoruModel = config.selectedModel
                 if (autoruManufacturer != null) {
-                    autoruModelQuery = autoruManufacturer.getAutoruSearchName();
+                    autoruModelQuery = autoruManufacturer.autoruSearchName
                 } else if (autoruModel != null) {
-                    autoruModelQuery = autoruModel.getAutoruSearchName();
+                    autoruModelQuery = autoruModel.autoruSearchName
                 }
-
-                Source autoruSource = new Source(SourceType.AUTO_RU);
-                autoruSource.setModel(autoruModelQuery);
-                Location autoruSelectedRegion = config.getSelectedRegion();
+                val autoruSource = Source(SourceType.AUTO_RU)
+                autoruSource.setModel(autoruModelQuery)
+                val autoruSelectedRegion = config.selectedRegion
                 if (autoruSelectedRegion != null) {
-                    autoruSource.setRegion(autoruSelectedRegion.getAutoru());
+                    autoruSource.setRegion(autoruSelectedRegion.autoru)
                 }
-                autoruSource.setpMin(config.getPriceFrom());
-                autoruSource.setpMax(config.getPriceFor());
-                autoruSource.setPage(page);
-                String autoruUrl = autoruSource.getSearchPath();
-                Log.e("autoruUrl: ", autoruUrl);
-
-                loadSourceAdverts(autoruSource.getType(), autoruUrl, new LoadingAdvertsInterface() {
-                    @Override
-                    public void onLoaded(List<Advert> adverts, boolean autoruMore) {
-                        loadedAdverts.addAll(adverts);
+                autoruSource.setpMin(config.priceFrom)
+                autoruSource.setpMax(config.priceFor)
+                autoruSource.page = page
+                val autoruUrl = autoruSource.searchPath
+                Log.e("autoruUrl: ", autoruUrl)
+                loadSourceAdverts(autoruSource.type, autoruUrl, object : LoadingAdvertsInterface {
+                    override fun onLoaded(adverts: List<Advert>, autoruMore: Boolean) {
+                        loadedAdverts.addAll(adverts)
                         if (!loadMore[0]) {
-                            loadMore[0] = autoruMore;
+                            loadMore[0] = autoruMore
                         }
-                        loadingInterface.onLoaded(loadedAdverts, loadMore[0]);
+                        loadingInterface.onLoaded(loadedAdverts, loadMore[0])
                     }
 
-                    @Override
-                    public void onFailed() {
-                        loadingInterface.onFailed();
+                    override fun onFailed() {
+                        loadingInterface.onFailed()
                     }
-                });
+                })
+            }
 
+            override fun onFailed() {
+                loadingInterface.onFailed()
             }
-            @Override
-            public void onFailed() {
-                loadingInterface.onFailed();
-            }
-        });
+        })
     }
 
-    private void loadSourceAdverts(SourceType sourceType, String url, final LoadingAdvertsInterface loadingInterface) {
-        new HtmlAdvertsAsyncRequest(new AsyncRequestCompleted() {
-            @Override
-            public void processFinish(Object output) {
-                ParseAdvertsResult result = (ParseAdvertsResult) output;
-                List<Advert> newAdverts = result.getAdvetrs();
-                List<Advert> resultAdvetrs = new ArrayList<>();
-                for (Advert newAdvert: newAdverts) {
-                    Advert savedAdvert = dataManager.getAdvertById(newAdvert.getId());
-                    if (savedAdvert != null) {
-                        resultAdvetrs.add(savedAdvert);
-                    } else {
-                        resultAdvetrs.add(newAdvert);
-                    }
+    private fun loadSourceAdverts(
+        sourceType: SourceType,
+        url: String?,
+        loadingInterface: LoadingAdvertsInterface
+    ) {
+        HtmlAdvertsAsyncRequest({ output ->
+            val result = output as ParseAdvertsResult
+            val newAdverts = result.advetrs
+            val resultAdvetrs: MutableList<Advert> = ArrayList()
+            for (newAdvert in newAdverts) {
+                val savedAdvert = dataManager.getAdvertById(newAdvert.id)
+                if (savedAdvert != null) {
+                    resultAdvetrs.add(savedAdvert)
+                } else {
+                    resultAdvetrs.add(newAdvert)
                 }
-                dataManager.saveAdverts(resultAdvetrs);
-                loadingInterface.onLoaded(resultAdvetrs, result.loadMore());
             }
-        }, sourceType).execute(url);
+            dataManager.saveAdverts(resultAdvetrs)
+            loadingInterface.onLoaded(resultAdvetrs, result.loadMore())
+        }, sourceType).execute(url)
     }
 
-
-    public void loadAdvertDetails(Advert advert, final LoadingAdvertDetailsInterface loadingInterface) {
-
-        Log.e("loadAdvertDetails", advert.getLink());
-
-        new HtmlAdvertAsyncRequest(new AsyncRequestCompleted() {
-            @Override
-            public void processFinish(Object output) {
-                AdvertDetails advertDetails = (AdvertDetails) output;
-                loadingInterface.onLoaded(advertDetails);
-            }
-        }, advert.getSourceType()).execute(advert.getLink());
-
+    fun loadAdvertDetails(advert: Advert, loadingInterface: LoadingAdvertDetailsInterface) {
+        Log.e("loadAdvertDetails", advert.link)
+        HtmlAdvertAsyncRequest({ output ->
+            val advertDetails = output as AdvertDetails
+            loadingInterface.onLoaded(advertDetails)
+        }, advert.sourceType).execute(advert.link)
     }
 
-    public void loadAvitoAdvertPhone(Advert advert, final LoadingAdvertPhonesInterface loadingInterface) {
-        String link = advert.getLink().replace("www.avito", "m.avito");
-        new HtmlAdvertPhoneAsyncRequest(new AsyncRequestCompleted() {
-            @Override
-            public void processFinish(Object output) {
-                List<String> phones = (List<String>) output;
-                loadingInterface.onLoaded(phones);
-            }
-        }, SourceType.AVITO).execute(link);
+    fun loadAvitoAdvertPhone(advert: Advert, loadingInterface: LoadingAdvertPhonesInterface) {
+        val link = advert.link!!.replace("www.avito", "m.avito")
+        HtmlAdvertPhoneAsyncRequest({ output ->
+            val phones = output as List<String>
+            loadingInterface.onLoaded(phones)
+        }, SourceType.AVITO).execute(link)
     }
 
-    public void loadAutoRuAdvertPhones(String saleId, String saleHash, final LoadingAdvertPhonesInterface loadingInterface) {
-        String link = "https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=" + saleId + "&sale_hash=" + saleHash + "&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number";
-        new HtmlAdvertPhoneAsyncRequest(new AsyncRequestCompleted() {
-            @Override
-            public void processFinish(Object output) {
-                List<String> phones = (List<String>) output;
-                loadingInterface.onLoaded(phones);
-            }
-        }, SourceType.AUTO_RU).execute(link);
+    fun loadAutoRuAdvertPhones(
+        saleId: String,
+        saleHash: String,
+        loadingInterface: LoadingAdvertPhonesInterface
+    ) {
+        val link =
+            "https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=$saleId&sale_hash=$saleHash&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number"
+        HtmlAdvertPhoneAsyncRequest({ output ->
+            val phones = output as List<String>
+            loadingInterface.onLoaded(phones)
+        }, SourceType.AUTO_RU).execute(link)
     }
-
 }

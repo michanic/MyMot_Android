@@ -1,7 +1,5 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-import java.util.List;
-
-public interface LoadingAdvertPhonesInterface {
-    void onLoaded(List<String> phones);
+interface LoadingAdvertPhonesInterface {
+    fun onLoaded(phones: List<String?>?)
 }

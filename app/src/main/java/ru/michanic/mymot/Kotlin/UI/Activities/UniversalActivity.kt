@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Spannable
 import android.text.SpannableString
-import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface
-import ru.michanic.mymot.Utils.TypefaceSpan
+import ru.michanic.mymot.Kotlin.Protocols.NoConnectionRepeatInterface
+import ru.michanic.mymot.Kotlin.Utils.TypefaceSpan
 
 open class UniversalActivity : AppCompatActivity() {
     var rootActivity = false

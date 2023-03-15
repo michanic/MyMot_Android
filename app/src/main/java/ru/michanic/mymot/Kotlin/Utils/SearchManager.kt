@@ -1,122 +1,101 @@
-package ru.michanic.mymot.Utils;
+package ru.michanic.mymot.Kotlin.Utils
 
-import android.util.Log;
+import android.util.Log
+import ru.michanic.mymot.Kotlin.Models.Location
+import ru.michanic.mymot.Kotlin.Models.Manufacturer
+import ru.michanic.mymot.Kotlin.Models.Model
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
 
-import ru.michanic.mymot.Kotlin.Models.Location;
-import ru.michanic.mymot.Kotlin.Models.Manufacturer;
-import ru.michanic.mymot.Kotlin.Models.Model;
-import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig;
-import ru.michanic.mymot.MyMotApplication;
-import ru.michanic.mymot.Protocols.FilterSettedInterface;
-
-public class SearchManager {
-
-    private boolean filterChanged = false;
-
-    private SearchFilterConfig filterConfig = MyMotApplication.configStorage.getFilterConfig();
-    public FilterSettedInterface filterUpdated;
-    public FilterSettedInterface searchPressedCallback;
-    public FilterSettedInterface filterClosedCallback;
-
-    public void setRegion(Location region) {
-        filterConfig.setSelectedRegion(region);
-        filterChanged = true;
-        if (filterUpdated != null) {
-            filterUpdated.onSelected(filterConfig);
+class SearchManager {
+    private var filterChanged = false
+    val filterConfig = MyMotApplication.configStorage!!.filterConfig
+    var filterUpdated: FilterSettedInterface? = null
+    var searchPressedCallback: FilterSettedInterface? = null
+    var filterClosedCallback: FilterSettedInterface? = null
+    var region: Location?
+        get() = filterConfig.selectedRegion
+        set(region) {
+            filterConfig.selectedRegion = region
+            filterChanged = true
+            if (filterUpdated != null) {
+                filterUpdated!!.onSelected(filterConfig)
+            }
+            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
         }
-        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
-    }
-
-    public Location getRegion() {
-        return filterConfig.getSelectedRegion();
-    }
-
-    public String getRegionTitle() {
-        Location region = filterConfig.getSelectedRegion();
-        if (region != null) {
-            return region.getName();
-        } else {
-            return  "По всей России";
+    val regionTitle: String?
+        get() {
+            val region = filterConfig.selectedRegion
+            return if (region != null) {
+                region.name
+            } else {
+                "По всей России"
+            }
         }
-    }
-
-    public void setManufacturer(Manufacturer manufacturer) {
-        filterConfig.setSelectedManufacturer(manufacturer);
-        filterConfig.setSelectedModel(null);
-        filterChanged = true;
-        if (filterUpdated != null) {
-            filterUpdated.onSelected(filterConfig);
+    var manufacturer: Manufacturer?
+        get() = filterConfig.selectedManufacturer
+        set(manufacturer) {
+            filterConfig.selectedManufacturer = manufacturer
+            filterConfig.selectedModel = null
+            filterChanged = true
+            if (filterUpdated != null) {
+                filterUpdated!!.onSelected(filterConfig)
+            }
+            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
         }
-        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
-    }
-
-    public Manufacturer getManufacturer() {
-        return filterConfig.getSelectedManufacturer();
-    }
-
-    public void setModel(Model model) {
-        filterConfig.setSelectedManufacturer(null);
-        filterConfig.setSelectedModel(model);
-        filterChanged = true;
-        if (filterUpdated != null) {
-            filterUpdated.onSelected(filterConfig);
+    var model: Model?
+        get() = filterConfig.selectedModel
+        set(model) {
+            filterConfig.selectedManufacturer = null
+            filterConfig.selectedModel = model
+            filterChanged = true
+            if (filterUpdated != null) {
+                filterUpdated!!.onSelected(filterConfig)
+            }
+            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
         }
-        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
-    }
-
-    public Model getModel() {
-        return filterConfig.getSelectedModel();
-    }
-
-    public String getModelTitle() {
-        Manufacturer manufacturer = filterConfig.getSelectedManufacturer();
-        Model model = filterConfig.getSelectedModel();
-        if (manufacturer != null) {
-            return "Все мотоциклы " + manufacturer.getName();
-        } else if (model != null) {
-            return model.getName();
-        } else {
-            return "Все мотоциклы";
+    val modelTitle: String?
+        get() {
+            val manufacturer = filterConfig.selectedManufacturer
+            val model = filterConfig.selectedModel
+            return if (manufacturer != null) {
+                "Все мотоциклы " + manufacturer.name
+            } else if (model != null) {
+                model.name
+            } else {
+                "Все мотоциклы"
+            }
         }
-    }
 
-    public void setPriceFrom(int newPrice) {
-        filterConfig.setPriceFrom(newPrice);
-        filterChanged = true;
-        //filterUpdated.onSelected(filterConfig);
-        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
-    }
+    //filterUpdated.onSelected(filterConfig);
+    var priceFrom: Int
+        get() = filterConfig.priceFrom
+        set(newPrice) {
+            filterConfig.priceFrom = newPrice
+            filterChanged = true
+            //filterUpdated.onSelected(filterConfig);
+            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+        }
 
-    public int getPriceFrom() {
-        return filterConfig.getPriceFrom();
-    }
+    //filterUpdated.onSelected(filterConfig);
+    var priceFor: Int
+        get() = filterConfig.priceFor
+        set(newPrice) {
+            filterConfig.priceFor = newPrice
+            filterChanged = true
+            //filterUpdated.onSelected(filterConfig);
+            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+        }
 
-
-    public void setPriceFor(int newPrice) {
-        filterConfig.setPriceFor(newPrice);
-        filterChanged = true;
-        //filterUpdated.onSelected(filterConfig);
-        MyMotApplication.configStorage.saveFilterConfig(filterConfig);
-    }
-
-    public int getPriceFor() {
-        return filterConfig.getPriceFor();
-    }
-
-    public SearchFilterConfig getFilterConfig() {
-        return filterConfig;
-    }
-
-    public void backPressed() {
-        Log.e("backPressed", String.valueOf(filterChanged));
+    fun backPressed() {
+        Log.e("backPressed", filterChanged.toString())
         if (filterClosedCallback != null && filterChanged) {
-            filterClosedCallback.onSelected(filterConfig);
-            filterChanged = false;
+            filterClosedCallback!!.onSelected(filterConfig)
+            filterChanged = false
         }
     }
 
-    public void searchPressed() {
-        searchPressedCallback.onSelected(filterConfig);
+    fun searchPressed() {
+        searchPressedCallback!!.onSelected(filterConfig)
     }
-
 }

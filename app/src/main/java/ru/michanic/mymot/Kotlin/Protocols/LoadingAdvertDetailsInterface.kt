@@ -1,8 +1,8 @@
-package ru.michanic.mymot.Protocols;
+package ru.michanic.mymot.Kotlin.Protocols
 
-import ru.michanic.mymot.Kotlin.Models.AdvertDetails;
+import ru.michanic.mymot.Kotlin.Models.AdvertDetails
 
-public interface LoadingAdvertDetailsInterface {
-    void onLoaded(AdvertDetails advertDetails);
-    void onFailed();
+interface LoadingAdvertDetailsInterface {
+    fun onLoaded(advertDetails: AdvertDetails?)
+    fun onFailed()
 }
