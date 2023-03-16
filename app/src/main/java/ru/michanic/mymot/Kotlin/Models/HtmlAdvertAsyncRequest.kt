@@ -8,7 +8,7 @@ import ru.michanic.mymot.Kotlin.Protocols.AsyncRequestCompleted
 import java.io.IOException
 
 class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: SourceType) :
-    AsyncTask<String?, Void?, AdvertDetails>() {
+    AsyncTask<String?, Void?, AdvertDetails?>() {
     var delegate: AsyncRequestCompleted? = null
     private val htmlParser = HtmlParser()
     private val sourceType: SourceType
@@ -20,12 +20,12 @@ class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: 
 
     override fun doInBackground(vararg arg: String?): AdvertDetails? {
         val path = arg[0]
-        val response = MyMotApplication.networkService.getHtmlData(path)
+        val response = MyMotApplication.networkService?.getHtmlData(path)
         var doc: Document
-        val csrf_token = response.cookie("_csrf_token")
+        val csrf_token = response?.cookie("_csrf_token")
 
         try {
-            doc = response.parse()
+            doc = response?.parse()!!
         } catch (e: IOException) {
             e.printStackTrace()
             return  null
@@ -35,8 +35,7 @@ class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: 
         return advertDetails
     }
 
-    override fun onPostExecute(result: AdvertDetails) {
-
+    override fun onPostExecute(result: AdvertDetails?) {
         delegate!!.processFinish(result)
     }
 }

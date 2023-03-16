@@ -21,10 +21,10 @@ class HtmlAdvertsAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType:
     override fun doInBackground(vararg arg: String?): ParseAdvertsResult {
         val path = arg[0]
         val response =
-            MyMotApplication.networkService.getHtmlData(path)
+            MyMotApplication.networkService?.getHtmlData(path)
         var doc: Document? = null
         try {
-            doc = response.parse()
+            doc = response?.parse()
         } catch (e: IOException) {
             e.printStackTrace()
         }

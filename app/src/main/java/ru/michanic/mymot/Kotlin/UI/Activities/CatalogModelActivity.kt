@@ -40,7 +40,7 @@ class CatalogModelActivity : UniversalActivity() {
         setContentView(R.layout.activity_catalog_model)
         val intent = intent
         val modelId = intent.getIntExtra("modelId", 0)
-        model = dataManager.getModelById(modelId)
+        model = dataManager.getModelById(modelId)!!
         setNavigationTitle(model.name ?: "")
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
@@ -73,7 +73,7 @@ class CatalogModelActivity : UniversalActivity() {
 
     private fun loadModelDetails(modelId: Int) {
         apiInteractor.loadModelDetails(modelId, object : LoadingModelDetailsInterface {
-            override fun onLoaded(details: ModelDetails) {
+            override fun onLoaded(details: ModelDetails?) {
                 modelDetails = details
                 loadingIndicator?.visibility = View.GONE
                 fillProperties()
@@ -129,11 +129,13 @@ class CatalogModelActivity : UniversalActivity() {
             for (videoId in videoIDs) {
                 videos.add(YoutubeVideo(videoId))
             }
-            val reviewPressed = ClickListener { section, row ->
-                val video = videos[row]
-                val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
-                videoActivity.putExtra("videoId", video.videoId)
-                startActivity(videoActivity)
+            val reviewPressed = object : ClickListener {
+                override fun onClick(section: Int, row: Int) {
+                    val video = videos[row]
+                    val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
+                    videoActivity.putExtra("videoId", video.videoId)
+                    startActivity(videoActivity)
+                }
             }
             val reviewsAdapter = ReviewsSliderAdapter(this, videos, reviewPressed)
             reviewsSlider.adapter = reviewsAdapter
@@ -142,7 +144,7 @@ class CatalogModelActivity : UniversalActivity() {
             reviewsSlider.visibility = View.GONE
         }
         searchButton.setOnClickListener {
-            MyMotApplication.searchManager.model = model
+            MyMotApplication.searchManager?.model = model
             val searchResultsActivity =
                 Intent(applicationContext, SearchResultsActivity::class.java)
             startActivity(searchResultsActivity)

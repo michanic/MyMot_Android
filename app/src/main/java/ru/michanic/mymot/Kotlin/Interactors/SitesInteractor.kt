@@ -43,8 +43,8 @@ class SitesInteractor {
         val avitoUrl = avitoSource.searchPath
         Log.e("avitoUrl: ", avitoUrl)
         loadSourceAdverts(avitoSource.type, avitoUrl, object : LoadingAdvertsInterface {
-            override fun onLoaded(adverts: List<Advert>, avitoMore: Boolean) {
-                loadedAdverts.addAll(adverts)
+            override fun onLoaded(adverts: List<Advert?>?, avitoMore: Boolean) {
+                loadedAdverts.addAll(adverts!!.filterNotNull())
                 loadMore[0] = avitoMore
                 var autoruModelQuery = ""
                 val autoruManufacturer = config.selectedManufacturer
@@ -66,8 +66,8 @@ class SitesInteractor {
                 val autoruUrl = autoruSource.searchPath
                 Log.e("autoruUrl: ", autoruUrl)
                 loadSourceAdverts(autoruSource.type, autoruUrl, object : LoadingAdvertsInterface {
-                    override fun onLoaded(adverts: List<Advert>, autoruMore: Boolean) {
-                        loadedAdverts.addAll(adverts)
+                    override fun onLoaded(adverts: List<Advert?>?, autoruMore: Boolean) {
+                        loadedAdverts.addAll(adverts!!.filterNotNull())
                         if (!loadMore[0]) {
                             loadMore[0] = autoruMore
                         }

@@ -83,12 +83,12 @@ class ApiInteractor {
 
     private fun loadExteptedWords(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadExteptedWords")
-        apiInterface.loadExteptedWords().enqueue(object : Callback<List<String?>?> {
+        apiInterface.loadExteptedWords()?.enqueue(object : Callback<List<String?>?> {
             override fun onResponse(
                 call: Call<List<String?>?>,
                 response: Response<List<String?>?>,
             ) {
-                MyMotApplication.configStorage.exteptedWords = response.body()
+                MyMotApplication.configStorage?.exteptedWords = response.body()?.filterNotNull() ?: emptyList()
                 loadingInterface.onLoaded()
                 Log.e("loadData", "words loaded")
             }
@@ -102,14 +102,14 @@ class ApiInteractor {
 
     private fun loadAboutText(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadAboutText")
-        apiInterface.loadAboutText().enqueue(object : Callback<AppPageText> {
-            override fun onResponse(call: Call<AppPageText>, response: Response<AppPageText>) {
-                MyMotApplication.configStorage.aboutText = response.body()!!.text
+        apiInterface.loadAboutText()?.enqueue(object : Callback<AppPageText?> {
+            override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
+                MyMotApplication.configStorage?.aboutText = response.body()?.text ?: ""
                 loadingInterface.onLoaded()
                 Log.e("loadData", "about loaded")
             }
 
-            override fun onFailure(call: Call<AppPageText>, t: Throwable) {
+            override fun onFailure(call: Call<AppPageText?>, t: Throwable) {
                 loadingInterface.onFailed()
                 Log.e("response", t.toString())
             }
@@ -118,7 +118,7 @@ class ApiInteractor {
 
     private fun loadRegions(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadRegions")
-        apiInterface.loadRegions().enqueue(object : Callback<List<Location?>?> {
+        apiInterface.loadRegions()?.enqueue(object : Callback<List<Location?>?> {
             override fun onResponse(
                 call: Call<List<Location?>?>,
                 response: Response<List<Location?>?>,
@@ -138,7 +138,7 @@ class ApiInteractor {
     }
 
     fun loadRegionCities(region: Location, loadingInterface: LoadingInterface) {
-        apiInterface.loadRegionCities(region.id).enqueue(object : Callback<List<Location?>?> {
+        apiInterface.loadRegionCities(region.id)?.enqueue(object : Callback<List<Location?>?> {
             override fun onResponse(
                 call: Call<List<Location?>?>,
                 response: Response<List<Location?>?>,
@@ -158,7 +158,7 @@ class ApiInteractor {
 
     private fun loadVolumes(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadVolumes")
-        apiInterface.loadVolumes().enqueue(object : Callback<List<Volume?>?> {
+        apiInterface.loadVolumes()?.enqueue(object : Callback<List<Volume?>?> {
             override fun onResponse(
                 call: Call<List<Volume?>?>,
                 response: Response<List<Volume?>?>,
@@ -179,7 +179,7 @@ class ApiInteractor {
 
     private fun loadClasses(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadClasses")
-        apiInterface.loadClasses().enqueue(object : Callback<List<Category?>?> {
+        apiInterface.loadClasses()?.enqueue(object : Callback<List<Category?>?> {
             override fun onResponse(
                 call: Call<List<Category?>?>,
                 response: Response<List<Category?>?>,
@@ -200,17 +200,17 @@ class ApiInteractor {
 
     private fun loadModels(loadingInterface: LoadingInterface) {
         Log.e("loadData", "loadModels")
-        apiInterface.loadModels().enqueue(object : Callback<List<Manufacturer>> {
+        apiInterface.loadModels()?.enqueue(object : Callback<List<Manufacturer?>?> {
             override fun onResponse(
-                call: Call<List<Manufacturer>>,
-                response: Response<List<Manufacturer>>,
+                call: Call<List<Manufacturer?>?>,
+                response: Response<List<Manufacturer?>?>,
             ) {
                 val favoriteModels = dataManager.favouriteModelIDs
                 val volumes = dataManager.volumes
                 realm.beginTransaction()
                 for (manufacturer in response.body()!!) {
-                    Log.e("manufacturer", manufacturer.name)
-                    for (model in manufacturer.models!!) {
+                    Log.e("manufacturer", manufacturer?.name)
+                    for (model in manufacturer?.models!!) {
                         val volumeText = model.volume
                         var volumeVal = 0f
                         try {
@@ -236,7 +236,7 @@ class ApiInteractor {
                 Log.e("loadData", "models loaded")
             }
 
-            override fun onFailure(call: Call<List<Manufacturer>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Manufacturer?>?>, t: Throwable) {
                 loadingInterface.onFailed()
                 Log.e("response", t.toString())
             }
@@ -245,11 +245,10 @@ class ApiInteractor {
 
     fun loadModelDetails(modelId: Int, loadingInterface: LoadingModelDetailsInterface) {
         Log.e("loadData", "loadModelDetails")
-        apiInterface.loadModelDetails(modelId).enqueue(object : Callback<ModelDetails?> {
+        apiInterface.loadModelDetails(modelId)?.enqueue(object : Callback<ModelDetails?> {
             override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
                 loadingInterface.onLoaded(response.body())
             }
-
             override fun onFailure(call: Call<ModelDetails?>, t: Throwable) {
                 loadingInterface.onFailed()
                 Log.e("response", t.toString())
@@ -258,12 +257,11 @@ class ApiInteractor {
     }
 
     fun loadAgreementText(loadingTextInterface: LoadingTextInterface) {
-        apiInterface.loadAgreementText().enqueue(object : Callback<AppPageText> {
-            override fun onResponse(call: Call<AppPageText>, response: Response<AppPageText>) {
+        apiInterface.loadAgreementText()?.enqueue(object : Callback<AppPageText?> {
+            override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
                 loadingTextInterface.onLoaded(response.body()!!.text)
             }
-
-            override fun onFailure(call: Call<AppPageText>, t: Throwable) {
+            override fun onFailure(call: Call<AppPageText?>, t: Throwable) {
                 loadingTextInterface.onLoaded(t.toString())
             }
         })

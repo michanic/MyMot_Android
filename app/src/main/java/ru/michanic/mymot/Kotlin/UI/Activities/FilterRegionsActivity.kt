@@ -20,16 +20,16 @@ class FilterRegionsActivity : UniversalActivity() {
         setNavigationTitle("Регион")
         var expandGroupPosition = 0
         var expandedRegionId = 0
-        val filterRegion = MyMotApplication.searchManager.region
+        val filterRegion = MyMotApplication.searchManager?.region
         if (filterRegion != null) {
-            val cityRegion = MyMotApplication.dataManager.getRegionById(filterRegion.regionId)
+            val cityRegion = MyMotApplication.dataManager?.getRegionById(filterRegion.regionId)
             expandedRegionId = cityRegion?.id ?: filterRegion.id
         }
         val regions = DataManager().regions
         if (expandedRegionId > 0) {
             var row = 1
             for (region in regions) {
-                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 if (expandedRegionId == region.id) {
                     expandGroupPosition = row
                 }
@@ -41,11 +41,11 @@ class FilterRegionsActivity : UniversalActivity() {
         expandableListView.setAdapter(regionsExpandableListAdapter)
         expandableListView.setOnGroupClickListener { parent, v, groupPosition, id ->
             if (groupPosition == 0) {
-                MyMotApplication.searchManager.region = null
+                MyMotApplication.searchManager?.region = null
                 onBackPressed()
             } else {
                 val region = regions[groupPosition - 1]
-                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 if (citiesCount == 0) {
                     apiInteractor.loadRegionCities(region, object : LoadingInterface {
                         override fun onLoaded() {
@@ -63,12 +63,12 @@ class FilterRegionsActivity : UniversalActivity() {
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             if (childPosition == 0) {
                 val region = regions[groupPosition - 1]
-                MyMotApplication.searchManager.region = region
+                MyMotApplication.searchManager?.region = region
             } else {
                 val region = regions[groupPosition - 1]
                 val city =
-                    MyMotApplication.dataManager.getRegionCities(region.id)[childPosition - 1]
-                MyMotApplication.searchManager.region = city
+                    MyMotApplication.dataManager?.getRegionCities(region.id)?.get(childPosition - 1)
+                MyMotApplication.searchManager?.region = city
             }
             onBackPressed()
             false

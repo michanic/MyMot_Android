@@ -8,6 +8,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.Button
 import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
@@ -25,7 +26,7 @@ class FilterActivity : UniversalActivity() {
         searchButton.typeface = Font.progress
         searchButton.setOnClickListener {
             if (goBackOnSearch) {
-                MyMotApplication.searchManager.backPressed()
+                MyMotApplication.searchManager?.backPressed()
                 finish()
             } else {
                 val searchResultsActivity =
@@ -34,17 +35,21 @@ class FilterActivity : UniversalActivity() {
             }
         }
         createCells()
-        MyMotApplication.searchManager.filterUpdated = FilterSettedInterface { createCells() }
+        MyMotApplication.searchManager?.filterUpdated = object : FilterSettedInterface {
+            override fun onSelected(filterConfig: SearchFilterConfig?) {
+                createCells()
+            }
+        }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        MyMotApplication.searchManager.backPressed()
+        MyMotApplication.searchManager?.backPressed()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> MyMotApplication.searchManager.backPressed()
+            android.R.id.home -> MyMotApplication.searchManager?.backPressed()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -52,18 +57,18 @@ class FilterActivity : UniversalActivity() {
     private fun createCells() {
         val items: MutableList<SectionModelItem?> = ArrayList()
         items.add(SectionModelItem("Регион поиска"))
-        items.add(SectionModelItem(MyMotApplication.searchManager.regionTitle, null))
+        items.add(SectionModelItem(MyMotApplication.searchManager?.regionTitle, null))
         items.add(SectionModelItem("Модель"))
-        items.add(SectionModelItem(MyMotApplication.searchManager.modelTitle, null))
+        items.add(SectionModelItem(MyMotApplication.searchManager?.modelTitle, null))
         items.add(SectionModelItem("Цена"))
         var priceFromString = ""
-        val priceFromInt = MyMotApplication.searchManager.priceFrom
+        val priceFromInt = MyMotApplication.searchManager?.priceFrom
         if (priceFromInt != 0) {
             priceFromString = priceFromInt.toString()
         }
         items.add(SectionModelItem(SectionModelItem.PRICE_FROM_NAME, priceFromString))
         var priceForString = ""
-        val priceForInt = MyMotApplication.searchManager.priceFor
+        val priceForInt = MyMotApplication.searchManager?.priceFor
         if (priceForInt != 0) {
             priceForString = priceForInt.toString()
         }
