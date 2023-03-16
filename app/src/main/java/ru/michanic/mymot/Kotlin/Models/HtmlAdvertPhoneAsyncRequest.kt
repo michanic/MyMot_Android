@@ -24,19 +24,19 @@ class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceT
         Log.e("doInBackground", path)
         var doc: Document
         var phones: MutableList<String?> = ArrayList()
-        val csrfToken = MyMotApplication.configStorage.csrfToken
+        val csrfToken = MyMotApplication.configStorage?.csrfToken
         Log.e("csrfToken", csrfToken)
         if (sourceType == SourceType.AVITO) {
-            val response = MyMotApplication.networkService.getHtmlDataAsMobile(path)
+            val response = MyMotApplication.networkService?.getHtmlDataAsMobile(path)
             try {
-                doc = response.parse()
+                doc = response!!.parse()
             } catch (e: IOException) {
                 e.printStackTrace()
                 return phones
             }
             phones.add(htmlParser.parsePhoneFromAvito(doc))
         } else if (sourceType == SourceType.AUTO_RU) {
-            doc = MyMotApplication.networkService.getAutoRuPhonesData(path, csrfToken)
+            doc = MyMotApplication.networkService?.getAutoRuPhonesData(path, csrfToken ?: "")!!
             if (doc != null) {
                 try {
                     phones = htmlParser.parsePhonesFromAutoRu(doc).toMutableList()

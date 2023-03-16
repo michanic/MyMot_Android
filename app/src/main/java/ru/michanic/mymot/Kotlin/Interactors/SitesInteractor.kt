@@ -3,6 +3,7 @@ package ru.michanic.mymot.Kotlin.Interactors
 import android.util.Log
 import ru.michanic.mymot.Kotlin.Enums.SourceType
 import ru.michanic.mymot.Kotlin.Models.*
+import ru.michanic.mymot.Kotlin.Protocols.AsyncRequestCompleted
 import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertDetailsInterface
 import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
 import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
@@ -91,20 +92,23 @@ class SitesInteractor {
         url: String?,
         loadingInterface: LoadingAdvertsInterface
     ) {
-        HtmlAdvertsAsyncRequest({ output ->
-            val result = output as ParseAdvertsResult
-            val newAdverts = result.advetrs
-            val resultAdvetrs: MutableList<Advert> = ArrayList()
-            for (newAdvert in newAdverts) {
-                val savedAdvert = dataManager.getAdvertById(newAdvert.id)
-                if (savedAdvert != null) {
-                    resultAdvetrs.add(savedAdvert)
-                } else {
-                    resultAdvetrs.add(newAdvert)
+        HtmlAdvertsAsyncRequest(object : AsyncRequestCompleted {
+            override fun processFinish(output: Any?) {
+                val result = output as ParseAdvertsResult
+                val newAdverts = result.advetrs
+                val resultAdvetrs: MutableList<Advert> = ArrayList()
+                for (newAdvert in newAdverts) {
+                    val savedAdvert = dataManager.getAdvertById(newAdvert.id)
+                    if (savedAdvert != null) {
+                        resultAdvetrs.add(savedAdvert)
+                    } else {
+                        resultAdvetrs.add(newAdvert)
+                    }
                 }
+                dataManager.saveAdverts(resultAdvetrs)
+                loadingInterface.onLoaded(resultAdvetrs, result.loadMore())
             }
-            dataManager.saveAdverts(resultAdvetrs)
-            loadingInterface.onLoaded(resultAdvetrs, result.loadMore())
+
         }, sourceType).execute(url)
     }
 
