@@ -18,13 +18,13 @@ class FilterModelsActivity : UniversalActivity() {
         var expandGroupPosition = 0
         val topCells: MutableList<FilterModelItem> = ArrayList()
         val allChecked =
-            MyMotApplication.searchManager.manufacturer == null && MyMotApplication.searchManager.model == null
+            MyMotApplication.searchManager?.manufacturer == null && MyMotApplication.searchManager?.model == null
         topCells.add(FilterModelItem(allChecked))
         val dataManager = DataManager()
         val categories = dataManager.getCategories(true)
         var expandedManufacturerId = 0
         var expandedCategoryId = 0
-        val filterModel = MyMotApplication.searchManager.model
+        val filterModel = MyMotApplication.searchManager?.model
         if (filterModel != null) {
             expandedManufacturerId = filterModel.manufacturer?.id ?: 0
             expandedCategoryId = filterModel.category?.id ?: 0
@@ -32,7 +32,7 @@ class FilterModelsActivity : UniversalActivity() {
         for (manufacturer in dataManager.getManufacturers(true)) {
             topCells.add(FilterModelItem(manufacturer.name))
             var manufacturerChecked = false
-            val selectedManufacturer = MyMotApplication.searchManager.manufacturer
+            val selectedManufacturer = MyMotApplication.searchManager?.manufacturer
             if (selectedManufacturer != null) {
                 if (selectedManufacturer.id == manufacturer.id) {
                     manufacturerChecked = true
@@ -54,13 +54,13 @@ class FilterModelsActivity : UniversalActivity() {
         expandableListView.setAdapter(modelsExpandableListAdapter)
         expandableListView.setOnGroupClickListener { parent, v, groupPosition, id ->
             if (groupPosition == 0) {
-                MyMotApplication.searchManager.manufacturer = null
-                MyMotApplication.searchManager.model = null
+                MyMotApplication.searchManager?.manufacturer = null
+                MyMotApplication.searchManager?.model = null
                 onBackPressed()
             } else {
                 val manufacturer = topCells[groupPosition].manufacturer
                 if (manufacturer != null) {
-                    MyMotApplication.searchManager.manufacturer = manufacturer
+                    MyMotApplication.searchManager?.manufacturer = manufacturer
                     onBackPressed()
                 }
             }
@@ -68,7 +68,7 @@ class FilterModelsActivity : UniversalActivity() {
         }
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             val model = topCells[groupPosition].models?.get(childPosition)
-            MyMotApplication.searchManager.model = model
+            MyMotApplication.searchManager?.model = model
             onBackPressed()
             false
         }

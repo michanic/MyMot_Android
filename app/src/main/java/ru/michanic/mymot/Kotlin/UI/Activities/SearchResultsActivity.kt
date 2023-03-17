@@ -36,14 +36,24 @@ class SearchResultsActivity : UniversalActivity() {
         setNavigationTitle("Результаты поиска")
         resultView = findViewById<View>(R.id.resultsView) as RecyclerView
         progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
-        MyMotApplication.searchManager.filterClosedCallback =
-            FilterSettedInterface { Log.e("filterClosedCallback", "") }
-        MyMotApplication.searchManager.searchPressedCallback =
-            FilterSettedInterface { Log.e("searchPressedCallback", "") }
-        val advertPressed = ClickListener { section, row ->
-            val adveryActivity = Intent(applicationContext, AdvertActivity::class.java)
-            adveryActivity.putExtra("advertId", loadedAdverts[row].id)
-            startActivity(adveryActivity)
+        MyMotApplication.searchManager?.filterClosedCallback =
+            object : FilterSettedInterface {
+                override fun onSelected(filterConfig: SearchFilterConfig?) {
+                    Log.e("filterClosedCallback", "")
+                }
+            }
+        MyMotApplication.searchManager?.searchPressedCallback =
+            object : FilterSettedInterface {
+                override fun onSelected(filterConfig: SearchFilterConfig?) {
+                    Log.e("searchPressedCallback", "")
+                }
+            }
+        val advertPressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val adveryActivity = Intent(applicationContext, AdvertActivity::class.java)
+                adveryActivity.putExtra("advertId", loadedAdverts[row].id)
+                startActivity(adveryActivity)
+            }
         }
         glm = GridLayoutManager(this, 1)
         resultView?.layoutManager = glm
@@ -61,13 +71,17 @@ class SearchResultsActivity : UniversalActivity() {
                 }
             }
         })
-        MyMotApplication.searchManager.filterClosedCallback =
-            FilterSettedInterface { reloadResults() }
+        MyMotApplication.searchManager?.filterClosedCallback =
+            object : FilterSettedInterface {
+                override fun onSelected(filterConfig: SearchFilterConfig?) {
+                    reloadResults()
+                }
+            }
         reloadResults()
     }
 
     private fun reloadResults() {
-        filterConfig = MyMotApplication.searchManager.filterConfig
+        filterConfig = MyMotApplication.searchManager?.filterConfig
         loadedAdverts.clear()
         searchAdapter?.notifyDataSetChanged()
         currentPage = 1
@@ -77,19 +91,22 @@ class SearchResultsActivity : UniversalActivity() {
 
     private fun loadMore() {
         loading = true
-        sitesInteractor.searchAdverts(currentPage, filterConfig, object : LoadingAdvertsInterface {
-            override fun onLoaded(adverts: List<Advert>, loadMore: Boolean) {
-                progressBar?.visibility = View.GONE
-                Log.e("onLoaded", adverts.size.toString())
-                loadedAdverts.addAll(adverts)
-                searchAdapter?.notifyDataSetChanged()
-                loading = false
-                isLastPage = !loadMore
-                currentPage++
-            }
+        sitesInteractor.searchAdverts(
+            currentPage,
+            filterConfig!!,
+            object : LoadingAdvertsInterface {
+                override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
+                    progressBar?.visibility = View.GONE
+                    Log.e("onLoaded", adverts.toString())
+                    loadedAdverts.addAll(adverts!!.filterNotNull())
+                    searchAdapter?.notifyDataSetChanged()
+                    loading = false
+                    isLastPage = !loadMore
+                    currentPage++
+                }
 
-            override fun onFailed() {}
-        })
+                override fun onFailed() {}
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

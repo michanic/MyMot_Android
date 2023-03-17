@@ -146,7 +146,7 @@ class MainActivity : UniversalActivity() {
                 searchResultsView?.onItemClickListener =
                     OnItemClickListener { parent, view, position, id ->
                         val model = items[position]?.model
-                        MyMotApplication.searchManager.model = model
+                        MyMotApplication.searchManager?.model = model
                         val searchResultsActivity =
                             Intent(applicationContext, SearchResultsActivity::class.java)
                         startActivity(searchResultsActivity)

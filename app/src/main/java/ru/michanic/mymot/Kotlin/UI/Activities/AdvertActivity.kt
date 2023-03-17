@@ -22,6 +22,7 @@ import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.AdvertDetails
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertDetailsInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
@@ -56,7 +57,7 @@ class AdvertActivity : UniversalActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.favourite_icon) {
-            MyMotApplication.dataManager.setAdvertFavourite(advert.id, !advert.isFavourite)
+            MyMotApplication.dataManager?.setAdvertFavourite(advert.id, !advert.isFavourite)
             switchFavouriteButton(item, advert.isFavourite)
         }
         return super.onOptionsItemSelected(item)
@@ -72,12 +73,12 @@ class AdvertActivity : UniversalActivity() {
 
     private fun loadAdvertDetails() {
         sitesInteractor.loadAdvertDetails(advert, object : LoadingAdvertDetailsInterface {
-            override fun onLoaded(details: AdvertDetails) {
+            override fun onLoaded(details: AdvertDetails?) {
                 advertDetails = details
                 loadingIndicator?.visibility = View.GONE
                 fillProperties()
                 contentView?.visibility = View.VISIBLE
-                MyMotApplication.configStorage.saveCsrfToken(advertDetails?.csrfToken)
+                MyMotApplication.configStorage?.saveCsrfToken(advertDetails?.csrfToken)
             }
 
             override fun onFailed() {
@@ -121,12 +122,12 @@ class AdvertActivity : UniversalActivity() {
         val warning = advertDetails?.warning
         if (warning != null) {
             if (warning.length > 0) {
-                MyMotApplication.dataManager.setAdvertActive(advert.id, false)
+                MyMotApplication.dataManager?.setAdvertActive(advert.id, false)
                 aboutLabel.text = warning
                 imagesSlider.alpha = 0.5.toFloat()
                 callButton.visibility = View.GONE
             } else {
-                MyMotApplication.dataManager.setAdvertActive(advert.id, true)
+                MyMotApplication.dataManager?.setAdvertActive(advert.id, true)
                 imagesSlider.alpha = 1f
                 callButton.visibility = View.VISIBLE
                 val aboutText = advertDetails?.text
@@ -145,31 +146,37 @@ class AdvertActivity : UniversalActivity() {
             sellerPhones.clear()
             val sourceType = advert.sourceType
             if (sourceType == SourceType.AVITO) {
-                sitesInteractor.loadAvitoAdvertPhone(advert) { phones ->
-                    sellerPhones = phones
-                    if (phones.size > 0) {
-                        makeCall(phones[0])
+
+                sitesInteractor.loadAvitoAdvertPhone(advert, object : LoadingAdvertPhonesInterface {
+                    override fun onLoaded(phones: List<String?>?) {
+                        sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
+                        if (sellerPhones.size > 0) {
+                            makeCall(sellerPhones[0])
+                        }
                     }
-                }
+                })
             } else if (sourceType == SourceType.AUTO_RU) {
                 sitesInteractor.loadAutoRuAdvertPhones(
-                    advert.id,
-                    advertDetails?.saleHash
-                ) { phones ->
-                    sellerPhones = phones
-                    if (phones.size == 1) {
-                        val phone = phones[0]
-                        if (phone.contains("c")) {
-                            openContextMenu(callButton)
-                        } else {
-                            makeCall(phone)
+                    advert.id.toString(),
+                    advertDetails?.saleHash.toString(),
+                    object : LoadingAdvertPhonesInterface {
+                        override fun onLoaded(phones: List<String?>?) {
+                            sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
+                            if (phones?.size == 1) {
+                                val phone = phones[0]
+                                if (phone!!.contains("c")) {
+                                    openContextMenu(callButton)
+                                } else {
+                                    makeCall(sellerPhones[0])
+                                }
+                            } else if (sellerPhones.size > 1) {
+                                openContextMenu(callButton)
+                            }
                         }
-                    } else if (phones.size > 1) {
-                        openContextMenu(callButton)
-                    }
-                }
+                    })
             }
         }
+
         val parameters = advertDetails?.parameters
         val parametersListAdapter = ParametersListAdapter(parameters)
         parametersListView.adapter = parametersListAdapter

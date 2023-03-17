@@ -22,7 +22,7 @@ class InfoHomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_info_home, null)
         val aboutText = rootView.findViewById<View>(R.id.aboutText) as TextView
-        val htmlText = Html.fromHtml(MyMotApplication.configStorage.aboutText)
+        val htmlText = Html.fromHtml(MyMotApplication.configStorage?.aboutText)
         aboutText.text = htmlText
         val agreementView = rootView.findViewById<View>(R.id.agreementView) as FrameLayout
         agreementView.setOnClickListener {

@@ -33,8 +33,16 @@ open class UniversalActivity : AppCompatActivity() {
         supportActionBar?.title = s
     }
 
-    fun showNoConnectionDialog(noConnectionRepeatInterface: NoConnectionRepeatInterface) {
-        showDialog("Ошибка", "Отсутствует соединение с сервером", noConnectionRepeatInterface)
+    fun showNoConnectionDialog(noConnectionRepeatInterface: () -> Unit) {
+        showDialog(
+            "Ошибка",
+            "Отсутствует соединение с сервером",
+            noConnectionRepeatInterface
+        )
+    }
+
+    private fun showDialog(title: String, message: String, noConnectionRepeatInterface: () -> Unit) {
+
     }
 
     protected fun showDialog(

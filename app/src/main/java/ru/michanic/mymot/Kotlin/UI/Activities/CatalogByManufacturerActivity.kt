@@ -19,10 +19,10 @@ class CatalogByManufacturerActivity : UniversalActivity() {
         val intent = intent
         val manufacturerId = intent.getIntExtra("manufacturerId", 0)
         val manufacturer = dataManager.getManufacturerById(manufacturerId)
-        setNavigationTitle(manufacturer.name ?: "")
+        setNavigationTitle(manufacturer?.name ?: "")
         val items: MutableList<SectionModelItem?> = ArrayList()
         for (category in dataManager.getCategories(true)) {
-            val models = dataManager.getManufacturerModels(manufacturer, category)
+            val models = dataManager.getManufacturerModels(manufacturer!!, category)
             if (models.size > 0) {
                 items.add(SectionModelItem(category.name?.uppercase(Locale.getDefault())))
                 for (model in models) {

@@ -37,7 +37,7 @@ class SearchListCell(itemView: View) : RecyclerView.ViewHolder(itemView) {
         favouriteIcon.setOnClickListener {
             val newState = !advert.isFavourite
             Log.e("setAdvertFavourite", newState.toString())
-            MyMotApplication.dataManager.setAdvertFavourite(advert.id, newState)
+            MyMotApplication.dataManager!!.setAdvertFavourite(advert.id, newState)
             switchFavouriteButton(newState)
         }
     }
