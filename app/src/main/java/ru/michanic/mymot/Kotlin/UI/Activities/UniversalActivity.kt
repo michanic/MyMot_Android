@@ -41,26 +41,18 @@ open class UniversalActivity : AppCompatActivity() {
         )
     }
 
-    private fun showDialog(title: String, message: String, noConnectionRepeatInterface: () -> Unit) {
-
-    }
-
     protected fun showDialog(
         title: String?,
         message: String?,
-        noConnectionRepeatInterface: NoConnectionRepeatInterface
+        noConnectionRepeatInterface: NoConnectionRepeatInterface,
     ) {
         val alertDialogBuilder = AlertDialog.Builder(this@UniversalActivity)
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(message)
-        alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i -> noConnectionRepeatInterface.repeatPressed() }
-        /*alertDialogBuilder.setNegativeButton("Повторить", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });*/
+        alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i ->
+            noConnectionRepeatInterface.repeatPressed()
+        }
         val alertDialog = alertDialogBuilder.create() as AlertDialog
         alertDialog.show()
     }
