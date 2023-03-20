@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import ru.michanic.mymot.Extensions.Font
-import ru.michanic.mymot.Interactors.ApiInteractor
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.LoadingInterface
+import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.LoadingInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.databinding.ActivityLoadingBinding
 
@@ -17,9 +17,7 @@ class LoadingActivity : UniversalActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoadingBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_loading)
         supportActionBar?.hide()
         MyMotApplication.setAppContext(applicationContext)
         val bigTitle = findViewById<View>(R.id.bigTitle) as TextView

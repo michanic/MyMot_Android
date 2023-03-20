@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import ru.michanic.mymot.Kotlin.Models.Advert
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 
 class SearchListCell(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,7 +37,7 @@ class SearchListCell(itemView: View) : RecyclerView.ViewHolder(itemView) {
         favouriteIcon.setOnClickListener {
             val newState = !advert.isFavourite
             Log.e("setAdvertFavourite", newState.toString())
-            MyMotApplication.dataManager.setAdvertFavourite(advert.id, newState)
+            MyMotApplication.dataManager!!.setAdvertFavourite(advert.id, newState)
             switchFavouriteButton(newState)
         }
     }

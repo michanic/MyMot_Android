@@ -12,20 +12,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.Extensions.Font
-import ru.michanic.mymot.Interactors.SitesInteractor
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter
 import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.Models.Source
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.ClickListener
-import ru.michanic.mymot.Protocols.FilterSettedInterface
-import ru.michanic.mymot.Protocols.LoadingAdvertsInterface
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
+import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class SearchHomeFragment : Fragment() {
     private var currentSource: Source? = null
@@ -58,10 +58,12 @@ class SearchHomeFragment : Fragment() {
         resultView?.layoutManager = glm
         mLayoutManager = LinearLayoutManager(activity)
         resultView?.setHasFixedSize(false)
-        val advertPressed = ClickListener { section, row ->
-            val advertActivity = Intent(activity, AdvertActivity::class.java)
-            advertActivity.putExtra("advertId", loadedAdverts[row].id)
-            activity?.startActivity(advertActivity)
+        val advertPressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val advertActivity = Intent(activity, AdvertActivity::class.java)
+                advertActivity.putExtra("advertId", loadedAdverts[row].id)
+                activity?.startActivity(advertActivity)
+            }
         }
         searchAdapter = SearchMainAdapter(this.requireContext(), loadedAdverts, advertPressed)
         resultView?.adapter = searchAdapter
@@ -84,12 +86,16 @@ class SearchHomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        MyMotApplication.searchManager.filterClosedCallback =
-            FilterSettedInterface { reloadResults() }
+        MyMotApplication.searchManager?.filterClosedCallback =
+            object : FilterSettedInterface {
+                override fun onSelected(filterConfig: SearchFilterConfig?) {
+                    reloadResults()
+                }
+            }
     }
 
     private fun reloadResults() {
-        filterConfig = MyMotApplication.searchManager.filterConfig
+        filterConfig = MyMotApplication.searchManager?.filterConfig
         titleView?.text = filterConfig?.mainSearchTitle
         loadedAdverts.clear()
         currentSource = null
@@ -128,11 +134,11 @@ class SearchHomeFragment : Fragment() {
                 }
             }
         }
-        sitesInteractor.loadFeedAdverts(currentSource, object : LoadingAdvertsInterface {
-            override fun onLoaded(adverts: List<Advert>, loadMore: Boolean) {
+        sitesInteractor.loadFeedAdverts(currentSource!!, object : LoadingAdvertsInterface {
+            override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
                 progressBar?.visibility = View.GONE
-                Log.e("onLoaded", adverts.size.toString())
-                loadedAdverts.addAll(adverts)
+                Log.e("onLoaded", adverts?.size.toString())
+                loadedAdverts.addAll(adverts!!.filterNotNull())
                 searchAdapter?.notifyDataSetChanged()
                 loading = false
                 if (currentSource?.type == SourceType.AVITO) {

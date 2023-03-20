@@ -8,7 +8,7 @@ import com.squareup.picasso.Picasso
 import ru.michanic.mymot.Kotlin.Models.Category
 import ru.michanic.mymot.Kotlin.Models.Manufacturer
 import ru.michanic.mymot.Kotlin.Models.Volume
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.R
 
 class CatalogSliderCell(itemView: View) : RecyclerView.ViewHolder(itemView) {

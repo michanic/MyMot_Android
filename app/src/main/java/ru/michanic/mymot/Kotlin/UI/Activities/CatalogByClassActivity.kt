@@ -8,7 +8,7 @@ import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 import java.util.*
 
 class CatalogByClassActivity : UniversalActivity() {
@@ -19,12 +19,12 @@ class CatalogByClassActivity : UniversalActivity() {
         val intent = intent
         val classId = intent.getIntExtra("classId", 0)
         val category = dataManager.getCategoryById(classId)
-        setNavigationTitle(category.name)
+        setNavigationTitle(category?.name ?: "")
         val items: MutableList<SectionModelItem?> = ArrayList()
         for (manufacturer in dataManager.getManufacturers(true)) {
-            val models = dataManager.getManufacturerModels(manufacturer, category)
+            val models = dataManager.getManufacturerModels(manufacturer, category!!)
             if (models.size > 0) {
-                items.add(SectionModelItem(manufacturer.name.uppercase(Locale.getDefault())))
+                items.add(SectionModelItem(manufacturer.name?.uppercase(Locale.getDefault())))
                 for (model in models) {
                     items.add(SectionModelItem(model))
                 }

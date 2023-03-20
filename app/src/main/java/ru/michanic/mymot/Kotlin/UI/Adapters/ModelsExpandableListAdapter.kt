@@ -7,10 +7,10 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import ru.michanic.mymot.Enums.CellAccessoryType
+import ru.michanic.mymot.Kotlin.Enums.CellAccessoryType
 import ru.michanic.mymot.Kotlin.Models.FilterModelItem
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
 
@@ -27,7 +27,7 @@ class ModelsExpandableListAdapter(
         when (item.type) {
             FilterModelItem.SECTION_TITLE -> return 0
             FilterModelItem.SIMPLE_CELL -> return 0
-            FilterModelItem.CATEGORY_CELL -> return item.models.size
+            FilterModelItem.CATEGORY_CELL -> return item.models?.size ?: 0
         }
         return 0
     }
@@ -70,7 +70,7 @@ class ModelsExpandableListAdapter(
                 val view = View.inflate(context, R.layout.cell_simple, null)
                 SimpleCell.fillWithTitle(
                     view,
-                    item.title,
+                    item.title  ?: "",
                     if (item.isChecked) CellAccessoryType.CHECKED else CellAccessoryType.HIDDEN,
                     1
                 )
@@ -80,7 +80,7 @@ class ModelsExpandableListAdapter(
                 val categoryView = View.inflate(context, R.layout.cell_simple, null)
                 SimpleCell.fillWithTitle(
                     categoryView,
-                    item.title,
+                    item.title  ?: "",
                     if (isExpanded) CellAccessoryType.TOP else CellAccessoryType.BOTTOM,
                     1
                 )
@@ -102,11 +102,11 @@ class ModelsExpandableListAdapter(
         val modelTitle = view.findViewById<View>(R.id.model_title) as TextView
         val years = view.findViewById<View>(R.id.model_years) as TextView
         val arrowImage = view.findViewById<View>(R.id.arrowView) as ImageView
-        val model = topCells[groupPosition].models[childPosition]
+        val model = topCells[groupPosition].models?.get(childPosition)
         var modelChecked = false
-        val selectedModel = MyMotApplication.searchManager.model
+        val selectedModel = MyMotApplication.searchManager?.model
         if (selectedModel != null) {
-            if (selectedModel.id == model.id) {
+            if (selectedModel.id == model?.id ?: 0) {
                 modelChecked = true
             }
         }
@@ -116,10 +116,10 @@ class ModelsExpandableListAdapter(
         } else {
             arrowImage.visibility = View.GONE
         }
-        Picasso.get().load(Const.DOMAIN + model.preview_picture)
+        Picasso.get().load(Const.DOMAIN + model?.preview_picture)
             .placeholder(R.drawable.ic_placeholder).into(imageView)
-        modelTitle.text = model.name
-        years.text = model.years
+        modelTitle.text = model?.name
+        years.text = model?.years
         return view
     }
 

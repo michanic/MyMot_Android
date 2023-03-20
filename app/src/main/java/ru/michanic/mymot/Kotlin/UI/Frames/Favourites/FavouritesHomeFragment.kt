@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.michanic.mymot.Kotlin.UI.Adapters.FavouritesPagerAdapter
 import ru.michanic.mymot.R
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class FavouritesHomeFragment : Fragment() {
     private var tabs: TabLayout? = null

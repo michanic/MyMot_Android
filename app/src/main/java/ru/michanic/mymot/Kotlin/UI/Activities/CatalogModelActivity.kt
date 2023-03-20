@@ -13,20 +13,20 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import com.shivam.library.imageslider.ImageSlider
-import ru.michanic.mymot.Extensions.Font
-import ru.michanic.mymot.Interactors.ApiInteractor
+import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.Models.Model
 import ru.michanic.mymot.Kotlin.Models.ModelDetails
 import ru.michanic.mymot.Kotlin.Models.YoutubeVideo
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.ClickListener
-import ru.michanic.mymot.Protocols.LoadingModelDetailsInterface
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.LoadingModelDetailsInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ReviewsSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.NonScrollListView
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class CatalogModelActivity : UniversalActivity() {
     private var loadingIndicator: ProgressBar? = null
@@ -40,8 +40,8 @@ class CatalogModelActivity : UniversalActivity() {
         setContentView(R.layout.activity_catalog_model)
         val intent = intent
         val modelId = intent.getIntExtra("modelId", 0)
-        model = dataManager.getModelById(modelId)
-        setNavigationTitle(model.name)
+        model = dataManager.getModelById(modelId)!!
+        setNavigationTitle(model.name ?: "")
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar
@@ -73,7 +73,7 @@ class CatalogModelActivity : UniversalActivity() {
 
     private fun loadModelDetails(modelId: Int) {
         apiInteractor.loadModelDetails(modelId, object : LoadingModelDetailsInterface {
-            override fun onLoaded(details: ModelDetails) {
+            override fun onLoaded(details: ModelDetails?) {
                 modelDetails = details
                 loadingIndicator?.visibility = View.GONE
                 fillProperties()
@@ -107,8 +107,8 @@ class CatalogModelActivity : UniversalActivity() {
         parametersTitle.typeface = Font.oswald
         reviewsTitle.typeface = Font.oswald
         modelLabel.text = model.name
-        manufacturerLabel.text = model.manufacturer.name
-        classLabel.text = model.category.name
+        manufacturerLabel.text = model.manufacturer?.name
+        classLabel.text = model.category?.name
         yearsLabel.text = model.years
         aboutLabel.text = modelDetails?.preview_text
         val images = modelDetails?.images
@@ -129,11 +129,13 @@ class CatalogModelActivity : UniversalActivity() {
             for (videoId in videoIDs) {
                 videos.add(YoutubeVideo(videoId))
             }
-            val reviewPressed = ClickListener { section, row ->
-                val video = videos[row]
-                val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
-                videoActivity.putExtra("videoId", video.videoId)
-                startActivity(videoActivity)
+            val reviewPressed = object : ClickListener {
+                override fun onClick(section: Int, row: Int) {
+                    val video = videos[row]
+                    val videoActivity = Intent(applicationContext, VideoViewActivity::class.java)
+                    videoActivity.putExtra("videoId", video.videoId)
+                    startActivity(videoActivity)
+                }
             }
             val reviewsAdapter = ReviewsSliderAdapter(this, videos, reviewPressed)
             reviewsSlider.adapter = reviewsAdapter
@@ -142,7 +144,7 @@ class CatalogModelActivity : UniversalActivity() {
             reviewsSlider.visibility = View.GONE
         }
         searchButton.setOnClickListener {
-            MyMotApplication.searchManager.model = model
+            MyMotApplication.searchManager?.model = model
             val searchResultsActivity =
                 Intent(applicationContext, SearchResultsActivity::class.java)
             startActivity(searchResultsActivity)

@@ -5,15 +5,15 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import ru.michanic.mymot.Enums.CellAccessoryType
+import ru.michanic.mymot.Kotlin.Enums.CellAccessoryType
 import ru.michanic.mymot.Kotlin.Models.Location
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
 
 class RegionsExpandableListAdapter(private val regions: List<Location>, var context: Context) :
     BaseExpandableListAdapter() {
-    private val filterRegion = MyMotApplication.searchManager.region
+    private val filterRegion = MyMotApplication.searchManager?.region
     override fun getGroupCount(): Int {
         return regions.size + 1
     }
@@ -23,8 +23,8 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             0
         } else {
             val region = regions[groupPosition - 1]
-            val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
-            if (citiesCount > 0) {
+            val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
+            if (citiesCount!! > 0) {
                 citiesCount + 1
             } else {
                 0
@@ -67,11 +67,11 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             val region = regions[groupPosition - 1]
             var cellAccessoryType = CellAccessoryType.BOTTOM
             if (isExpanded) {
-                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 cellAccessoryType =
                     if (citiesCount == 0) CellAccessoryType.LOADING else CellAccessoryType.TOP
             }
-            SimpleCell.fillWithTitle(cell, region.name, cellAccessoryType, 1)
+            SimpleCell.fillWithTitle(cell,region?.name ?: "", cellAccessoryType, 1)
         }
         return cell
     }
@@ -94,7 +94,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             SimpleCell.fillWithTitle(cell, "Все города", state, 2)
         } else {
             val region = regions[groupPosition - 1]
-            val cities = MyMotApplication.dataManager.getRegionCities(region.id)
+            val cities = MyMotApplication.dataManager!!.getRegionCities(region.id)
             val city = cities[childPosition - 1]
             var state = CellAccessoryType.HIDDEN
             if (filterRegion != null) {
@@ -103,7 +103,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
                     state = CellAccessoryType.CHECKED
                 }
             }
-            SimpleCell.fillWithTitle(cell, city.name, state, 2)
+            SimpleCell.fillWithTitle(cell, city?.name ?: "", state, 2)
         }
         return cell
     }

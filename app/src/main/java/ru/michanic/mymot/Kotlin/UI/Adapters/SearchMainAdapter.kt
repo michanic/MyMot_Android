@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Models.Advert
-import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Cells.SearchMainCell
 

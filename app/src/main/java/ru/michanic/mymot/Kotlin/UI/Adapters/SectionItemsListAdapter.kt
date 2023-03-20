@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import de.halfbit.pinnedsection.PinnedSectionListView.PinnedSectionListAdapter
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.MyMotApplication
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.R
 
 class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
@@ -69,11 +69,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                 val years = view.findViewById<View>(R.id.model_years) as TextView
                 val volume = view.findViewById<View>(R.id.model_volume) as TextView
                 val model = item.model
-                Picasso.get().load(Const.DOMAIN + model.preview_picture)
+                Picasso.get().load(Const.DOMAIN + model?.preview_picture)
                     .placeholder(R.drawable.ic_placeholder).into(imageView)
-                modelTitle.text = model.name
-                years.text = model.years
-                volume.text = model.volume
+                modelTitle.text = model?.name
+                years.text = model?.years
+                volume.text = model?.volume
             }
             SectionModelItem.SIMPLE_CELL -> {
                 view = View.inflate(parent.context, R.layout.cell_simple, null)
@@ -103,16 +103,16 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                         if (propertyTitle === SectionModelItem.PRICE_FROM_NAME) {
                             try {
                                 val priceFrom = s.toString().toInt()
-                                MyMotApplication.searchManager.priceFrom = priceFrom
+                                MyMotApplication.searchManager?.priceFrom = priceFrom
                             } catch (nfe: NumberFormatException) {
-                                MyMotApplication.searchManager.priceFrom = 0
+                                MyMotApplication.searchManager?.priceFrom = 0
                             }
                         } else if (propertyTitle === SectionModelItem.PRICE_FOR_NAME) {
                             try {
                                 val priceFor = s.toString().toInt()
-                                MyMotApplication.searchManager.priceFor = priceFor
+                                MyMotApplication.searchManager?.priceFor = priceFor
                             } catch (nfe: NumberFormatException) {
-                                MyMotApplication.searchManager.priceFor = 0
+                                MyMotApplication.searchManager?.priceFor = 0
                             }
                         }
                         item.propertyValue = s.toString()

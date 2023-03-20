@@ -6,16 +6,16 @@ import java.util.*
 
 open class Model : RealmObject() {
     @PrimaryKey
-    val id = 0
-    private val code: String? = null
-    val class_id = 0
-    val m_id = 0
+    var id = 0
+    private var code: String? = null
+    var class_id = 0
+    var m_id = 0
     var isFavourite = false
-    private val first_year = 0
-    private val last_year = 0
-    val name: String? = null
-    val preview_picture: String? = null
-    val sort = 0
+    private var first_year = 0
+    private var last_year = 0
+    var name: String? = null
+    var preview_picture: String? = null
+    var sort = 0
     var volume: String? = null
     private var volume_value = 0f
     var volume_id = 0

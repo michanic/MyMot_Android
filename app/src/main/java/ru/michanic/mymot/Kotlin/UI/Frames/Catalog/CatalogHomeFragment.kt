@@ -9,16 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import ru.michanic.mymot.Extensions.Font
+import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter
-import ru.michanic.mymot.Protocols.ClickListener
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
 import ru.michanic.mymot.R
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class CatalogHomeFragment : Fragment() {
     override fun onCreateView(
@@ -43,10 +43,12 @@ class CatalogHomeFragment : Fragment() {
         classesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         classesRecyclerView.layoutManager = classesLayoutManager
         val classes = dataManager.getCategories(true)
-        val classPressed = ClickListener { section, row ->
-            val catalogByClassActivity = Intent(activity, CatalogByClassActivity::class.java)
-            catalogByClassActivity.putExtra("classId", classes[row].id)
-            activity?.startActivity(catalogByClassActivity)
+        val classPressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val catalogByClassActivity = Intent(activity, CatalogByClassActivity::class.java)
+                catalogByClassActivity.putExtra("classId", classes[row].id)
+                activity?.startActivity(catalogByClassActivity)
+            }
         }
         val classesAdapter = ClassesSliderAdapter(this.requireContext(), classes, classPressed)
         classesRecyclerView.adapter = classesAdapter
@@ -54,11 +56,13 @@ class CatalogHomeFragment : Fragment() {
         manufacturersLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         manufacturersRecyclerView.layoutManager = manufacturersLayoutManager
         val manufacturers = dataManager.getManufacturers(true)
-        val manufacturerPressed = ClickListener { section, row ->
-            val catalogByManufacturerActivity =
-                Intent(activity, CatalogByManufacturerActivity::class.java)
-            catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers[row].id)
-            activity?.startActivity(catalogByManufacturerActivity)
+        val manufacturerPressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val catalogByManufacturerActivity =
+                    Intent(activity, CatalogByManufacturerActivity::class.java)
+                catalogByManufacturerActivity.putExtra("manufacturerId", manufacturers[row].id)
+                activity?.startActivity(catalogByManufacturerActivity)
+            }
         }
         val manufacturersAdapter =
             ManufacturersSliderAdapter(this.requireContext(), manufacturers, manufacturerPressed)
@@ -67,10 +71,12 @@ class CatalogHomeFragment : Fragment() {
         volumesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         volumesRecyclerView.layoutManager = volumesLayoutManager
         val volumes = dataManager.volumes
-        val volumePressed = ClickListener { section, row ->
-            val catalogByVolumeActivity = Intent(activity, CatalogByVolumeActivity::class.java)
-            catalogByVolumeActivity.putExtra("volumeId", volumes[row].id)
-            activity?.startActivity(catalogByVolumeActivity)
+        val volumePressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val catalogByVolumeActivity = Intent(activity, CatalogByVolumeActivity::class.java)
+                catalogByVolumeActivity.putExtra("volumeId", volumes[row].id)
+                activity?.startActivity(catalogByVolumeActivity)
+            }
         }
         val volumesAdapter = VolumessSliderAdapter(this.requireContext(), volumes, volumePressed)
         volumesRecyclerView.adapter = volumesAdapter

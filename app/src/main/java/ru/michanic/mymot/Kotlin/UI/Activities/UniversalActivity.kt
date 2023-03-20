@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Spannable
 import android.text.SpannableString
-import ru.michanic.mymot.Protocols.NoConnectionRepeatInterface
-import ru.michanic.mymot.Utils.TypefaceSpan
+import ru.michanic.mymot.Kotlin.Utils.TypefaceSpan
 
 open class UniversalActivity : AppCompatActivity() {
     var rootActivity = false
@@ -33,27 +32,31 @@ open class UniversalActivity : AppCompatActivity() {
         supportActionBar?.title = s
     }
 
-    fun showNoConnectionDialog(noConnectionRepeatInterface: NoConnectionRepeatInterface) {
-        showDialog("Ошибка", "Отсутствует соединение с сервером", noConnectionRepeatInterface)
+    fun showNoConnectionDialog(noConnectionRepeatInterface: () -> Unit) {
+        showDialog(
+            "Ошибка",
+            "Отсутствует соединение с сервером",
+            noConnectionRepeatInterface
+        )
     }
 
     protected fun showDialog(
         title: String?,
         message: String?,
-        noConnectionRepeatInterface: NoConnectionRepeatInterface
+        noConnectionRepeatInterface: () -> Unit,
     ) {
         val alertDialogBuilder = AlertDialog.Builder(this@UniversalActivity)
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(message)
-        alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i -> noConnectionRepeatInterface.repeatPressed() }
-        /*alertDialogBuilder.setNegativeButton("Повторить", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });*/
+        alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i ->
+            noConnectionRepeatInterface.repeatPressed()
+        }
         val alertDialog = alertDialogBuilder.create() as AlertDialog
         alertDialog.show()
     }
+}
+
+private fun Any.repeatPressed() {
+    TODO("Not yet implemented")
 }

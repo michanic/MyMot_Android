@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import ru.michanic.mymot.Kotlin.UI.Activities.TextActivity
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 
 class InfoHomeFragment : Fragment() {
@@ -22,7 +22,7 @@ class InfoHomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_info_home, null)
         val aboutText = rootView.findViewById<View>(R.id.aboutText) as TextView
-        val htmlText = Html.fromHtml(MyMotApplication.getConfigStorage().aboutText)
+        val htmlText = Html.fromHtml(MyMotApplication.configStorage?.aboutText)
         aboutText.text = htmlText
         val agreementView = rootView.findViewById<View>(R.id.agreementView) as FrameLayout
         agreementView.setOnClickListener {

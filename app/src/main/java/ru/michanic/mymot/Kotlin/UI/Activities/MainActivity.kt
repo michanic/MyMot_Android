@@ -12,14 +12,14 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.SearchView
 import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.MyMotApplication
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.Kotlin.UI.Frames.Catalog.CatalogHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Favourites.FavouritesHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Info.InfoHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Search.SearchHomeFragment
-import ru.michanic.mymot.Utils.DataManager
+import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class MainActivity : UniversalActivity() {
 
@@ -146,7 +146,7 @@ class MainActivity : UniversalActivity() {
                 searchResultsView?.onItemClickListener =
                     OnItemClickListener { parent, view, position, id ->
                         val model = items[position]?.model
-                        MyMotApplication.searchManager.model = model
+                        MyMotApplication.searchManager?.model = model
                         val searchResultsActivity =
                             Intent(applicationContext, SearchResultsActivity::class.java)
                         startActivity(searchResultsActivity)

@@ -2,8 +2,8 @@ package ru.michanic.mymot.Kotlin.Models
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import ru.michanic.mymot.Enums.SourceType
-import ru.michanic.mymot.Protocols.Const
+import ru.michanic.mymot.Kotlin.Enums.SourceType
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
@@ -16,13 +16,10 @@ open class Advert : RealmObject() {
     var date: String? = null
     var isFavourite = false
     var link: String? = null
-    private val phone: String? = null
+    var phone: String? = null
     var previewImage: String? = null
-    private var price = 0
+    var price: Int = 0
     var title: String? = null
-    fun setPrice(price: Int) {
-        this.price = price
-    }
 
     val priceString: String
         get() {
