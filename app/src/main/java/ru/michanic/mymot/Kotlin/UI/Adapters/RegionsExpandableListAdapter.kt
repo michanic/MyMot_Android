@@ -13,7 +13,7 @@ import ru.michanic.mymot.Kotlin.UI.Cells.SimpleCell
 
 class RegionsExpandableListAdapter(private val regions: List<Location>, var context: Context) :
     BaseExpandableListAdapter() {
-    private val filterRegion = MyMotApplication.searchManager.region
+    private val filterRegion = MyMotApplication.searchManager?.region
     override fun getGroupCount(): Int {
         return regions.size + 1
     }
@@ -23,8 +23,8 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             0
         } else {
             val region = regions[groupPosition - 1]
-            val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
-            if (citiesCount > 0) {
+            val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
+            if (citiesCount!! > 0) {
                 citiesCount + 1
             } else {
                 0
@@ -67,7 +67,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             val region = regions[groupPosition - 1]
             var cellAccessoryType = CellAccessoryType.BOTTOM
             if (isExpanded) {
-                val citiesCount = MyMotApplication.dataManager.getRegionCitiesCount(region.id)
+                val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 cellAccessoryType =
                     if (citiesCount == 0) CellAccessoryType.LOADING else CellAccessoryType.TOP
             }
@@ -94,7 +94,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             SimpleCell.fillWithTitle(cell, "Все города", state, 2)
         } else {
             val region = regions[groupPosition - 1]
-            val cities = MyMotApplication.dataManager.getRegionCities(region.id)
+            val cities = MyMotApplication.dataManager!!.getRegionCities(region.id)
             val city = cities[childPosition - 1]
             var state = CellAccessoryType.HIDDEN
             if (filterRegion != null) {

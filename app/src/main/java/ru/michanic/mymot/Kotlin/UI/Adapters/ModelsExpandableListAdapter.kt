@@ -104,7 +104,7 @@ class ModelsExpandableListAdapter(
         val arrowImage = view.findViewById<View>(R.id.arrowView) as ImageView
         val model = topCells[groupPosition].models?.get(childPosition)
         var modelChecked = false
-        val selectedModel = MyMotApplication.searchManager.model
+        val selectedModel = MyMotApplication.searchManager?.model
         if (selectedModel != null) {
             if (selectedModel.id == model?.id ?: 0) {
                 modelChecked = true

@@ -44,13 +44,15 @@ class FavouriteAdvertsFragment : Fragment() {
     }
 
     private fun loadAdverts() {
-        val adverts = MyMotApplication.dataManager.favouriteAdverts
-        val advertPressed = ClickListener { section, row ->
-            val advertActivity = Intent(context, AdvertActivity::class.java)
-            advertActivity.putExtra("advertId", adverts[row].id)
-            startActivity(advertActivity)
+        val adverts = MyMotApplication.dataManager?.favouriteAdverts
+        val advertPressed = object : ClickListener {
+            override fun onClick(section: Int, row: Int) {
+                val advertActivity = Intent(context, AdvertActivity::class.java)
+                advertActivity.putExtra("advertId", adverts!![row].id)
+                startActivity(advertActivity)
+            }
         }
-        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts, advertPressed)
+        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts!!, advertPressed)
         resultView?.adapter = advertsAdapter
     }
 }

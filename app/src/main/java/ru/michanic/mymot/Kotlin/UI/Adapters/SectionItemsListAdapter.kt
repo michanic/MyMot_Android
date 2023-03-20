@@ -103,16 +103,16 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
                         if (propertyTitle === SectionModelItem.PRICE_FROM_NAME) {
                             try {
                                 val priceFrom = s.toString().toInt()
-                                MyMotApplication.searchManager.priceFrom = priceFrom
+                                MyMotApplication.searchManager?.priceFrom = priceFrom
                             } catch (nfe: NumberFormatException) {
-                                MyMotApplication.searchManager.priceFrom = 0
+                                MyMotApplication.searchManager?.priceFrom = 0
                             }
                         } else if (propertyTitle === SectionModelItem.PRICE_FOR_NAME) {
                             try {
                                 val priceFor = s.toString().toInt()
-                                MyMotApplication.searchManager.priceFor = priceFor
+                                MyMotApplication.searchManager?.priceFor = priceFor
                             } catch (nfe: NumberFormatException) {
-                                MyMotApplication.searchManager.priceFor = 0
+                                MyMotApplication.searchManager?.priceFor = 0
                             }
                         }
                         item.propertyValue = s.toString()

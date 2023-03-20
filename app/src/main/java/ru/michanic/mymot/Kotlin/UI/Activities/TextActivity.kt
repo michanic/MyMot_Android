@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
+import ru.michanic.mymot.Kotlin.Protocols.LoadingTextInterface
 import ru.michanic.mymot.R
 
 class TextActivity : UniversalActivity() {
@@ -22,10 +23,12 @@ class TextActivity : UniversalActivity() {
         pageText = findViewById<View>(R.id.pageText) as TextView
         pageText?.visibility = View.GONE
         val apiInteractor = ApiInteractor()
-        apiInteractor.loadAgreementText { text ->
-            loadingIndicator?.visibility = View.GONE
-            pageText?.text = Html.fromHtml(text)
-            pageText?.visibility = View.VISIBLE
-        }
+        apiInteractor.loadAgreementText(object : LoadingTextInterface {
+            override fun onLoaded(text: String?) {
+                loadingIndicator?.visibility = View.GONE
+                pageText?.text = Html.fromHtml(text)
+                pageText?.visibility = View.VISIBLE
+            }
+        })
     }
 }

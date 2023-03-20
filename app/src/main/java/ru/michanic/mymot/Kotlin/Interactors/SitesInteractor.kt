@@ -19,7 +19,7 @@ class SitesInteractor {
     fun searchAdverts(
         page: Int,
         config: SearchFilterConfig,
-        loadingInterface: LoadingAdvertsInterface
+        loadingInterface: LoadingAdvertsInterface,
     ) {
         Log.e("searchAdverts page: ", page.toString())
         val loadedAdverts: MutableList<Advert> = ArrayList()
@@ -90,7 +90,7 @@ class SitesInteractor {
     private fun loadSourceAdverts(
         sourceType: SourceType,
         url: String?,
-        loadingInterface: LoadingAdvertsInterface
+        loadingInterface: LoadingAdvertsInterface,
     ) {
         HtmlAdvertsAsyncRequest(object : AsyncRequestCompleted {
             override fun processFinish(output: Any?) {
@@ -114,30 +114,42 @@ class SitesInteractor {
 
     fun loadAdvertDetails(advert: Advert, loadingInterface: LoadingAdvertDetailsInterface) {
         Log.e("loadAdvertDetails", advert.link)
-        HtmlAdvertAsyncRequest({ output ->
-            val advertDetails = output as AdvertDetails
-            loadingInterface.onLoaded(advertDetails)
+        HtmlAdvertAsyncRequest(object : AsyncRequestCompleted {
+            override fun processFinish(output: Any?) {
+                val advertDetails = output as AdvertDetails
+                loadingInterface.onLoaded(advertDetails)
+            }
         }, advert.sourceType).execute(advert.link)
     }
 
     fun loadAvitoAdvertPhone(advert: Advert, loadingInterface: LoadingAdvertPhonesInterface) {
         val link = advert.link!!.replace("www.avito", "m.avito")
-        HtmlAdvertPhoneAsyncRequest({ output ->
-            val phones = output as List<String>
-            loadingInterface.onLoaded(phones)
-        }, SourceType.AVITO).execute(link)
+        HtmlAdvertPhoneAsyncRequest(
+            object : AsyncRequestCompleted {
+                override fun processFinish(output: Any?) {
+                    val phones = output as List<String>
+                    loadingInterface.onLoaded(phones)
+                }
+            }, SourceType.AVITO
+        ).execute(link)
     }
 
     fun loadAutoRuAdvertPhones(
         saleId: String,
         saleHash: String,
-        loadingInterface: LoadingAdvertPhonesInterface
+        loadingInterface: LoadingAdvertPhonesInterface,
     ) {
         val link =
             "https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=$saleId&sale_hash=$saleHash&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number"
-        HtmlAdvertPhoneAsyncRequest({ output ->
-            val phones = output as List<String>
-            loadingInterface.onLoaded(phones)
-        }, SourceType.AUTO_RU).execute(link)
+        HtmlAdvertPhoneAsyncRequest(
+            object : AsyncRequestCompleted {
+                override fun processFinish(output: Any?) {
+                    val phones = output as List<String>
+                    loadingInterface.onLoaded(phones)
+                }
+            }, SourceType.AUTO_RU
+        ).execute(link)
     }
 }
+
+

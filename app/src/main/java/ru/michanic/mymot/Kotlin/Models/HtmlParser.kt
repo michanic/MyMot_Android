@@ -11,7 +11,7 @@ import java.util.*
 
 class HtmlParser {
     private val jsonParser = JsonParser()
-    private val exteptedWords = MyMotApplication.configStorage.exteptedWords
+    private val exteptedWords = MyMotApplication.configStorage?.exteptedWords
     fun parseAdverts(document: Document?, sourceType: SourceType): ParseAdvertsResult {
         var loadMore = false
         val adverts: MutableList<Advert> = ArrayList<Advert>()
@@ -122,11 +122,13 @@ class HtmlParser {
     }
 
     private fun checkForException(title: String?): Boolean {
-        for (word in exteptedWords) {
-            if (title!!.lowercase(Locale.getDefault())
-                    .contains(word.lowercase(Locale.getDefault()))
-            ) {
-                return false
+        if (exteptedWords != null) {
+            for (word in exteptedWords) {
+                if (title!!.lowercase(Locale.getDefault())
+                        .contains(word.lowercase(Locale.getDefault()))
+                ) {
+                    return false
+                }
             }
         }
         return true

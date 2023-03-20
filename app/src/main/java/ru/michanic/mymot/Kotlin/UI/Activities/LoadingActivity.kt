@@ -17,9 +17,7 @@ class LoadingActivity : UniversalActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoadingBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_loading)
         supportActionBar?.hide()
         MyMotApplication.setAppContext(applicationContext)
         val bigTitle = findViewById<View>(R.id.bigTitle) as TextView
