@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Spannable
 import android.text.SpannableString
-import ru.michanic.mymot.Kotlin.Protocols.NoConnectionRepeatInterface
 import ru.michanic.mymot.Kotlin.Utils.TypefaceSpan
 
 open class UniversalActivity : AppCompatActivity() {
@@ -44,7 +43,7 @@ open class UniversalActivity : AppCompatActivity() {
     protected fun showDialog(
         title: String?,
         message: String?,
-        noConnectionRepeatInterface: NoConnectionRepeatInterface,
+        noConnectionRepeatInterface: () -> Unit,
     ) {
         val alertDialogBuilder = AlertDialog.Builder(this@UniversalActivity)
         alertDialogBuilder.setCancelable(false)
@@ -56,4 +55,8 @@ open class UniversalActivity : AppCompatActivity() {
         val alertDialog = alertDialogBuilder.create() as AlertDialog
         alertDialog.show()
     }
+}
+
+private fun Any.repeatPressed() {
+    TODO("Not yet implemented")
 }
