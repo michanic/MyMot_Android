@@ -7,13 +7,13 @@ import ru.michanic.mymot.Kotlin.Models.Model
 
 open class Volume : RealmObject() {
     @PrimaryKey
-    val id = 0
-    val code: String? = null
-    val image: String? = null
-    val name: String? = null
-    private val sort = 0
-    val min = 0
-    val max = 0
+    var id = 0
+    var code: String? = null
+    var image: String? = null
+    var name: String? = null
+    private var sort = 0
+    var min = 0
+    var max = 0
 
-    val models: RealmList<Model>? = null
+    var models: RealmList<Model>? = null
 }

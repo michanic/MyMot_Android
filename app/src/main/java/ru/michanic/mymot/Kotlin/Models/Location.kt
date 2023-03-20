@@ -6,11 +6,11 @@ import io.realm.annotations.PrimaryKey
 open class Location : RealmObject() {
 
     @PrimaryKey
-    val id = 0
-    val autoru: String? = null
-    val avito: String? = null
-    val name: String? = null
-    private val sort = 0
+    var id = 0
+    var autoru: String? = null
+    var avito: String? = null
+    var name: String? = null
+    private var sort = 0
 
 
     var regionId = 0

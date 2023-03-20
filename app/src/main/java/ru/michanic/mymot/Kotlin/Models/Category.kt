@@ -9,12 +9,12 @@ import java.util.*
 
 open class Category : RealmObject() {
     @PrimaryKey
-    val id = 0
-    private val description: String? = null
-    private val code: String? = null
-    val image: String? = null
-    val name: String? = null
-    private val sort = 0
+    var id: Int = 0
+    private var description: String? = null
+    private var code: String? = null
+    var image: String? = null
+    var name: String? = null
+    private var sort: Int = 0
 
     var models: RealmList<Model>? = null
     fun getManufacturerModels(manufacturerId: Int): List<Model> {

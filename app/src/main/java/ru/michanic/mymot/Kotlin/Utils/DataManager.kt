@@ -3,6 +3,7 @@ package ru.michanic.mymot.Kotlin.Utils
 import android.util.Log
 import io.realm.Case
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.RealmList
 import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.MyMotApplication
@@ -12,6 +13,11 @@ class DataManager {
 
     init {
         Realm.init(MyMotApplication.appContext)
+        val configuration = RealmConfiguration.Builder()
+            .schemaVersion(0)
+            .build()
+        Realm.setDefaultConfiguration(configuration)
+
         realm = Realm.getDefaultInstance()
     }
 
@@ -59,7 +65,7 @@ class DataManager {
             val models = realm.copyFromRealm(
                 realm.where(
                     Model::class.java
-                ).equalTo("favourite", true).findAll()
+                ).equalTo("isFavourite", true).findAll()
             )
             val modelIds: MutableList<Int> = ArrayList()
             for (model in models) {
@@ -71,7 +77,7 @@ class DataManager {
         get() = realm.copyFromRealm(
             realm.where(
                 Model::class.java
-            ).equalTo("favourite", true).findAll().sort("sort")
+            ).equalTo("isFavourite", true).findAll().sort("sort")
         )
 
     fun setModelFavourite(model: Model, favourite: Boolean) {
@@ -168,13 +174,13 @@ class DataManager {
     val favouriteAdverts: List<Advert>
         get() {
             val adverts =
-                realm.where(Advert::class.java).equalTo("favourite", true).findAll().sort("id")
+                realm.where(Advert::class.java).equalTo("isFavourite", true).findAll().sort("id")
             return realm.copyFromRealm(adverts)
         }
 
     fun cleanAdverts() {
         realm.beginTransaction()
-        realm.where(Advert::class.java).equalTo("favourite", false).findAll().deleteAllFromRealm()
+        realm.where(Advert::class.java).equalTo("isFavourite", false).findAll().deleteAllFromRealm()
         realm.commitTransaction()
         Log.e("cleanAdverts", "cleanAdverts")
     }

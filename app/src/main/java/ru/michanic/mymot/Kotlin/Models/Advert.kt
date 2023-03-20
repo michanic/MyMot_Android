@@ -16,13 +16,10 @@ open class Advert : RealmObject() {
     var date: String? = null
     var isFavourite = false
     var link: String? = null
-    private val phone: String? = null
+    var phone: String? = null
     var previewImage: String? = null
-    private var price = 0
+    var price: Int = 0
     var title: String? = null
-    fun setPrice(price: Int) {
-        this.price = price
-    }
 
     val priceString: String
         get() {

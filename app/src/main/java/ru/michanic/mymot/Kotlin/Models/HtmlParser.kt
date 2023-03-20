@@ -78,7 +78,7 @@ class HtmlParser {
         advert.title = title
         advert.city = city
         advert.link = link
-        advert.setPrice(priceInt)
+        advert.price = priceInt
         advert.previewImage = previewImage
         advert.date = date
         return advert
@@ -115,7 +115,7 @@ class HtmlParser {
         advert.title = title
         advert.city = city
         advert.link = link
-        advert.setPrice(priceInt)
+        advert.price = priceInt
         advert.previewImage = previewImage
         advert.date = date
         return advert
