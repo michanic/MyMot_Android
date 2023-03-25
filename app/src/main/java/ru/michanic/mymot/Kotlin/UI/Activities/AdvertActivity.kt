@@ -40,7 +40,7 @@ class AdvertActivity : UniversalActivity() {
         setContentView(R.layout.activity_advert)
         val intent = intent
         val advertId = intent.getStringExtra("advertId")
-        advert = MyMotApplication.dataManager?.getAdvertById(advertId)!!
+        advert = (MyMotApplication.dataManager?.getAdvertById(advertId)) ?: return
         setNavigationTitle(advert.title.toString())
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE

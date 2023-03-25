@@ -33,11 +33,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
     }
 
     override fun getCount(): Int {
-        return items!!.size
+        return items!!.size  //TODO: ?
     }
 
     override fun getItem(position: Int): Any {
-        return items!![position]
+        return items!![position] //TODO: ?
     }
 
     override fun getItemId(position: Int): Long {
@@ -49,11 +49,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return items!![position].type
+        return items!![position].type //TODO: ?
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        val item = items!![position]
+        val item = items!![position] //TODO: ?
         var view = convertView
         when (item.type) {
             SectionModelItem.SECTION_TITLE -> {

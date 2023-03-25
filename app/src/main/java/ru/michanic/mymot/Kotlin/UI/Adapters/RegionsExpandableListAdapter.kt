@@ -71,7 +71,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
                 cellAccessoryType =
                     if (citiesCount == 0) CellAccessoryType.LOADING else CellAccessoryType.TOP
             }
-            SimpleCell.fillWithTitle(cell,region?.name ?: "", cellAccessoryType, 1)
+            SimpleCell.fillWithTitle(cell, region.name ?: "", cellAccessoryType, 1)
         }
         return cell
     }
@@ -103,7 +103,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
                     state = CellAccessoryType.CHECKED
                 }
             }
-            SimpleCell.fillWithTitle(cell, city?.name ?: "", state, 2)
+            SimpleCell.fillWithTitle(cell, city.name ?: "", state, 2)
         }
         return cell
     }

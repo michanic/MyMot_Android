@@ -20,7 +20,7 @@ class HtmlParser {
             return ParseAdvertsResult(adverts, loadMore)
         }
         val elements =
-            document.select(sourceType.itemSelector()) //document.getElementsByClass("js-catalog-item-enum");
+            document.select(sourceType.itemSelector())
         when (sourceType) {
             SourceType.AVITO -> {
                 for (element in elements) {
@@ -121,10 +121,10 @@ class HtmlParser {
         return advert
     }
 
-    private fun checkForException(title: String?): Boolean {
+    private fun checkForException(title: String): Boolean {
         if (exteptedWords != null) {
             for (word in exteptedWords) {
-                if (title!!.lowercase(Locale.getDefault())
+                if (title.lowercase(Locale.getDefault())
                         .contains(word.lowercase(Locale.getDefault()))
                 ) {
                     return false

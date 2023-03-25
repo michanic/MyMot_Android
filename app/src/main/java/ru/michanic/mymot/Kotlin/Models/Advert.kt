@@ -36,7 +36,7 @@ open class Advert : RealmObject() {
                $date
                """.trimIndent()
     val sourceType: SourceType
-        get() = if (link!!.contains("avito")) {
+        get() = if (link?.contains("avito") == true) {
             SourceType.AVITO
         } else {
             SourceType.AUTO_RU

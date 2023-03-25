@@ -40,8 +40,7 @@ class CatalogModelActivity : UniversalActivity() {
         setContentView(R.layout.activity_catalog_model)
         val intent = intent
         val modelId = intent.getIntExtra("modelId", 0)
-        model = dataManager.getModelById(modelId)!!
-        setNavigationTitle(model.name ?: "")
+        model = (dataManager.getModelById(modelId) ?: setNavigationTitle(model.name ?: "")) as Model
         contentView = findViewById<View>(R.id.content_view) as ScrollView
         contentView?.visibility = View.GONE
         loadingIndicator = findViewById<View>(R.id.progressBar) as ProgressBar

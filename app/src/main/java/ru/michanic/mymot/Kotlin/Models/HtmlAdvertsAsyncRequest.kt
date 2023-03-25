@@ -32,6 +32,6 @@ class HtmlAdvertsAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType:
     }
 
     override fun onPostExecute(result: ParseAdvertsResult) {
-        delegate!!.processFinish(result)
+        delegate?.processFinish(result)
     }
 }

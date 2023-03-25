@@ -88,7 +88,8 @@ class ApiInteractor {
                 call: Call<List<String?>?>,
                 response: Response<List<String?>?>,
             ) {
-                MyMotApplication.configStorage?.exteptedWords = response.body()?.filterNotNull() ?: emptyList()
+                MyMotApplication.configStorage?.exteptedWords =
+                    response.body()?.filterNotNull() ?: emptyList()
                 loadingInterface.onLoaded()
                 Log.e("loadData", "words loaded")
             }
@@ -208,13 +209,15 @@ class ApiInteractor {
                 val favoriteModels = dataManager.favouriteModelIDs
                 val volumes = dataManager.volumes
                 realm.beginTransaction()
-                for (manufacturer in response.body()!!) {
+                for (manufacturer in response.body()?: emptyList()) {
                     Log.e("manufacturer", manufacturer?.name)
-                    for (model in manufacturer?.models!!) {
+                    for (model in manufacturer?.models ?: continue) {
                         val volumeText = model.volume
                         var volumeVal = 0f
                         try {
-                            volumeVal = volumeText!!.replace("от ", "").toFloat()
+                            if (volumeText != null) {
+                                volumeVal = volumeText.replace("от ", "").toFloat()
+                            }
                         } catch (nfe: NumberFormatException) {
                             println("NumberFormatException: " + nfe.message)
                         }
@@ -249,6 +252,7 @@ class ApiInteractor {
             override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
                 loadingInterface.onLoaded(response.body())
             }
+
             override fun onFailure(call: Call<ModelDetails?>, t: Throwable) {
                 loadingInterface.onFailed()
                 Log.e("response", t.toString())
@@ -259,8 +263,9 @@ class ApiInteractor {
     fun loadAgreementText(loadingTextInterface: LoadingTextInterface) {
         apiInterface.loadAgreementText()?.enqueue(object : Callback<AppPageText?> {
             override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
-                loadingTextInterface.onLoaded(response.body()!!.text)
+                loadingTextInterface.onLoaded(response.body()?.text)
             }
+
             override fun onFailure(call: Call<AppPageText?>, t: Throwable) {
                 loadingTextInterface.onLoaded(t.toString())
             }

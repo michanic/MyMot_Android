@@ -59,7 +59,7 @@ class Source {
     }
 
     fun incrementPage() {
-        page =+ 1
+        page = +1
     }
 
     val feedPath: String?
@@ -68,12 +68,12 @@ class Source {
                 SourceType.AVITO -> {
                     var avitoRequest = ""
                     if (pMin != null) {
-                        if (pMin!! > 0) {
+                        if (pMin != 0) {
                             avitoRequest += "&pmin=$pMin"
                         }
                     }
                     if (pMax != null) {
-                        if (pMax!! > 0) {
+                        if (pMax != 0) {
                             avitoRequest += "&pmax=$pMax"
                         }
                     }
@@ -88,12 +88,12 @@ class Source {
                 SourceType.AUTO_RU -> {
                     var autoRuRequest = ""
                     if (pMin != null) {
-                        if (pMin!! > 0) {
+                        if (pMin != 0) {
                             autoRuRequest += "&price_from=$pMin"
                         }
                     }
                     if (pMax != null) {
-                        if (pMax!! > 0) {
+                        if (pMax != 0) {
                             autoRuRequest += "&price_to=$pMax"
                         }
                     }
@@ -115,13 +115,13 @@ class Source {
                 SourceType.AVITO -> {
                     val avitoPath = type.domain() + region + "/mototsikly_i_mototehnika/mototsikly"
                     var avitoRequest = "?bt=1"
-                    if (pMin != null) {
-                        if (pMin!! > 0) {
+                    if (pMin != null) { // TODO: ?
+                        if (pMin != 0) {
                             avitoRequest += "&pmin=$pMin"
                         }
                     }
                     if (pMax != null) {
-                        if (pMax!! > 0) {
+                        if (pMax != 0) {
                             avitoRequest += "&pmax=$pMax"
                         }
                     }
@@ -137,12 +137,12 @@ class Source {
                     val autoRuPath = type.domain() + region + "/motorcycle/" + model + "all/"
                     var autoRuRequest = ""
                     if (pMin != null) {
-                        if (pMin!! > 0) {
+                        if (pMin != 0) {
                             autoRuRequest += "&price_from=$pMin"
                         }
                     }
                     if (pMax != null) {
-                        if (pMax!! > 0) {
+                        if (pMax != 0) {
                             autoRuRequest += "&price_to=$pMax"
                         }
                     }

@@ -14,8 +14,8 @@ open class Manufacturer : RealmObject() {
     private var sort = 0
 
     var models: RealmList<Model>? = null
-    val avitoSearchName: String
-        get() = name!!.replace(" ", "%20").lowercase(Locale.getDefault())
+    val avitoSearchName: String?
+        get() = name?.replace(" ", "%20")?.lowercase(Locale.getDefault())
 
 
     val autoruSearchName: String
