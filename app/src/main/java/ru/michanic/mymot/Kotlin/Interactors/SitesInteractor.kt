@@ -28,7 +28,7 @@ class SitesInteractor {
         val avitoManufacturer = config.selectedManufacturer
         val avitoModel = config.selectedModel
         if (avitoManufacturer != null) {
-            avitoModelQuery = avitoManufacturer.avitoSearchName
+            avitoModelQuery = avitoManufacturer.avitoSearchName.toString()
         } else if (avitoModel != null) {
             avitoModelQuery = avitoModel.avitoSearchName
         }
@@ -68,7 +68,7 @@ class SitesInteractor {
                 Log.e("autoruUrl: ", autoruUrl)
                 loadSourceAdverts(autoruSource.type, autoruUrl, object : LoadingAdvertsInterface {
                     override fun onLoaded(adverts: List<Advert?>?, autoruMore: Boolean) {
-                        loadedAdverts.addAll(adverts!!.filterNotNull())
+                        loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
                         if (!loadMore[0]) {
                             loadMore[0] = autoruMore
                         }
@@ -123,7 +123,7 @@ class SitesInteractor {
     }
 
     fun loadAvitoAdvertPhone(advert: Advert, loadingInterface: LoadingAdvertPhonesInterface) {
-        val link = advert.link!!.replace("www.avito", "m.avito")
+        val link = advert.link?.replace("www.avito", "m.avito")
         HtmlAdvertPhoneAsyncRequest(
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {
@@ -140,7 +140,13 @@ class SitesInteractor {
         loadingInterface: LoadingAdvertPhonesInterface,
     ) {
         val link =
-            "https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=$saleId&sale_hash=$saleHash&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number"
+            buildString {
+        append("https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=")
+        append(saleId)
+        append("&sale_hash=")
+        append(saleHash)
+        append("&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number")
+    }
         HtmlAdvertPhoneAsyncRequest(
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {

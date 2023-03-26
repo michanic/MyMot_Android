@@ -106,7 +106,7 @@ class ModelsExpandableListAdapter(
         var modelChecked = false
         val selectedModel = MyMotApplication.searchManager?.model
         if (selectedModel != null) {
-            if (selectedModel.id == model?.id ?: 0) {
+            if (selectedModel.id == (model?.id ?: 0)) {
                 modelChecked = true
             }
         }

@@ -91,22 +91,24 @@ class SearchResultsActivity : UniversalActivity() {
 
     private fun loadMore() {
         loading = true
-        sitesInteractor.searchAdverts(
-            currentPage,
-            filterConfig!!,
-            object : LoadingAdvertsInterface {
-                override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
-                    progressBar?.visibility = View.GONE
-                    Log.e("onLoaded", adverts.toString())
-                    loadedAdverts.addAll(adverts!!.filterNotNull())
-                    searchAdapter?.notifyDataSetChanged()
-                    loading = false
-                    isLastPage = !loadMore
-                    currentPage++
-                }
+        filterConfig?.let {
+            sitesInteractor.searchAdverts(
+                currentPage,
+                it,
+                object : LoadingAdvertsInterface {
+                    override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
+                        progressBar?.visibility = View.GONE
+                        Log.e("onLoaded", adverts?.toString())
+                        loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
+                        searchAdapter?.notifyDataSetChanged()
+                        loading = false
+                        isLastPage = !loadMore
+                        currentPage++
+                    }
 
-                override fun onFailed() {}
-            })
+                    override fun onFailed() {}
+                })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

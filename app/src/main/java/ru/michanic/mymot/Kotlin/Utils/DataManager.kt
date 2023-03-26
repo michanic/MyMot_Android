@@ -130,11 +130,10 @@ class DataManager {
         }
     }
 
-    fun getManufacturerModels(manufacturer: Manufacturer, category: Category): List<Model> {
+    fun getManufacturerModels(manufacturer: Manufacturer?, category: Category): List<Model> {
         val models = realm.where(
             Model::class.java
-        ).equalTo("m_id", manufacturer.id).equalTo("class_id", category.id).findAll().sort("sort")
-        //Log.e("getManufacturerModels", String.valueOf(models.size()));
+        ).equalTo("m_id", manufacturer?.id).equalTo("class_id", category.id).findAll().sort("sort")
         return realm.copyFromRealm(models)
     }
 

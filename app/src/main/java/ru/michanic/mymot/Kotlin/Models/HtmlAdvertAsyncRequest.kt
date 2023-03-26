@@ -21,21 +21,21 @@ class HtmlAdvertAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceType: 
     override fun doInBackground(vararg arg: String?): AdvertDetails? {
         val path = arg[0]
         val response = MyMotApplication.networkService?.getHtmlData(path)
-        var doc: Document
+        var doc: Document?
         val csrf_token = response?.cookie("_csrf_token")
 
         try {
-            doc = response?.parse()!!
+            doc = response?.parse()
         } catch (e: IOException) {
             e.printStackTrace()
-            return  null
+            return null
         }
-        val advertDetails = htmlParser.parseAdvertDetails(doc, sourceType)
-        advertDetails.csrfToken = csrf_token
+        val advertDetails = doc?.let { htmlParser.parseAdvertDetails(it, sourceType) }
+        advertDetails?.csrfToken = csrf_token
         return advertDetails
     }
 
     override fun onPostExecute(result: AdvertDetails?) {
-        delegate!!.processFinish(result)
+        delegate?.processFinish(result)
     }
 }
