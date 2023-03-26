@@ -99,7 +99,7 @@ class SearchResultsActivity : UniversalActivity() {
                     override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
                         progressBar?.visibility = View.GONE
                         Log.e("onLoaded", adverts?.toString())
-                        loadedAdverts.addAll(adverts!!.filterNotNull()) //TODO: !!
+                        loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
                         searchAdapter?.notifyDataSetChanged()
                         loading = false
                         isLastPage = !loadMore

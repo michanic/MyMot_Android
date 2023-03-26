@@ -17,7 +17,7 @@ import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.R
 
 class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
-   private var items: List<SectionModelItem>? = null
+   private var items: List<SectionModelItem> = emptyList()
 
     constructor(nullableItems: List<SectionModelItem?>) {
         this.items = nullableItems.filterNotNull()
@@ -33,11 +33,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
     }
 
     override fun getCount(): Int {
-        return items!!.size  //TODO: ?
+        return items.size
     }
 
     override fun getItem(position: Int): Any {
-        return items!![position] //TODO: ?
+        return items[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -49,11 +49,11 @@ class SectionItemsListAdapter : BaseAdapter, PinnedSectionListAdapter {
     }
 
     override fun getItemViewType(position: Int): Int {
-        return items!![position].type //TODO: ?
+        return items[position].type
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        val item = items!![position] //TODO: ?
+        val item = items[position]
         var view = convertView
         when (item.type) {
             SectionModelItem.SECTION_TITLE -> {

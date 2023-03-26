@@ -115,15 +115,11 @@ class Source {
                 SourceType.AVITO -> {
                     val avitoPath = type.domain() + region + "/mototsikly_i_mototehnika/mototsikly"
                     var avitoRequest = "?bt=1"
-                    if (pMin != null) { // TODO: ?
-                        if (pMin != 0) {
-                            avitoRequest += "&pmin=$pMin"
-                        }
+                    if ((pMin ?: 0) != 0) {
+                        avitoRequest += "&pmin=$pMin"
                     }
-                    if (pMax != null) {
-                        if (pMax != 0) {
-                            avitoRequest += "&pmax=$pMax"
-                        }
+                    if ((pMax ?: 0) != 0) {
+                        avitoRequest += "&pmax=$pMax"
                     }
                     if (model != null) {
                         avitoRequest += "&q=$model"
