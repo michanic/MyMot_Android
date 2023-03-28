@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
-            android:name=".UI.Activities.LoadingActivity"
+            android:name=".Kotlin.UI.Activities.LoadingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,18 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Activities.MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".UI.Activities.CatalogByClassActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.CatalogByManufacturerActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.CatalogByVolumeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.CatalogModelActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.TextActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.VideoViewActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.AdvertActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.FilterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.FilterRegionsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.FilterModelsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".UI.Activities.SearchResultsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".Kotlin.UI.Activities.CatalogByClassActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.CatalogByManufacturerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.CatalogByVolumeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.CatalogModelActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.TextActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.VideoViewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.AdvertActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.FilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.FilterRegionsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.FilterModelsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.SearchResultsActivity" android:screenOrientation="portrait"/>
 
     </application>
 
