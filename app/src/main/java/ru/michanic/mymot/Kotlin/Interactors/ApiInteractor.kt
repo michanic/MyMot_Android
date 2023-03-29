@@ -81,7 +81,7 @@ class ApiInteractor {
         })
     }
 
-    private fun loadExteptedWords(loadingInterface: LoadingInterface) {
+    private fun loadExteptedWords(onSuccess: (() -> Unit), onFail: () -> Unit) {
         Log.e("loadData", "loadExteptedWords")
         apiInterface.loadExteptedWords()?.enqueue(object : Callback<List<String?>?> {
             override fun onResponse(
@@ -90,12 +90,12 @@ class ApiInteractor {
             ) {
                 MyMotApplication.configStorage?.exteptedWords =
                     response.body()?.filterNotNull() ?: emptyList()
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "words loaded")
             }
 
             override fun onFailure(call: Call<List<String?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("loadData", t.toString())
             }
         })
@@ -209,7 +209,7 @@ class ApiInteractor {
                 val favoriteModels = dataManager.favouriteModelIDs
                 val volumes = dataManager.volumes
                 realm.beginTransaction()
-                for (manufacturer in response.body()?: emptyList()) {
+                for (manufacturer in response.body() ?: emptyList()) {
                     Log.e("manufacturer", manufacturer?.name)
                     for (model in manufacturer?.models ?: continue) {
                         val volumeText = model.volume
@@ -247,7 +247,7 @@ class ApiInteractor {
     }
 
     fun loadModelDetails(modelId: Int, loadingInterface: LoadingModelDetailsInterface) {
-        Log.e("loadData", "loadModelDetails")
+
         apiInterface.loadModelDetails(modelId)?.enqueue(object : Callback<ModelDetails?> {
             override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
                 loadingInterface.onLoaded(response.body())
@@ -260,14 +260,14 @@ class ApiInteractor {
         })
     }
 
-    fun loadAgreementText(loadingTextInterface: LoadingTextInterface) {
+    fun loadAgreementText(result: ((String?) -> Unit)) {
         apiInterface.loadAgreementText()?.enqueue(object : Callback<AppPageText?> {
             override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
-                loadingTextInterface.onLoaded(response.body()?.text)
+                result(response.body()?.text)
             }
 
             override fun onFailure(call: Call<AppPageText?>, t: Throwable) {
-                loadingTextInterface.onLoaded(t.toString())
+                result(null)
             }
         })
     }

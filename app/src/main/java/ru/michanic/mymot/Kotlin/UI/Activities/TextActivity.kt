@@ -23,12 +23,11 @@ class TextActivity : UniversalActivity() {
         pageText = findViewById<View>(R.id.pageText) as TextView
         pageText?.visibility = View.GONE
         val apiInteractor = ApiInteractor()
-        apiInteractor.loadAgreementText(object : LoadingTextInterface {
-            override fun onLoaded(text: String?) {
-                loadingIndicator?.visibility = View.GONE
-                pageText?.text = Html.fromHtml(text)
-                pageText?.visibility = View.VISIBLE
-            }
-        })
+
+        apiInteractor.loadAgreementText {
+            loadingIndicator?.visibility = View.GONE
+            pageText?.text = Html.fromHtml(it)
+            pageText?.visibility = View.VISIBLE
+        }
     }
 }
