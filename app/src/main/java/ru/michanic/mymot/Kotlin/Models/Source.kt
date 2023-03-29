@@ -132,15 +132,11 @@ class Source {
                 SourceType.AUTO_RU -> {
                     val autoRuPath = type.domain() + region + "/motorcycle/" + model + "all/"
                     var autoRuRequest = ""
-                    if (pMin != null) {
-                        if (pMin != 0) {
-                            autoRuRequest += "&price_from=$pMin"
-                        }
+                    if ((pMin ?: 0) != 0) {
+                        autoRuRequest += "&price_from=$pMin"
                     }
-                    if (pMax != null) {
-                        if (pMax != 0) {
-                            autoRuRequest += "&price_to=$pMax"
-                        }
+                    if ((pMin ?: 0) != 0) {
+                        autoRuRequest += "&price_to=$pMax"
                     }
 
                     if (page != null) {
