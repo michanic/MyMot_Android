@@ -27,61 +27,38 @@ class ApiInteractor {
         realm = Realm.getDefaultInstance()
     }
 
-    fun loadData(loadingInterface: LoadingInterface) {
+    fun loadData(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         dataManager.cleanAdverts()
-        loadExteptedWords(object : LoadingInterface {
-            override fun onLoaded() {
-                loadAboutText(object : LoadingInterface {
-                    override fun onLoaded() {
-                        loadRegions(object : LoadingInterface {
-                            override fun onLoaded() {
-                                loadVolumes(object : LoadingInterface {
-                                    override fun onLoaded() {
-                                        loadClasses(object : LoadingInterface {
-                                            override fun onLoaded() {
-                                                loadModels(object : LoadingInterface {
-                                                    override fun onLoaded() {
-                                                        dataManager.assignCategories()
-                                                        loadingInterface.onLoaded()
-                                                    }
-
-                                                    override fun onFailed() {
-                                                        loadingInterface.onFailed()
-                                                    }
-                                                })
-                                            }
-
-                                            override fun onFailed() {
-                                                loadingInterface.onFailed()
-                                            }
-                                        })
-                                    }
-
-                                    override fun onFailed() {
-                                        loadingInterface.onFailed()
-                                    }
-                                })
-                            }
-
-                            override fun onFailed() {
-                                loadingInterface.onFailed()
-                            }
+        loadExteptedWords({
+            loadAboutText({
+                loadRegions({
+                    loadVolumes({
+                        loadClasses({
+                            loadModels({
+                                dataManager.assignCategories()
+                                onSuccess()
+                            }, {
+                                onFail()
+                            })
+                        }, {
+                            onFail()
                         })
-                    }
-
-                    override fun onFailed() {
-                        loadingInterface.onFailed()
-                    }
+                    }, {
+                        onFail()
+                    })
+                }, {
+                    onFail()
                 })
-            }
-
-            override fun onFailed() {
-                loadingInterface.onFailed()
-            }
+            }, {
+                onFail()
+            })
+        }, {
+            onFail()
         })
     }
 
-    private fun loadExteptedWords(onSuccess: (() -> Unit), onFail: () -> Unit) {
+
+    private fun loadExteptedWords(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadExteptedWords")
         apiInterface.loadExteptedWords()?.enqueue(object : Callback<List<String?>?> {
             override fun onResponse(
@@ -101,23 +78,23 @@ class ApiInteractor {
         })
     }
 
-    private fun loadAboutText(loadingInterface: LoadingInterface) {
+    private fun loadAboutText(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadAboutText")
         apiInterface.loadAboutText()?.enqueue(object : Callback<AppPageText?> {
             override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
                 MyMotApplication.configStorage?.aboutText = response.body()?.text ?: ""
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "about loaded")
             }
 
             override fun onFailure(call: Call<AppPageText?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
     }
 
-    private fun loadRegions(loadingInterface: LoadingInterface) {
+    private fun loadRegions(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadRegions")
         apiInterface.loadRegions()?.enqueue(object : Callback<List<Location?>?> {
             override fun onResponse(
@@ -127,12 +104,12 @@ class ApiInteractor {
                 realm.beginTransaction()
                 realm.copyToRealmOrUpdate(response.body())
                 realm.commitTransaction()
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "regions loaded")
             }
 
             override fun onFailure(call: Call<List<Location?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
@@ -157,7 +134,7 @@ class ApiInteractor {
         })
     }
 
-    private fun loadVolumes(loadingInterface: LoadingInterface) {
+    private fun loadVolumes(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadVolumes")
         apiInterface.loadVolumes()?.enqueue(object : Callback<List<Volume?>?> {
             override fun onResponse(
@@ -167,18 +144,18 @@ class ApiInteractor {
                 realm.beginTransaction()
                 realm.copyToRealmOrUpdate(response.body())
                 realm.commitTransaction()
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "volumes loaded")
             }
 
             override fun onFailure(call: Call<List<Volume?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
     }
 
-    private fun loadClasses(loadingInterface: LoadingInterface) {
+    private fun loadClasses(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadClasses")
         apiInterface.loadClasses()?.enqueue(object : Callback<List<Category?>?> {
             override fun onResponse(
@@ -188,18 +165,18 @@ class ApiInteractor {
                 realm.beginTransaction()
                 realm.copyToRealmOrUpdate(response.body())
                 realm.commitTransaction()
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "classes loaded")
             }
 
             override fun onFailure(call: Call<List<Category?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
     }
 
-    private fun loadModels(loadingInterface: LoadingInterface) {
+    private fun loadModels(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadModels")
         apiInterface.loadModels()?.enqueue(object : Callback<List<Manufacturer?>?> {
             override fun onResponse(
@@ -235,12 +212,12 @@ class ApiInteractor {
                     }
                 }
                 realm.commitTransaction()
-                loadingInterface.onLoaded()
+                onSuccess()
                 Log.e("loadData", "models loaded")
             }
 
             override fun onFailure(call: Call<List<Manufacturer?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
