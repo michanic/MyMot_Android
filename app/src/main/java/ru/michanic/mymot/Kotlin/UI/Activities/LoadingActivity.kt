@@ -30,16 +30,13 @@ class LoadingActivity : UniversalActivity() {
 
     private fun loadData() {
         val apiInteractor = ApiInteractor()
-        apiInteractor.loadData(object : LoadingInterface {
-            override fun onLoaded() {
-                val mainActivity = Intent(MyMotApplication.appContext, MainActivity::class.java)
-                mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(mainActivity)
-            }
-
-            override fun onFailed() {
-                showNoConnectionDialog { loadData() }
-            }
+        apiInteractor.loadData({
+            val mainActivity = Intent(MyMotApplication.appContext, MainActivity::class.java)
+            mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(mainActivity)
+        }, {
+            showNoConnectionDialog { loadData() }
         })
+
     }
 }
