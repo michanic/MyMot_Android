@@ -115,7 +115,7 @@ class ApiInteractor {
         })
     }
 
-    fun loadRegionCities(region: Location, loadingInterface: LoadingInterface) {
+    fun loadRegionCities(region: Location, onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         apiInterface.loadRegionCities(region.id)?.enqueue(object : Callback<List<Location?>?> {
             override fun onResponse(
                 call: Call<List<Location?>?>,
@@ -124,11 +124,11 @@ class ApiInteractor {
                 realm.beginTransaction()
                 realm.copyToRealmOrUpdate(response.body())
                 realm.commitTransaction()
-                loadingInterface.onLoaded()
+                onSuccess()
             }
 
             override fun onFailure(call: Call<List<Location?>?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
@@ -223,15 +223,15 @@ class ApiInteractor {
         })
     }
 
-    fun loadModelDetails(modelId: Int, loadingInterface: LoadingModelDetailsInterface) {
+    fun loadModelDetails(modelId: Int, onSuccess: ((ModelDetails?) -> Unit), onFail: (() -> Unit)) {
 
         apiInterface.loadModelDetails(modelId)?.enqueue(object : Callback<ModelDetails?> {
             override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
-                loadingInterface.onLoaded(response.body())
+                onSuccess(response.body())
             }
 
             override fun onFailure(call: Call<ModelDetails?>, t: Throwable) {
-                loadingInterface.onFailed()
+                onFail()
                 Log.e("response", t.toString())
             }
         })
