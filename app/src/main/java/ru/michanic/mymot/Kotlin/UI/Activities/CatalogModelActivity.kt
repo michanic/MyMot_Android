@@ -71,17 +71,13 @@ class CatalogModelActivity : UniversalActivity() {
     }
 
     private fun loadModelDetails(modelId: Int) {
-        apiInteractor.loadModelDetails(modelId, object : LoadingModelDetailsInterface {
-            override fun onLoaded(details: ModelDetails?) {
-                modelDetails = details
-                loadingIndicator?.visibility = View.GONE
-                fillProperties()
-                contentView?.visibility = View.VISIBLE
-            }
-
-            override fun onFailed() {
-                showNoConnectionDialog { loadModelDetails(modelId) }
-            }
+        apiInteractor.loadModelDetails(modelId, {
+            modelDetails = it
+            loadingIndicator?.visibility = View.GONE
+            fillProperties()
+            contentView?.visibility = View.VISIBLE
+        }, {
+            showNoConnectionDialog { loadModelDetails(modelId) }
         })
     }
 

@@ -21,12 +21,11 @@ import ru.michanic.mymot.Kotlin.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.AdvertDetails
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertDetailsInterface
 import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
 import ru.michanic.mymot.Kotlin.UI.NonScrollListView
+import ru.michanic.mymot.R
 
 class AdvertActivity : UniversalActivity() {
     private var loadingIndicator: ProgressBar? = null
@@ -72,18 +71,14 @@ class AdvertActivity : UniversalActivity() {
     }
 
     private fun loadAdvertDetails() {
-        sitesInteractor.loadAdvertDetails(advert, object : LoadingAdvertDetailsInterface {
-            override fun onLoaded(details: AdvertDetails?) {
-                advertDetails = details
-                loadingIndicator?.visibility = View.GONE
-                fillProperties()
-                contentView?.visibility = View.VISIBLE
-                MyMotApplication.configStorage?.saveCsrfToken(advertDetails?.csrfToken)
-            }
-
-            override fun onFailed() {
-                showNoConnectionDialog { loadAdvertDetails() }
-            }
+        sitesInteractor.loadAdvertDetails(advert, {
+            advertDetails = it
+            loadingIndicator?.visibility = View.GONE
+            fillProperties()
+            contentView?.visibility = View.VISIBLE
+            MyMotApplication.configStorage?.saveCsrfToken(advertDetails?.csrfToken)
+        }, {
+            showNoConnectionDialog { loadAdvertDetails() }
         })
     }
 

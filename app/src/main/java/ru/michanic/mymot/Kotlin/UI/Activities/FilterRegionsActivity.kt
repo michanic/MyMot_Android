@@ -47,14 +47,11 @@ class FilterRegionsActivity : UniversalActivity() {
                 val region = regions[groupPosition - 1]
                 val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 if (citiesCount == 0) {
-                    apiInteractor.loadRegionCities(region, object : LoadingInterface {
-                        override fun onLoaded() {
-                            Log.e("expandGroup", groupPosition.toString())
-                            expandableListView.collapseGroup(groupPosition)
-                            expandableListView.expandGroup(groupPosition)
-                        }
-
-                        override fun onFailed() {}
+                    apiInteractor.loadRegionCities(region, {
+                        Log.e("expandGroup", groupPosition.toString())
+                        expandableListView.collapseGroup(groupPosition)
+                        expandableListView.expandGroup(groupPosition)
+                    }, {
                     })
                 }
             }
