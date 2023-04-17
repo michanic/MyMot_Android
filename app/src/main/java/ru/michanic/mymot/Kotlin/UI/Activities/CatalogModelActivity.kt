@@ -20,13 +20,12 @@ import ru.michanic.mymot.Kotlin.Models.ModelDetails
 import ru.michanic.mymot.Kotlin.Models.YoutubeVideo
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.ClickListener
-import ru.michanic.mymot.Kotlin.Protocols.LoadingModelDetailsInterface
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ReviewsSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.NonScrollListView
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.R
 
 class CatalogModelActivity : UniversalActivity() {
     private var loadingIndicator: ProgressBar? = null

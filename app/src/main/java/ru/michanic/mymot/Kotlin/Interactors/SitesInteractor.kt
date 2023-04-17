@@ -11,7 +11,7 @@ class SitesInteractor {
     private val dataManager = DataManager()
     fun loadFeedAdverts(
         source: Source,
-        onSuccess: ((List<Advert?>?, Boolean) -> Unit)
+        onSuccess: (List<Advert?>?, Boolean) -> Unit
     ) {
         Log.e("loadFeedAdverts", source.feedPath)
         loadSourceAdverts(source.type, source.feedPath, onSuccess)
@@ -21,7 +21,7 @@ class SitesInteractor {
     fun searchAdverts(
         page: Int,
         config: SearchFilterConfig,
-        onSuccess: (List<Advert?>?, Boolean) -> Unit
+        onSuccess: (List<Advert?>?, Boolean) -> Unit,
     ) {
         Log.e("searchAdverts page: ", page.toString())
         val loadedAdverts: MutableList<Advert> = ArrayList()
@@ -45,36 +45,36 @@ class SitesInteractor {
         avitoSource.page = page
         val avitoUrl = avitoSource.searchPath
         Log.e("avitoUrl: ", avitoUrl)
-        loadSourceAdverts(avitoSource.type, avitoUrl, { adverts, avitoMore ->
+        loadSourceAdverts(avitoSource.type, avitoUrl) { adverts, avitoMore ->
+            loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
+            loadMore[0] = avitoMore
+            var autoruModelQuery = ""
+            val autoruManufacturer = config.selectedManufacturer
+            val autoruModel = config.selectedModel
+            if (autoruManufacturer != null) {
+                autoruModelQuery = autoruManufacturer.autoruSearchName
+            } else if (autoruModel != null) {
+                autoruModelQuery = autoruModel.autoruSearchName
+            }
+            val autoruSource = Source(SourceType.AUTO_RU)
+            autoruSource.setModel(autoruModelQuery)
+            val autoruSelectedRegion = config.selectedRegion
+            if (autoruSelectedRegion != null) {
+                autoruSource.setRegion(autoruSelectedRegion.autoru)
+            }
+            autoruSource.setpMin(config.priceFrom)
+            autoruSource.setpMax(config.priceFor)
+            autoruSource.page = page
+            val autoruUrl = autoruSource.searchPath
+            Log.e("autoruUrl: ", autoruUrl)
+            loadSourceAdverts(autoruSource.type, autoruUrl) { adverts, autoruMore ->
                 loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
-                loadMore[0] = avitoMore
-                var autoruModelQuery = ""
-                val autoruManufacturer = config.selectedManufacturer
-                val autoruModel = config.selectedModel
-                if (autoruManufacturer != null) {
-                    autoruModelQuery = autoruManufacturer.autoruSearchName
-                } else if (autoruModel != null) {
-                    autoruModelQuery = autoruModel.autoruSearchName
+                if (!loadMore[0]) {
+                    loadMore[0] = autoruMore
                 }
-                val autoruSource = Source(SourceType.AUTO_RU)
-                autoruSource.setModel(autoruModelQuery)
-                val autoruSelectedRegion = config.selectedRegion
-                if (autoruSelectedRegion != null) {
-                    autoruSource.setRegion(autoruSelectedRegion.autoru)
-                }
-                autoruSource.setpMin(config.priceFrom)
-                autoruSource.setpMax(config.priceFor)
-                autoruSource.page = page
-                val autoruUrl = autoruSource.searchPath
-                Log.e("autoruUrl: ", autoruUrl)
-                loadSourceAdverts(autoruSource.type, autoruUrl) { adverts, autoruMore ->
-                    loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
-                    if (!loadMore[0]) {
-                        loadMore[0] = autoruMore
-                    }
-                    onSuccess(loadedAdverts, loadMore[0])
-                }
-        })
+                onSuccess(loadedAdverts, loadMore[0])
+            }
+        }
     }
 
     private fun loadSourceAdverts(
