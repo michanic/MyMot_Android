@@ -4,7 +4,6 @@ import android.util.Log
 import ru.michanic.mymot.Kotlin.Enums.SourceType
 import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.Protocols.AsyncRequestCompleted
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class SitesInteractor {
@@ -117,13 +116,16 @@ class SitesInteractor {
         onFail()
     }
 
-    fun loadAvitoAdvertPhone(advert: Advert, loadingInterface: LoadingAdvertPhonesInterface) {
+    fun loadAvitoAdvertPhone(
+        advert: Advert,
+        onSuccess: (phones: List<String?>?) -> Unit
+    ) {
         val link = advert.link?.replace("www.avito", "m.avito")
         HtmlAdvertPhoneAsyncRequest(
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {
                     val phones = output as List<String>
-                    loadingInterface.onLoaded(phones)
+                    onSuccess(phones)
                 }
             }, SourceType.AVITO
         ).execute(link)
@@ -132,7 +134,7 @@ class SitesInteractor {
     fun loadAutoRuAdvertPhones(
         saleId: String,
         saleHash: String,
-        loadingInterface: LoadingAdvertPhonesInterface,
+        onSuccess: (phones: List<String?>?) -> Unit
     ) {
         val link =
             buildString {
@@ -146,7 +148,7 @@ class SitesInteractor {
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {
                     val phones = output as List<String>
-                    loadingInterface.onLoaded(phones)
+                    onSuccess(phones)
                 }
             }, SourceType.AUTO_RU
         ).execute(link)
