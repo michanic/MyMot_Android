@@ -19,7 +19,7 @@ open class Category : RealmObject() {
     var models: RealmList<Model>? = null
     fun getManufacturerModels(manufacturerId: Int): List<Model> {
         val modelsList: MutableList<Model> = ArrayList()
-        for (model in models!!) {
+        for (model in models ?: emptyList()) {
             if (model.manufacturer?.id == manufacturerId) {
                 modelsList.add(model)
             }

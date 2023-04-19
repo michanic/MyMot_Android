@@ -32,25 +32,25 @@ open class UniversalActivity : AppCompatActivity() {
         supportActionBar?.title = s
     }
 
-    fun showNoConnectionDialog(noConnectionRepeatInterface: () -> Unit) {
+    fun showNoConnectionDialog(repeat: () -> Unit) {
         showDialog(
             "Ошибка",
             "Отсутствует соединение с сервером",
-            noConnectionRepeatInterface
+            repeat
         )
     }
 
     protected fun showDialog(
         title: String?,
         message: String?,
-        noConnectionRepeatInterface: () -> Unit,
+        repeat: () -> Unit,
     ) {
         val alertDialogBuilder = AlertDialog.Builder(this@UniversalActivity)
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(message)
         alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i ->
-            noConnectionRepeatInterface.repeatPressed()
+            repeat.repeatPressed()
         }
         val alertDialog = alertDialogBuilder.create() as AlertDialog
         alertDialog.show()

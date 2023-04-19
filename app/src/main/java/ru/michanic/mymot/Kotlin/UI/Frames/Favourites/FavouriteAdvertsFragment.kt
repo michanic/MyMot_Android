@@ -52,7 +52,7 @@ class FavouriteAdvertsFragment : Fragment() {
                 startActivity(advertActivity)
             }
         }
-        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts!!, advertPressed)
+        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts ?: emptyList(), advertPressed)
         resultView?.adapter = advertsAdapter
     }
 }
