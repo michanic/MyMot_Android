@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
-import ru.michanic.mymot.Kotlin.Protocols.LoadingTextInterface
 import ru.michanic.mymot.R
 
 class TextActivity : UniversalActivity() {

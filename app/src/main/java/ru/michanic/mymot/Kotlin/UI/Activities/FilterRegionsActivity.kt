@@ -6,10 +6,9 @@ import android.view.View
 import android.widget.ExpandableListView
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingInterface
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.RegionsExpandableListAdapter
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.R
 
 class FilterRegionsActivity : UniversalActivity() {
     private var regionsExpandableListAdapter: RegionsExpandableListAdapter? = null

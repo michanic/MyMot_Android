@@ -7,7 +7,6 @@ import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingInterface
 import ru.michanic.mymot.R
 import ru.michanic.mymot.databinding.ActivityLoadingBinding
 

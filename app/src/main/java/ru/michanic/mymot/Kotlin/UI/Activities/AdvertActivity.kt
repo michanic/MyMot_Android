@@ -21,7 +21,6 @@ import ru.michanic.mymot.Kotlin.Interactors.SitesInteractor
 import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.AdvertDetails
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
 import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
 import ru.michanic.mymot.Kotlin.UI.NonScrollListView
@@ -142,33 +141,30 @@ class AdvertActivity : UniversalActivity() {
             val sourceType = advert.sourceType
             if (sourceType == SourceType.AVITO) {
 
-                sitesInteractor.loadAvitoAdvertPhone(advert, object : LoadingAdvertPhonesInterface {
-                    override fun onLoaded(phones: List<String?>?) {
-                        sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
-                        if (sellerPhones.size > 0) {
-                            makeCall(sellerPhones[0])
-                        }
+                sitesInteractor.loadAvitoAdvertPhone(advert) { phones ->
+                    sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
+                    if (sellerPhones.size > 0) {
+                        makeCall(sellerPhones[0])
                     }
-                })
+                }
             } else if (sourceType == SourceType.AUTO_RU) {
                 sitesInteractor.loadAutoRuAdvertPhones(
                     advert.id.toString(),
-                    advertDetails?.saleHash.toString(),
-                    object : LoadingAdvertPhonesInterface {
-                        override fun onLoaded(phones: List<String?>?) {
-                            sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
-                            if (phones?.size == 1) {
-                                val phone = phones[0]
-                                if (phone!!.contains("c")) {
-                                    openContextMenu(callButton)
-                                } else {
-                                    makeCall(sellerPhones[0])
-                                }
-                            } else if (sellerPhones.size > 1) {
-                                openContextMenu(callButton)
-                            }
+                    advertDetails?.saleHash.toString()
+                ) { phones ->
+
+                    sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
+                    if (phones?.size == 1) {
+                        val phone = phones[0]
+                        if (phone!!.contains("c")) {
+                            openContextMenu(callButton)
+                        } else {
+                            makeCall(sellerPhones[0])
                         }
-                    })
+                    } else if (sellerPhones.size > 1) {
+                        openContextMenu(callButton)
+                    }
+                }
             }
         }
 
