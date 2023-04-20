@@ -146,10 +146,14 @@ class MainActivity : UniversalActivity() {
                 searchResultsView?.onItemClickListener =
                     OnItemClickListener { parent, view, position, id ->
                         val model = items[position]?.model
-                        MyMotApplication.searchManager?.model = model
+                        /*MyMotApplication.searchManager?.model = model
                         val searchResultsActivity =
                             Intent(applicationContext, SearchResultsActivity::class.java)
-                        startActivity(searchResultsActivity)
+                        startActivity(searchResultsActivity)*/
+                        // раньше вызывался поиск объявлений по выбранной модели
+                        val catalogModelActivity = Intent(applicationContext, CatalogModelActivity::class.java)
+                        catalogModelActivity.putExtra("modelId", model?.id ?: 0)
+                        startActivity(catalogModelActivity)
                     }
             } else {
                 searchResultsView?.visibility = View.GONE
