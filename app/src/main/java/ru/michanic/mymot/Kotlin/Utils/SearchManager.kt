@@ -9,7 +9,7 @@ import ru.michanic.mymot.Kotlin.MyMotApplication
 
 class SearchManager {
     private var filterChanged = false
-    val filterConfig = MyMotApplication.configStorage!!.filterConfig
+    val filterConfig = MyMotApplication.configStorage?.filterConfig ?: SearchFilterConfig()
     var filterUpdated: ((SearchFilterConfig?) -> Unit)? = null
     var searchPressedCallback: ((SearchFilterConfig?) -> Unit)? = null
     var filterClosedCallback: ((SearchFilterConfig?) -> Unit)? = null
@@ -19,7 +19,7 @@ class SearchManager {
             filterConfig.selectedRegion = region
             filterChanged = true
             filterUpdated?.let { it(filterConfig) }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     val regionTitle: String?
         get() {
@@ -37,7 +37,7 @@ class SearchManager {
             filterConfig.selectedModel = null
             filterChanged = true
             filterUpdated?.let { it(filterConfig) }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     var model: Model?
         get() = filterConfig.selectedModel
@@ -46,7 +46,7 @@ class SearchManager {
             filterConfig.selectedModel = model
             filterChanged = true
             filterUpdated?.let { it(filterConfig) }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     val modelTitle: String?
         get() {
@@ -68,7 +68,7 @@ class SearchManager {
             filterConfig.priceFrom = newPrice
             filterChanged = true
             //filterUpdated.onSelected(filterConfig);
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
 
     //filterUpdated.onSelected(filterConfig);
@@ -78,7 +78,7 @@ class SearchManager {
             filterConfig.priceFor = newPrice
             filterChanged = true
             //filterUpdated.onSelected(filterConfig);
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
 
     fun backPressed() {

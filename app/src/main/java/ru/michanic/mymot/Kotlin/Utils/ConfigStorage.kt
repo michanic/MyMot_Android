@@ -44,7 +44,7 @@ class ConfigStorage(context: Context) {
     val filterConfig: SearchFilterConfig
         get() {
             val filterConfig = SearchFilterConfig()
-            val selectedRegion = MyMotApplication.dataManager!!.getRegionById(
+            val selectedRegion = MyMotApplication.dataManager?.getRegionById(
                 settings.getInt(
                     LOCATION_ID, 0
                 )
@@ -52,7 +52,7 @@ class ConfigStorage(context: Context) {
             if (selectedRegion != null) {
                 filterConfig.selectedRegion = selectedRegion
             }
-            val manufacturer = MyMotApplication.dataManager!!.getManufacturerById(
+            val manufacturer = MyMotApplication.dataManager?.getManufacturerById(
                 settings.getInt(
                     MANUFACTURER_ID, 0
                 )
@@ -60,7 +60,7 @@ class ConfigStorage(context: Context) {
             if (manufacturer != null) {
                 filterConfig.selectedManufacturer = manufacturer
             }
-            val model = MyMotApplication.dataManager!!.getModelById(settings.getInt(MODEL_ID, 0))
+            val model = MyMotApplication.dataManager?.getModelById(settings.getInt(MODEL_ID, 0))
             if (model != null) {
                 filterConfig.selectedModel = model
             }

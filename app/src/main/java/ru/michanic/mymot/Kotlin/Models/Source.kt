@@ -16,7 +16,7 @@ class Source {
         this.type = type
     }
 
-    constructor(type: SourceType, priceFrom: Int, priceFor: Int, region: Location?) {
+    constructor(type: SourceType, priceFrom: Int?, priceFor: Int?, region: Location?) {
         this.type = type
         pMin = priceFrom
         pMax = priceFor

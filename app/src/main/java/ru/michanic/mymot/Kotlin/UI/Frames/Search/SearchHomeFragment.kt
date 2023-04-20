@@ -103,8 +103,8 @@ class SearchHomeFragment : Fragment() {
         if (currentSource == null) {
             currentSource = Source(
                 SourceType.AVITO,
-                filterConfig!!.priceFrom,
-                filterConfig!!.priceFor,
+                filterConfig?.priceFrom,
+                filterConfig?.priceFor,
                 filterConfig?.selectedRegion
             )
             currentSource?.page = 1

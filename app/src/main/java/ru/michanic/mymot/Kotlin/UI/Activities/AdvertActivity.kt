@@ -155,8 +155,8 @@ class AdvertActivity : UniversalActivity() {
 
                     sellerPhones = phones?.filterNotNull()?.toMutableList() ?: ArrayList()
                     if (phones?.size == 1) {
-                        val phone = phones[0]
-                        if (phone!!.contains("c")) {
+                        val phone = phones[0] ?: ""
+                        if (phone.contains("c")) {
                             openContextMenu(callButton)
                         } else {
                             makeCall(sellerPhones[0])
