@@ -49,7 +49,7 @@ class HtmlParser {
 
     private fun createOrUpdateFromAvito(element: Element): Advert? {
         var title = element.select("a.item-description-title-link span").text()
-        if (title == null || title.length == 0) {
+        if (title == null || title.isEmpty()) {
             title = element.select("a.description-title-link span").text()
         }
         if (!checkForException(title)) {

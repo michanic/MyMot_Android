@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.AdvertsListAdapter
 import ru.michanic.mymot.Kotlin.MyMotApplication
@@ -44,15 +45,15 @@ class FavouriteAdvertsFragment : Fragment() {
     }
 
     private fun loadAdverts() {
-        val adverts = MyMotApplication.dataManager?.favouriteAdverts
+        val adverts = MyMotApplication.dataManager?.favouriteAdverts ?: emptyList()
         val advertPressed = object : ClickListener {
             override fun onClick(section: Int, row: Int) {
                 val advertActivity = Intent(context, AdvertActivity::class.java)
-                advertActivity.putExtra("advertId", adverts!![row].id)
+                advertActivity.putExtra("advertId", adverts[row].id)
                 startActivity(advertActivity)
             }
         }
-        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts!!, advertPressed)
+        advertsAdapter = AdvertsListAdapter(this.requireContext(), adverts ?: emptyList(), advertPressed)
         resultView?.adapter = advertsAdapter
     }
 }

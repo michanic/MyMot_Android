@@ -4,24 +4,22 @@ import android.util.Log
 import ru.michanic.mymot.Kotlin.Models.Location
 import ru.michanic.mymot.Kotlin.Models.Manufacturer
 import ru.michanic.mymot.Kotlin.Models.Model
+import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
 
 class SearchManager {
     private var filterChanged = false
-    val filterConfig = MyMotApplication.configStorage!!.filterConfig
-    var filterUpdated: FilterSettedInterface? = null
-    var searchPressedCallback: FilterSettedInterface? = null
-    var filterClosedCallback: FilterSettedInterface? = null
+    val filterConfig = MyMotApplication.configStorage?.filterConfig ?: SearchFilterConfig()
+    var filterUpdated: ((SearchFilterConfig?) -> Unit)? = null
+    var searchPressedCallback: ((SearchFilterConfig?) -> Unit)? = null
+    var filterClosedCallback: ((SearchFilterConfig?) -> Unit)? = null
     var region: Location?
         get() = filterConfig.selectedRegion
         set(region) {
             filterConfig.selectedRegion = region
             filterChanged = true
-            if (filterUpdated != null) {
-                filterUpdated!!.onSelected(filterConfig)
-            }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            filterUpdated?.let { it(filterConfig) }
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     val regionTitle: String?
         get() {
@@ -38,10 +36,8 @@ class SearchManager {
             filterConfig.selectedManufacturer = manufacturer
             filterConfig.selectedModel = null
             filterChanged = true
-            if (filterUpdated != null) {
-                filterUpdated!!.onSelected(filterConfig)
-            }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            filterUpdated?.let { it(filterConfig) }
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     var model: Model?
         get() = filterConfig.selectedModel
@@ -49,10 +45,8 @@ class SearchManager {
             filterConfig.selectedManufacturer = null
             filterConfig.selectedModel = model
             filterChanged = true
-            if (filterUpdated != null) {
-                filterUpdated!!.onSelected(filterConfig)
-            }
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            filterUpdated?.let { it(filterConfig) }
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
     val modelTitle: String?
         get() {
@@ -74,7 +68,7 @@ class SearchManager {
             filterConfig.priceFrom = newPrice
             filterChanged = true
             //filterUpdated.onSelected(filterConfig);
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
 
     //filterUpdated.onSelected(filterConfig);
@@ -84,18 +78,18 @@ class SearchManager {
             filterConfig.priceFor = newPrice
             filterChanged = true
             //filterUpdated.onSelected(filterConfig);
-            MyMotApplication.configStorage!!.saveFilterConfig(filterConfig)
+            MyMotApplication.configStorage?.saveFilterConfig(filterConfig)
         }
 
     fun backPressed() {
         Log.e("backPressed", filterChanged.toString())
         if (filterClosedCallback != null && filterChanged) {
-            filterClosedCallback!!.onSelected(filterConfig)
+            filterClosedCallback?.let { it(filterConfig) }
             filterChanged = false
         }
     }
 
     fun searchPressed() {
-        searchPressedCallback!!.onSelected(filterConfig)
+        searchPressedCallback?.let { it(filterConfig) }
     }
 }

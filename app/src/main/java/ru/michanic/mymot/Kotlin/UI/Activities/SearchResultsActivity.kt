@@ -14,10 +14,8 @@ import ru.michanic.mymot.Kotlin.Models.Advert
 import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.ClickListener
-import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.AdvertsListAdapter
+import ru.michanic.mymot.R
 
 class SearchResultsActivity : UniversalActivity() {
     private var resultView: RecyclerView? = null
@@ -36,18 +34,14 @@ class SearchResultsActivity : UniversalActivity() {
         setNavigationTitle("Результаты поиска")
         resultView = findViewById<View>(R.id.resultsView) as RecyclerView
         progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
-        MyMotApplication.searchManager?.filterClosedCallback =
-            object : FilterSettedInterface {
-                override fun onSelected(filterConfig: SearchFilterConfig?) {
-                    Log.e("filterClosedCallback", "")
-                }
-            }
-        MyMotApplication.searchManager?.searchPressedCallback =
-            object : FilterSettedInterface {
-                override fun onSelected(filterConfig: SearchFilterConfig?) {
-                    Log.e("searchPressedCallback", "")
-                }
-            }
+
+        MyMotApplication.searchManager?.filterClosedCallback = {
+            Log.e("filterClosedCallback", "")
+        }
+
+        MyMotApplication.searchManager?.searchPressedCallback = {
+            Log.e("searchPressedCallback", "")
+        }
         val advertPressed = object : ClickListener {
             override fun onClick(section: Int, row: Int) {
                 val adveryActivity = Intent(applicationContext, AdvertActivity::class.java)
@@ -71,12 +65,9 @@ class SearchResultsActivity : UniversalActivity() {
                 }
             }
         })
-        MyMotApplication.searchManager?.filterClosedCallback =
-            object : FilterSettedInterface {
-                override fun onSelected(filterConfig: SearchFilterConfig?) {
-                    reloadResults()
-                }
-            }
+        MyMotApplication.searchManager?.filterClosedCallback = {
+            reloadResults()
+        }
         reloadResults()
     }
 
@@ -94,20 +85,16 @@ class SearchResultsActivity : UniversalActivity() {
         filterConfig?.let {
             sitesInteractor.searchAdverts(
                 currentPage,
-                it,
-                object : LoadingAdvertsInterface {
-                    override fun onLoaded(adverts: List<Advert?>?, loadMore: Boolean) {
-                        progressBar?.visibility = View.GONE
-                        Log.e("onLoaded", adverts?.toString())
-                        loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
-                        searchAdapter?.notifyDataSetChanged()
-                        loading = false
-                        isLastPage = !loadMore
-                        currentPage++
-                    }
-
-                    override fun onFailed() {}
-                })
+                it
+            ) { adverts, canLoadMore ->
+                progressBar?.visibility = View.GONE
+                Log.e("onLoaded", adverts?.toString())
+                loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
+                searchAdapter?.notifyDataSetChanged()
+                loading = false
+                isLastPage = !canLoadMore
+                currentPage++
+            }
         }
     }
 

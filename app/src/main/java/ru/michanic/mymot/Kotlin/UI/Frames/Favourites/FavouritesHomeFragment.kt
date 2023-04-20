@@ -30,7 +30,7 @@ class FavouritesHomeFragment : Fragment() {
         tabs?.getTabAt(0)?.select()
 
         //--> Adding tabs
-        for (i in 0 until tabs!!.tabCount) {
+        for (i in 0 until (tabs?.tabCount ?: 4)) {
             when (i) {
                 0 -> tabs?.getTabAt(i)?.text = "Модели"
                 1 -> tabs?.getTabAt(i)?.text = "Объявления"
