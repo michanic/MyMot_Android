@@ -7,13 +7,9 @@ import android.widget.TextView
 import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingInterface
 import ru.michanic.mymot.R
-import ru.michanic.mymot.databinding.ActivityLoadingBinding
 
 class LoadingActivity : UniversalActivity() {
-
-    private lateinit var binding: ActivityLoadingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +26,13 @@ class LoadingActivity : UniversalActivity() {
 
     private fun loadData() {
         val apiInteractor = ApiInteractor()
-        apiInteractor.loadData(object : LoadingInterface {
-            override fun onLoaded() {
-                val mainActivity = Intent(MyMotApplication.appContext, MainActivity::class.java)
-                mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(mainActivity)
-            }
-
-            override fun onFailed() {
-                showNoConnectionDialog { loadData() }
-            }
+        apiInteractor.loadData({
+            val mainActivity = Intent(MyMotApplication.appContext, MainActivity::class.java)
+            mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(mainActivity)
+        }, {
+            showNoConnectionDialog { loadData() }
         })
+
     }
 }

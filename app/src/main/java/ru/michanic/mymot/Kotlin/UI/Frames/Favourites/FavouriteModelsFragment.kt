@@ -42,7 +42,7 @@ class FavouriteModelsFragment : Fragment() {
 
     private fun loadModels() {
         val items: MutableList<SectionModelItem?> = ArrayList()
-        val models = MyMotApplication.dataManager!!.favouriteModels
+        val models = MyMotApplication.dataManager?.favouriteModels ?: emptyList()
         if (models.size > 0) {
             for (model in models) {
                 items.add(SectionModelItem(model))

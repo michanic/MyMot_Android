@@ -4,22 +4,23 @@ import android.util.Log
 import ru.michanic.mymot.Kotlin.Enums.SourceType
 import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.Protocols.AsyncRequestCompleted
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertDetailsInterface
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertPhonesInterface
-import ru.michanic.mymot.Kotlin.Protocols.LoadingAdvertsInterface
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class SitesInteractor {
     private val dataManager = DataManager()
-    fun loadFeedAdverts(source: Source, loadingInterface: LoadingAdvertsInterface) {
+    fun loadFeedAdverts(
+        source: Source,
+        onSuccess: (List<Advert?>?, Boolean) -> Unit
+    ) {
         Log.e("loadFeedAdverts", source.feedPath)
-        loadSourceAdverts(source.type, source.feedPath, loadingInterface)
+        loadSourceAdverts(source.type, source.feedPath, onSuccess)
+
     }
 
     fun searchAdverts(
         page: Int,
         config: SearchFilterConfig,
-        loadingInterface: LoadingAdvertsInterface,
+        onSuccess: (List<Advert?>?, Boolean) -> Unit,
     ) {
         Log.e("searchAdverts page: ", page.toString())
         val loadedAdverts: MutableList<Advert> = ArrayList()
@@ -43,54 +44,42 @@ class SitesInteractor {
         avitoSource.page = page
         val avitoUrl = avitoSource.searchPath
         Log.e("avitoUrl: ", avitoUrl)
-        loadSourceAdverts(avitoSource.type, avitoUrl, object : LoadingAdvertsInterface {
-            override fun onLoaded(adverts: List<Advert?>?, avitoMore: Boolean) {
-                loadedAdverts.addAll(adverts!!.filterNotNull())
-                loadMore[0] = avitoMore
-                var autoruModelQuery = ""
-                val autoruManufacturer = config.selectedManufacturer
-                val autoruModel = config.selectedModel
-                if (autoruManufacturer != null) {
-                    autoruModelQuery = autoruManufacturer.autoruSearchName
-                } else if (autoruModel != null) {
-                    autoruModelQuery = autoruModel.autoruSearchName
-                }
-                val autoruSource = Source(SourceType.AUTO_RU)
-                autoruSource.setModel(autoruModelQuery)
-                val autoruSelectedRegion = config.selectedRegion
-                if (autoruSelectedRegion != null) {
-                    autoruSource.setRegion(autoruSelectedRegion.autoru)
-                }
-                autoruSource.setpMin(config.priceFrom)
-                autoruSource.setpMax(config.priceFor)
-                autoruSource.page = page
-                val autoruUrl = autoruSource.searchPath
-                Log.e("autoruUrl: ", autoruUrl)
-                loadSourceAdverts(autoruSource.type, autoruUrl, object : LoadingAdvertsInterface {
-                    override fun onLoaded(adverts: List<Advert?>?, autoruMore: Boolean) {
-                        loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
-                        if (!loadMore[0]) {
-                            loadMore[0] = autoruMore
-                        }
-                        loadingInterface.onLoaded(loadedAdverts, loadMore[0])
-                    }
-
-                    override fun onFailed() {
-                        loadingInterface.onFailed()
-                    }
-                })
+        loadSourceAdverts(avitoSource.type, avitoUrl) { adverts, avitoMore ->
+            loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
+            loadMore[0] = avitoMore
+            var autoruModelQuery = ""
+            val autoruManufacturer = config.selectedManufacturer
+            val autoruModel = config.selectedModel
+            if (autoruManufacturer != null) {
+                autoruModelQuery = autoruManufacturer.autoruSearchName
+            } else if (autoruModel != null) {
+                autoruModelQuery = autoruModel.autoruSearchName
             }
-
-            override fun onFailed() {
-                loadingInterface.onFailed()
+            val autoruSource = Source(SourceType.AUTO_RU)
+            autoruSource.setModel(autoruModelQuery)
+            val autoruSelectedRegion = config.selectedRegion
+            if (autoruSelectedRegion != null) {
+                autoruSource.setRegion(autoruSelectedRegion.autoru)
             }
-        })
+            autoruSource.setpMin(config.priceFrom)
+            autoruSource.setpMax(config.priceFor)
+            autoruSource.page = page
+            val autoruUrl = autoruSource.searchPath
+            Log.e("autoruUrl: ", autoruUrl)
+            loadSourceAdverts(autoruSource.type, autoruUrl) { adverts, autoruMore ->
+                loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
+                if (!loadMore[0]) {
+                    loadMore[0] = autoruMore
+                }
+                onSuccess(loadedAdverts, loadMore[0])
+            }
+        }
     }
 
     private fun loadSourceAdverts(
         sourceType: SourceType,
         url: String?,
-        loadingInterface: LoadingAdvertsInterface,
+        onSuccess: (List<Advert?>?, Boolean) -> Unit
     ) {
         HtmlAdvertsAsyncRequest(object : AsyncRequestCompleted {
             override fun processFinish(output: Any?) {
@@ -106,29 +95,37 @@ class SitesInteractor {
                     }
                 }
                 dataManager.saveAdverts(resultAdvetrs)
-                loadingInterface.onLoaded(resultAdvetrs, result.loadMore())
+                onSuccess(resultAdvetrs, result.loadMore())
             }
 
         }, sourceType).execute(url)
     }
 
-    fun loadAdvertDetails(advert: Advert, loadingInterface: LoadingAdvertDetailsInterface) {
+    fun loadAdvertDetails(
+        advert: Advert,
+        onSuccess: ((advertDetails: AdvertDetails?) -> Unit),
+        onFail: (() -> Unit)
+    ) {
         Log.e("loadAdvertDetails", advert.link)
         HtmlAdvertAsyncRequest(object : AsyncRequestCompleted {
             override fun processFinish(output: Any?) {
                 val advertDetails = output as AdvertDetails
-                loadingInterface.onLoaded(advertDetails)
+                onSuccess(advertDetails)
             }
         }, advert.sourceType).execute(advert.link)
+        onFail()
     }
 
-    fun loadAvitoAdvertPhone(advert: Advert, loadingInterface: LoadingAdvertPhonesInterface) {
+    fun loadAvitoAdvertPhone(
+        advert: Advert,
+        onSuccess: (phones: List<String?>?) -> Unit
+    ) {
         val link = advert.link?.replace("www.avito", "m.avito")
         HtmlAdvertPhoneAsyncRequest(
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {
                     val phones = output as List<String>
-                    loadingInterface.onLoaded(phones)
+                    onSuccess(phones)
                 }
             }, SourceType.AVITO
         ).execute(link)
@@ -137,21 +134,21 @@ class SitesInteractor {
     fun loadAutoRuAdvertPhones(
         saleId: String,
         saleHash: String,
-        loadingInterface: LoadingAdvertPhonesInterface,
+        onSuccess: (phones: List<String?>?) -> Unit
     ) {
         val link =
             buildString {
-        append("https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=")
-        append(saleId)
-        append("&sale_hash=")
-        append(saleHash)
-        append("&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number")
-    }
+                append("https://auto.ru/-/ajax/desktop/phones/?category=moto&sale_id=")
+                append(saleId)
+                append("&sale_hash=")
+                append(saleHash)
+                append("&isFromPhoneModal=true&__blocks=card-phones%2Ccall-number")
+            }
         HtmlAdvertPhoneAsyncRequest(
             object : AsyncRequestCompleted {
                 override fun processFinish(output: Any?) {
                     val phones = output as List<String>
-                    loadingInterface.onLoaded(phones)
+                    onSuccess(phones)
                 }
             }, SourceType.AUTO_RU
         ).execute(link)

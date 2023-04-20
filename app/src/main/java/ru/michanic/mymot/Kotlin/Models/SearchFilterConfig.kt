@@ -10,7 +10,7 @@ class SearchFilterConfig {
         get() {
             var sectionTitle: String? = "Все мотоциклы"
             if (selectedRegion != null) {
-                sectionTitle = selectedRegion!!.name
+                sectionTitle = selectedRegion?.name
             }
             if (priceFrom > 0) {
                 sectionTitle += if (priceFor > 0) {

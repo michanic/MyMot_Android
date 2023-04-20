@@ -159,14 +159,14 @@ class DataManager {
     fun setAdvertFavourite(advertId: String?, favourite: Boolean) {
         val advert = getAdvertById(advertId)
         realm.beginTransaction()
-        advert!!.isFavourite = favourite
+        advert?.isFavourite = favourite
         realm.commitTransaction()
     }
 
     fun setAdvertActive(advertId: String?, active: Boolean) {
         val advert = getAdvertById(advertId)
         realm.beginTransaction()
-        advert!!.isActive = active
+        advert?.isActive = active
         realm.commitTransaction()
     }
 

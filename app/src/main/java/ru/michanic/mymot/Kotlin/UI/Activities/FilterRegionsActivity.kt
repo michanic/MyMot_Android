@@ -6,10 +6,9 @@ import android.view.View
 import android.widget.ExpandableListView
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.Kotlin.Protocols.LoadingInterface
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.RegionsExpandableListAdapter
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.R
 
 class FilterRegionsActivity : UniversalActivity() {
     private var regionsExpandableListAdapter: RegionsExpandableListAdapter? = null
@@ -47,14 +46,11 @@ class FilterRegionsActivity : UniversalActivity() {
                 val region = regions[groupPosition - 1]
                 val citiesCount = MyMotApplication.dataManager?.getRegionCitiesCount(region.id)
                 if (citiesCount == 0) {
-                    apiInteractor.loadRegionCities(region, object : LoadingInterface {
-                        override fun onLoaded() {
-                            Log.e("expandGroup", groupPosition.toString())
-                            expandableListView.collapseGroup(groupPosition)
-                            expandableListView.expandGroup(groupPosition)
-                        }
-
-                        override fun onFailed() {}
+                    apiInteractor.loadRegionCities(region, {
+                        Log.e("expandGroup", groupPosition.toString())
+                        expandableListView.collapseGroup(groupPosition)
+                        expandableListView.expandGroup(groupPosition)
+                    }, {
                     })
                 }
             }
