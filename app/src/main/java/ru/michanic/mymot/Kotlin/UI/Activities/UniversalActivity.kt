@@ -50,13 +50,9 @@ open class UniversalActivity : AppCompatActivity() {
         alertDialogBuilder.setTitle(title)
         alertDialogBuilder.setMessage(message)
         alertDialogBuilder.setPositiveButton("Повторить") { dialogInterface, i ->
-            repeat.repeatPressed()
+            repeat()
         }
         val alertDialog = alertDialogBuilder.create() as AlertDialog
         alertDialog.show()
     }
-}
-
-private fun Any.repeatPressed() {
-    TODO("Not yet implemented")
 }
