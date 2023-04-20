@@ -20,7 +20,6 @@ import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.Models.Source
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.ClickListener
-import ru.michanic.mymot.Kotlin.Protocols.FilterSettedInterface
 import ru.michanic.mymot.Kotlin.UI.Activities.AdvertActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.SearchMainAdapter
 import ru.michanic.mymot.Kotlin.Utils.DataManager
@@ -86,10 +85,8 @@ class SearchHomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         MyMotApplication.searchManager?.filterClosedCallback =
-            object : FilterSettedInterface {
-                override fun onSelected(filterConfig: SearchFilterConfig?) {
-                    reloadResults()
-                }
+            {
+                reloadResults()
             }
     }
 

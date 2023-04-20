@@ -8,8 +8,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.michanic.mymot.Kotlin.Models.*
-import ru.michanic.mymot.Kotlin.Protocols.*
 import ru.michanic.mymot.Kotlin.MyMotApplication
+import ru.michanic.mymot.Kotlin.Protocols.ApiInterface
+import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class ApiInteractor {
