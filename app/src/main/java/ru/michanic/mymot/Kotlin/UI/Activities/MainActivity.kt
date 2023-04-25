@@ -39,11 +39,11 @@ class MainActivity : UniversalActivity() {
                     showSearchIcon(false)
                     showFilterIcon(false)
                 }
-                R.id.navigation_search -> {
+                /*R.id.navigation_search -> {
                     fragment = SearchHomeFragment()
                     showSearchIcon(true)
                     showFilterIcon(true)
-                }
+                }*/
                 R.id.navigation_favourites -> {
                     fragment = FavouritesHomeFragment()
                     showSearchIcon(false)

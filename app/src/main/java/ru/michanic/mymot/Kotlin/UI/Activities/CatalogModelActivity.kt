@@ -8,10 +8,7 @@ import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.ScrollView
-import android.widget.TextView
+import android.widget.*
 import com.shivam.library.imageslider.ImageSlider
 import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
@@ -138,10 +135,12 @@ class CatalogModelActivity : UniversalActivity() {
             reviewsSlider.visibility = View.GONE
         }
         searchButton.setOnClickListener {
-            MyMotApplication.searchManager?.model = model
+            /*MyMotApplication.searchManager?.model = model
             val searchResultsActivity =
                 Intent(applicationContext, SearchResultsActivity::class.java)
-            startActivity(searchResultsActivity)
+            startActivity(searchResultsActivity)*/
+            Toast.makeText(this, "Раздел на доработке", Toast.LENGTH_LONG)
+                .show()
         }
     }
 }

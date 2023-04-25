@@ -20,9 +20,9 @@ class FavouritesHomeFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_favourites_home, null)
         val dataManager = DataManager()
-        val fragments = arrayOfNulls<Fragment>(2)
+        val fragments = arrayOfNulls<Fragment>(1)
         fragments[0] = FavouriteModelsFragment()
-        fragments[1] = FavouriteAdvertsFragment()
+        //fragments[1] = FavouriteAdvertsFragment()
         val pager = rootView.findViewById<View>(R.id.base_pager) as ViewPager
         pager.adapter = FavouritesPagerAdapter(childFragmentManager, fragments)
         tabs = rootView.findViewById<View>(R.id.base_tabs) as TabLayout
