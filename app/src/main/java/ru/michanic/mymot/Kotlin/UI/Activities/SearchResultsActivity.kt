@@ -88,7 +88,7 @@ class SearchResultsActivity : UniversalActivity() {
                 it
             ) { adverts, canLoadMore ->
                 progressBar?.visibility = View.GONE
-                Log.e("onLoaded", adverts?.toString())
+                adverts?.toString()?.let { it1 -> Log.e("onLoaded", it1) }
                 loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
                 searchAdapter?.notifyDataSetChanged()
                 loading = false

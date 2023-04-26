@@ -188,7 +188,7 @@ class ApiInteractor {
                 val volumes = dataManager.volumes
                 realm.beginTransaction()
                 for (manufacturer in response.body() ?: emptyList()) {
-                    Log.e("manufacturer", manufacturer?.name)
+                    manufacturer?.name?.let { Log.e("manufacturer", it) }
                     for (model in manufacturer?.models ?: continue) {
                         val volumeText = model.volume
                         var volumeVal = 0f

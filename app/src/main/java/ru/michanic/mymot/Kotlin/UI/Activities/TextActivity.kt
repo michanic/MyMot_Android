@@ -16,7 +16,9 @@ class TextActivity : UniversalActivity() {
         setContentView(R.layout.activity_text)
         val intent = intent
         val pageTitle = intent.getStringExtra("title")
-        setNavigationTitle(pageTitle)
+        if (pageTitle != null) {
+            setNavigationTitle(pageTitle)
+        }
         loadingIndicator = findViewById<View>(R.id.progressBarAgreement) as ProgressBar
         loadingIndicator?.visibility = View.VISIBLE
         pageText = findViewById<View>(R.id.pageText) as TextView
