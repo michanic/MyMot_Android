@@ -2,9 +2,9 @@ package ru.michanic.mymot.Kotlin.UI.Frames.Catalog
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +39,8 @@ class CatalogHomeFragment : Fragment() {
         classesTitleView.typeface = Font.oswald
         manufacturersTitleView.typeface = Font.oswald
         volumesTitleView.typeface = Font.oswald
-        val classesLayoutManager = LinearLayoutManager(activity)
+        val classesLayoutManager =
+            LinearLayoutManager(activity)
         classesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         classesRecyclerView.layoutManager = classesLayoutManager
         val classes = dataManager.getCategories(true)
@@ -52,7 +53,8 @@ class CatalogHomeFragment : Fragment() {
         }
         val classesAdapter = ClassesSliderAdapter(this.requireContext(), classes, classPressed)
         classesRecyclerView.adapter = classesAdapter
-        val manufacturersLayoutManager = LinearLayoutManager(activity)
+        val manufacturersLayoutManager =
+            LinearLayoutManager(activity)
         manufacturersLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         manufacturersRecyclerView.layoutManager = manufacturersLayoutManager
         val manufacturers = dataManager.getManufacturers(true)
@@ -67,7 +69,8 @@ class CatalogHomeFragment : Fragment() {
         val manufacturersAdapter =
             ManufacturersSliderAdapter(this.requireContext(), manufacturers, manufacturerPressed)
         manufacturersRecyclerView.adapter = manufacturersAdapter
-        val volumesLayoutManager = LinearLayoutManager(activity)
+        val volumesLayoutManager =
+            LinearLayoutManager(activity)
         volumesLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         volumesRecyclerView.layoutManager = volumesLayoutManager
         val volumes = dataManager.volumes
