@@ -24,7 +24,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="4dp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/classesSlider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -42,7 +42,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="4dp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/manufacturersSlider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -60,7 +60,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="4dp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/volumesSlider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -68,6 +68,7 @@
 
 
         </LinearLayout>
+
 
     </ScrollView>
 
