@@ -2,10 +2,10 @@ package ru.michanic.mymot.Kotlin.UI.Frames.Search
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +54,8 @@ class SearchHomeFragment : Fragment() {
         titleView?.typeface = Font.oswald
         glm = GridLayoutManager(activity, 2)
         resultView?.layoutManager = glm
-        mLayoutManager = LinearLayoutManager(activity)
+        mLayoutManager =
+            LinearLayoutManager(activity)
         resultView?.setHasFixedSize(false)
         val advertPressed = object : ClickListener {
             override fun onClick(section: Int, row: Int) {
