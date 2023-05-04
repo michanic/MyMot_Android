@@ -21,11 +21,15 @@ class HtmlAdvertPhoneAsyncRequest(asyncResponse: AsyncRequestCompleted?, sourceT
 
     override fun doInBackground(vararg arg: String?): List<String?> {
         val path = arg[0]
-        Log.e("doInBackground", path)
+        if (path != null) {
+            Log.e("doInBackground", path)
+        }
         var doc: Document?
         var phones: MutableList<String?> = ArrayList()
         val csrfToken = MyMotApplication.configStorage?.csrfToken
-        Log.e("csrfToken", csrfToken)
+        if (csrfToken != null) {
+            Log.e("csrfToken", csrfToken)
+        }
         if (sourceType == SourceType.AVITO) {
             val response = MyMotApplication.networkService?.getHtmlDataAsMobile(path)
             try {

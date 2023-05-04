@@ -12,7 +12,7 @@ class SitesInteractor {
         source: Source,
         onSuccess: (List<Advert?>?, Boolean) -> Unit
     ) {
-        Log.e("loadFeedAdverts", source.feedPath)
+        source.feedPath?.let { Log.e("loadFeedAdverts", it) }
         loadSourceAdverts(source.type, source.feedPath, onSuccess)
 
     }
@@ -43,7 +43,9 @@ class SitesInteractor {
         avitoSource.setpMax(config.priceFor)
         avitoSource.page = page
         val avitoUrl = avitoSource.searchPath
-        Log.e("avitoUrl: ", avitoUrl)
+        if (avitoUrl != null) {
+            Log.e("avitoUrl: ", avitoUrl)
+        }
         loadSourceAdverts(avitoSource.type, avitoUrl) { adverts, avitoMore ->
             loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
             loadMore[0] = avitoMore
@@ -65,7 +67,9 @@ class SitesInteractor {
             autoruSource.setpMax(config.priceFor)
             autoruSource.page = page
             val autoruUrl = autoruSource.searchPath
-            Log.e("autoruUrl: ", autoruUrl)
+            if (autoruUrl != null) {
+                Log.e("autoruUrl: ", autoruUrl)
+            }
             loadSourceAdverts(autoruSource.type, autoruUrl) { adverts, autoruMore ->
                 loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
                 if (!loadMore[0]) {
@@ -106,7 +110,7 @@ class SitesInteractor {
         onSuccess: ((advertDetails: AdvertDetails?) -> Unit),
         onFail: (() -> Unit)
     ) {
-        Log.e("loadAdvertDetails", advert.link)
+        advert.link?.let { Log.e("loadAdvertDetails", it) }
         HtmlAdvertAsyncRequest(object : AsyncRequestCompleted {
             override fun processFinish(output: Any?) {
                 val advertDetails = output as AdvertDetails
