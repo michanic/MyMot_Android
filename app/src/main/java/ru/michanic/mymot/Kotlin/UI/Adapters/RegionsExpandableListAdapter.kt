@@ -98,7 +98,7 @@ class RegionsExpandableListAdapter(private val regions: List<Location>, var cont
             val city = cities[childPosition - 1]
             var state = CellAccessoryType.HIDDEN
             if (filterRegion != null) {
-                Log.e("filterRegion", filterRegion.name)
+                filterRegion.name?.let { Log.e("filterRegion", it) }
                 if (filterRegion.id == city.id) {
                     state = CellAccessoryType.CHECKED
                 }

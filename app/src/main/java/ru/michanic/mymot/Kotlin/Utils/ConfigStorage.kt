@@ -71,8 +71,10 @@ class ConfigStorage(context: Context) {
 
     fun saveCsrfToken(token: String?) {
         val oldToken = settings.getString(CSRF_TOKEN, "")
-        if (oldToken.length > 0) {
-            return
+        if (oldToken != null) {
+            if (oldToken.length > 0) {
+                return
+            }
         }
         if (token != null) {
             if (token.length > 0) {
@@ -90,7 +92,7 @@ class ConfigStorage(context: Context) {
         editor.commit()
     }
 
-    val csrfToken: String
+    val csrfToken: String?
         get() = settings.getString(CSRF_TOKEN, "")
 
     companion object {

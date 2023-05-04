@@ -2,8 +2,8 @@ package ru.michanic.mymot.Kotlin.UI.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -88,7 +88,7 @@ class SearchResultsActivity : UniversalActivity() {
                 it
             ) { adverts, canLoadMore ->
                 progressBar?.visibility = View.GONE
-                Log.e("onLoaded", adverts?.toString())
+                adverts?.toString()?.let { it1 -> Log.e("onLoaded", it1) }
                 loadedAdverts.addAll(adverts?.filterNotNull() ?: emptyList())
                 searchAdapter?.notifyDataSetChanged()
                 loading = false
