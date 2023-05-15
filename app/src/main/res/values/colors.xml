@@ -8,4 +8,6 @@
     <color name="textGray">#4A4A4A</color>
     <color name="textLightGray">#9B9B9B</color>
     <color name="colorSectionBack">#B30288D1</color>
+    <color name="color_ic_set_theme">#0288D1</color>
+    <color name="color_back">#FDFEFF</color>
 </resources>
