@@ -11,7 +11,6 @@ import ru.michanic.mymot.Kotlin.Utils.SearchManager
 class MyMotApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode())
     }
 
     companion object {
@@ -30,6 +29,7 @@ class MyMotApplication : Application() {
             configStorage = appContext?.let { ConfigStorage(it) }
             searchManager = SearchManager()
             networkService = NetworkService()
+            AppCompatDelegate.setDefaultNightMode(configStorage?.colorMode ?: 0)
         }
     }
 }

@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.UI.Activities.TextActivity
 import ru.michanic.mymot.R
@@ -43,13 +42,14 @@ class InfoHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        checkTheme()
         binding.tvSettings.setOnClickListener {
             chooseThemeDialog()
         }
     }
 
     private fun chooseThemeDialog() {
+        val configStorage = MyMotApplication.configStorage
+
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(getString(R.string.set_theme))
         val styles = arrayOf(
@@ -57,50 +57,14 @@ class InfoHomeFragment : Fragment() {
             getString(R.string.dark_theme),
             getString(R.string.system_theme)
         )
-        val checkedItem = 0
-        builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
-
-            when (which) {
-                0 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    MyPreferences(context).darkMode = 0
-                    dialog.dismiss()
-                }
-
-                1 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    MyPreferences(context).darkMode = 1
-                    dialog.dismiss()
-                }
-
-                2 -> {
-                    if (Build.VERSION.SDK_INT >= 29)
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    else
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                    MyPreferences(context).darkMode = 2
-                    dialog.dismiss()
-                }
-            }
+        val checkedItem = configStorage?.colorModeIndex ?: 0
+        builder.setSingleChoiceItems(styles, checkedItem) { dialog, itemIndex ->
+            configStorage?.saveColorModeIndex(itemIndex)
+            AppCompatDelegate.setDefaultNightMode(configStorage?.colorMode ?: 0)
+            dialog.dismiss()
         }
         val dialog = builder.create()
         dialog.show()
-    }
-
-    private fun checkTheme() {
-        when (MyPreferences(context).darkMode) {
-            0 -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-
-            1 -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-
-            2 -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            }
-        }
     }
 
     companion object {
@@ -114,15 +78,4 @@ class InfoHomeFragment : Fragment() {
         _binding = null
     }
 
-    class MyPreferences(context: Context?) {
-
-        companion object {
-            private const val DARK_STATUS = "dark_status"
-        }
-
-        private val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-        var darkMode = preferences.getInt(DARK_STATUS, 0)
-            set(value) = preferences.edit().putInt(DARK_STATUS, value).apply()
-    }
 }
