@@ -14,7 +14,7 @@
         android:text="Параметр"
         android:layout_marginLeft="26dp"
         android:layout_weight="0.6"
-        android:textColor="@color/textGray"
+        android:textColor="@color/textPrimary"
         android:textSize="14sp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_marginLeft="10dp"
         android:layout_weight="0.4"
         android:text="2002"
-        android:textColor="@color/textLightGray"
+        android:textColor="@color/textPrimaryLight"
         android:textSize="14sp"/>
 
 </LinearLayout>

@@ -67,7 +67,7 @@
                 android:text="@string/set_theme"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:drawableTint="@color/color_ic_set_theme"
+                android:drawableTint="@color/icSetTheme"
                 app:drawableStartCompat="@drawable/ic_set_theme" />
 
             <TextView
