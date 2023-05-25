@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
 
-    <ImageView android:id="@+id/splashscreen" android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/splashscreen"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        app:srcCompat="@drawable/logo_white"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/logo_white" />
 
-    <TextView android:layout_width="fill_parent"
+    <TextView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Hello World, splash"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

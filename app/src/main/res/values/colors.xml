@@ -5,7 +5,13 @@
     <color name="colorRed">#ef5350</color>
     <color name="colorAccent">#0288D1</color>
     <color name="separatorGray">#C8C8C8</color>
-    <color name="textGray">#4A4A4A</color>
-    <color name="textLightGray">#9B9B9B</color>
+    <color name="textPrimary">#4A4A4A</color>
+    <color name="textPrimaryLight">#9B9B9B</color>
     <color name="colorSectionBack">#B30288D1</color>
+    <color name="icSetTheme">#0288D1</color>
+    <color name="bgFavouriteModels">#FDFEFF</color>
+    <color name="colorFavouriteInactive">#01579B</color>
+    <color name="bgTabLayoutFavourites">#FFFFFF</color>
+    <color name="selectedTab">#0288D1</color>
+
 </resources>

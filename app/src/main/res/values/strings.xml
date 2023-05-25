@@ -8,5 +8,11 @@
     <string name="title_search">Поиск</string>
     <string name="title_favourites">Избранное</string>
     <string name="title_info">Информация</string>
+    <string name="set_theme">Выбор темы</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="light_theme">Светлая</string>
+    <string name="dark_theme">Темная</string>
+    <string name="system_theme">Системная</string>
 
 </resources>

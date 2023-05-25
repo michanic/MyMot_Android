@@ -2,24 +2,22 @@ package ru.michanic.mymot.Kotlin.UI.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.SearchView
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
-import ru.michanic.mymot.Kotlin.MyMotApplication
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.Kotlin.UI.Frames.Catalog.CatalogHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Favourites.FavouritesHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Info.InfoHomeFragment
-import ru.michanic.mymot.Kotlin.UI.Frames.Search.SearchHomeFragment
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.R
 
 class MainActivity : UniversalActivity() {
 

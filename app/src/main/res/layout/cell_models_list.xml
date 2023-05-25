@@ -37,7 +37,7 @@
         android:layout_toEndOf="@+id/card_view"
         android:layout_toRightOf="@+id/card_view"
         android:gravity="center_vertical"
-        android:textColor="@color/textGray"
+        android:textColor="@color/textPrimary"
         android:textSize="17sp" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:layout_toEndOf="@+id/card_view"
         android:layout_toRightOf="@+id/card_view"
         android:text="2002"
-        android:textColor="@color/textLightGray"
+        android:textColor="@color/textPrimaryLight"
         android:textSize="12sp" />
 
     <TextView
@@ -67,7 +67,7 @@
         android:layout_toRightOf="@+id/card_view"
         android:gravity="center_vertical"
         android:text="100 куб.см."
-        android:textColor="@color/textGray"
+        android:textColor="@color/textPrimary"
         android:textSize="10sp" />
 
     <FrameLayout
