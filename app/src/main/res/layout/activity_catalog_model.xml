@@ -29,7 +29,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="26dp"
                 android:text="MODEL"
-                android:textColor="@color/textGray"
+                android:textColor="@color/textPrimary"
                 android:textSize="20sp" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_marginLeft="26dp"
                 android:layout_marginTop="11dp"
                 android:text="Производитель"
-                android:textColor="@color/textLightGray"
+                android:textColor="@color/textPrimaryLight"
                 android:textSize="14sp" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_marginEnd="26dp"
                 android:layout_marginRight="26dp"
                 android:text="Спорт-турист"
-                android:textColor="@color/textGray"
+                android:textColor="@color/textPrimary"
                 android:textSize="14sp" />
 
             <TextView
@@ -67,7 +67,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="26dp"
                 android:text="2000 - 2001"
-                android:textColor="@color/textLightGray"
+                android:textColor="@color/textPrimaryLight"
                 android:textSize="14sp" />
 
             <Button
@@ -102,7 +102,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="26dp"
                 android:text="About text"
-                android:textColor="@color/textLightGray"
+                android:textColor="@color/textPrimaryLight"
                 android:textSize="14sp" />
 
             <TextView
@@ -114,7 +114,7 @@
                 android:layout_marginTop="57dp"
                 android:layout_marginRight="20dp"
                 android:text="Технические характеристики:"
-                android:textColor="@color/textGray"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp" />
 
             <ru.michanic.mymot.Kotlin.UI.NonScrollListView
@@ -136,7 +136,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:text="Обзоры:"
-                android:textColor="@color/textGray"
+                android:textColor="@color/textPrimary"
                 android:textSize="16sp" />
 
             <androidx.recyclerview.widget.RecyclerView

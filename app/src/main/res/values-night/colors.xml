@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#4B4E50</color>
+    <color name="colorPrimaryDark">#000204</color>
+    <color name="colorRed">#ef5350</color>
+    <color name="colorAccent">#0288D1</color>
+    <color name="separatorGray">#C8C8C8</color>
+    <color name="textPrimary">#FFFFFF</color>
+    <color name="textPrimaryLight">#FFFAFA</color>
+    <color name="colorSectionBack">#B3000102</color>
+    <color name="bgFavouriteModels">#3C3A3A</color>
+    <color name="colorFavouriteInactive">#000000</color>
+    <color name="bgTabLayoutFavourites">#B3000102</color>
+    <color name="selectedTab">#FFFFFF</color>
+</resources>
