@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+    //ImageSlider
+    implementation 'com.github.3lyan:slider-gallery-zoom:1.1.0'
+
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
