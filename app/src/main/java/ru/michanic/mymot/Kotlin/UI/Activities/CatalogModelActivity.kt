@@ -14,20 +14,18 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elian.gallery_zoom.CustomSliderView
-import com.shivam.library.imageslider.ImageSlider
+import me.relex.circleindicator.CircleIndicator2
 import ru.michanic.mymot.Kotlin.Extensions.Font
 import ru.michanic.mymot.Kotlin.Interactors.ApiInteractor
 import ru.michanic.mymot.Kotlin.Models.Model
 import ru.michanic.mymot.Kotlin.Models.ModelDetails
 import ru.michanic.mymot.Kotlin.Models.YoutubeVideo
 import ru.michanic.mymot.Kotlin.Protocols.ClickListener
-import ru.michanic.mymot.Kotlin.UI.Adapters.ImagesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ParametersListAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ReviewsSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.NonScrollListView
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 import ru.michanic.mymot.R
-import ru.michanic.mymot.databinding.ActivityCatalogModelBinding
 
 class CatalogModelActivity : UniversalActivity() {
 
@@ -85,6 +83,7 @@ class CatalogModelActivity : UniversalActivity() {
 
     private fun fillProperties() {
         val rvSlider= findViewById<CustomSliderView>(R.id.rv_slider)
+        val indicator = findViewById<CircleIndicator2>(R.id.intro_indicator)
         val modelLabel = findViewById<View>(R.id.modelLabel) as TextView
         val manufacturerLabel = findViewById<View>(R.id.manufacturerLabel) as TextView
         val classLabel = findViewById<View>(R.id.classLabel) as TextView
@@ -111,6 +110,7 @@ class CatalogModelActivity : UniversalActivity() {
         val images = modelDetails?.images
         if (images != null) {
             rvSlider.setImages(this, images as ArrayList<String>?)
+            rvSlider.setCustomIndicator(indicator)
         }
         val parameters = modelDetails?.parameters
         val parametersListAdapter = ParametersListAdapter(parameters)

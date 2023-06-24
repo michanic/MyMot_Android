@@ -17,13 +17,24 @@
             <com.elian.gallery_zoom.CustomSliderView
                 android:id="@+id/rv_slider"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <com.shivam.library.imageslider.ImageSlider
                 android:id="@+id/imagesSlider"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
+
+            <me.relex.circleindicator.CircleIndicator2
+                android:id="@+id/intro_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="280dp"
+                app:ci_drawable="@drawable/ic_indicator_radius"
+                app:ci_height="8dp"
+                app:ci_orientation="horizontal"
+                app:ci_width="8dp" />
 
             <TextView
                 android:id="@+id/modelLabel"
@@ -129,7 +140,9 @@
                 android:layout_below="@+id/parametersTitle"
                 android:layout_marginTop="16dp"
                 android:dividerHeight="0.25dp"
-                android:orientation="vertical"></ru.michanic.mymot.Kotlin.UI.NonScrollListView>
+                android:orientation="vertical">
+
+            </ru.michanic.mymot.Kotlin.UI.NonScrollListView>
 
             <TextView
                 android:id="@+id/reviewsTitle"
@@ -164,5 +177,6 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/separatorGray"
         android:indeterminateTintMode="src_atop" />
+
 
 </RelativeLayout>
