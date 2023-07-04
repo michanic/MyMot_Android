@@ -123,6 +123,19 @@ class ConfigStorage(context: Context) {
             return  modeIndex
         }
 
+    fun saveCurrentTab(index: Int, title: String) {
+        val editor = settings.edit()
+        editor.putInt(CURRENT_TAB_INDEX, index)
+        editor.putString(CURRENT_TAB_TITLE, title)
+        editor.commit()
+    }
+
+    val currentTabIndex: Int
+        get() = settings.getInt(CURRENT_TAB_INDEX, 0)
+
+    val currentTabTitle: String?
+        get() = settings.getString(CURRENT_TAB_TITLE, "Каталог")
+
     companion object {
         private const val PREFS_NAME = "MyMotPreferences"
         private const val LOCATION_ID = "search_location_id"
@@ -132,5 +145,7 @@ class ConfigStorage(context: Context) {
         private const val PRICE_FOR = "search_price_for"
         private const val CSRF_TOKEN = "autoru_csrf_token"
         private const val COLOR_MODE = "color_mode"
+        private const val CURRENT_TAB_INDEX = "current_tab_index"
+        private const val CURRENT_TAB_TITLE = "current_tab_title"
     }
 }

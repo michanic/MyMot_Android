@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
+import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
 import ru.michanic.mymot.Kotlin.UI.Frames.Catalog.CatalogHomeFragment
 import ru.michanic.mymot.Kotlin.UI.Frames.Favourites.FavouritesHomeFragment
@@ -27,43 +28,52 @@ class MainActivity : UniversalActivity() {
     private var searchResultsView: PinnedSectionListView? = null
     private var searchResultsAdapter: SectionItemsListAdapter? = null
     private val dataManager = DataManager()
+    private val configStorage = MyMotApplication.configStorage
+
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            var fragment: Fragment? = null
-            setNavigationTitle(item.title.toString())
-            when (item.itemId) {
-                R.id.navigation_catalog -> {
-                    fragment = CatalogHomeFragment()
-                    showSearchIcon(false)
-                    showFilterIcon(false)
-                }
-                /*R.id.navigation_search -> {
-                    fragment = SearchHomeFragment()
-                    showSearchIcon(true)
-                    showFilterIcon(true)
-                }*/
-                R.id.navigation_favourites -> {
-                    fragment = FavouritesHomeFragment()
-                    showSearchIcon(false)
-                    showFilterIcon(false)
-                }
-                R.id.navigation_info -> {
-                    fragment = InfoHomeFragment()
-                    showSearchIcon(false)
-                    showFilterIcon(false)
-                }
-            }
-            loadFragment(fragment)
+            configStorage?.saveCurrentTab(item.itemId, item.title.toString())
+            setCurrentTab()
         }
+
+    private fun setCurrentTab(): Boolean {
+        var fragment: Fragment? = null
+        setNavigationTitle(configStorage?.currentTabTitle ?: resources.getString(R.string.title_catalog))
+        var currentTabIndex: Int = configStorage?.currentTabIndex ?: 0
+        when (currentTabIndex) {
+            R.id.navigation_catalog, 0 -> {
+                fragment = CatalogHomeFragment()
+                showSearchIcon(false)
+                showFilterIcon(false)
+            }
+            /*R.id.navigation_search -> {
+                fragment = SearchHomeFragment()
+                showSearchIcon(true)
+                showFilterIcon(true)
+            }*/
+            R.id.navigation_favourites -> {
+                fragment = FavouritesHomeFragment()
+                showSearchIcon(false)
+                showFilterIcon(false)
+            }
+            R.id.navigation_info -> {
+                fragment = InfoHomeFragment()
+                showSearchIcon(false)
+                showFilterIcon(false)
+            }
+        }
+        loadFragment(fragment)
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         rootActivity = true
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        loadFragment(CatalogHomeFragment())
-        setNavigationTitle(resources.getString(R.string.title_catalog))
+        setCurrentTab()
         navView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navView.selectedItemId = configStorage?.currentTabIndex ?: R.id.navigation_catalog
         searchResultsView = findViewById<View>(R.id.listView) as PinnedSectionListView
         searchResultsView?.visibility = View.GONE
     }
