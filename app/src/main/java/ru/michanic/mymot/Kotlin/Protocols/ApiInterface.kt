@@ -15,21 +15,24 @@ interface ApiInterface {
     @POST("config.php?type=agreement")
     fun loadAgreementText(): Call<AppPageText?>?
 
-    @POST("catalog.php?type=only_regions")
+    @POST("catalog1.php?type=only_regions")
     fun loadRegions(): Call<List<Location?>?>?
 
-    @POST("catalog.php?type=cities")
+    @POST("catalog1.php?type=cities")
     fun loadRegionCities(@Query("id") regionId: Int): Call<List<Location?>?>?
 
-    @POST("catalog.php?type=volumes")
+    @POST("catalog1.php?type=volumes")
     fun loadVolumes(): Call<List<Volume?>?>?
 
-    @POST("catalog.php?type=classes")
+    @POST("catalog1.php?type=classes")
     fun loadClasses(): Call<List<Category?>?>?
 
-    @POST("catalog.php?type=models")
+    @POST("catalog1.php?type=models")
     fun loadModels(): Call<List<Manufacturer?>?>?
 
-    @POST("catalog.php?type=model_details")
+    @POST("catalog1.php?type=model_details")
     fun loadModelDetails(@Query("id") modelId: Int): Call<ModelDetails?>?
+
+    @POST("catalog1.php?type=property_enums")
+    fun loadPropertyEnums(@Query("id") modelId: Int): Call<Model>
 }

@@ -20,6 +20,15 @@ open class Model : RealmObject() {
     private var volume_value = 0f
     var volume_id = 0
 
+    var cylyndersCount: Int = 0
+    var cylyndersPlacement: Int = 0
+    var cooling: Int = 0
+    var power: String? = null
+    var driveType: Int = 0
+    var seatHeight: String? = null
+    var wetWeight: String? = null
+
+
     var category: Category? = null
     var manufacturer: Manufacturer? = null
     fun setVolume_value(volume_value: Float) {

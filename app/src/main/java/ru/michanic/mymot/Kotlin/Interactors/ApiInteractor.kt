@@ -95,6 +95,7 @@ class ApiInteractor {
         })
     }
 
+
     private fun loadRegions(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadRegions")
         apiInterface.loadRegions()?.enqueue(object : Callback<List<Location?>?> {
@@ -117,16 +118,17 @@ class ApiInteractor {
     }
 
     fun loadRegionCities(region: Location, onSuccess: (() -> Unit), onFail: (() -> Unit)) {
-        apiInterface.loadRegionCities(region.id)?.enqueue(object : Callback<List<Location?>?> {
-            override fun onResponse(
-                call: Call<List<Location?>?>,
-                response: Response<List<Location?>?>,
-            ) {
-                realm.beginTransaction()
-                realm.copyToRealmOrUpdate(response.body())
-                realm.commitTransaction()
-                onSuccess()
-            }
+        apiInterface.loadRegionCities(region.id)
+            ?.enqueue(object : Callback<List<Location?>?> {
+                override fun onResponse(
+                    call: Call<List<Location?>?>,
+                    response: Response<List<Location?>?>,
+                ) {
+                    realm.beginTransaction()
+                    realm.copyToRealmOrUpdate(response.body())
+                    realm.commitTransaction()
+                    onSuccess()
+                }
 
             override fun onFailure(call: Call<List<Location?>?>, t: Throwable) {
                 onFail()
@@ -234,6 +236,25 @@ class ApiInteractor {
             override fun onFailure(call: Call<ModelDetails?>, t: Throwable) {
                 onFail()
                 Log.e("response", t.toString())
+            }
+        })
+    }
+
+    fun loadPropertyEnums(
+        modelId: Int,
+        onSuccess: ((Model) -> Unit),
+        onFail: (() -> Unit)
+    ) {
+        apiInterface.loadPropertyEnums(modelId).enqueue(object : Callback<Model> {
+            override fun onResponse(call: Call<Model>, response: Response<Model?>) {
+                MyMotApplication.configStorage?.placements =
+                    (response.body()?.cylyndersCount ?: "") as MutableMap<Int, String>
+                onSuccess(Model())
+                Log.e("qwert", "")
+            }
+
+            override fun onFailure(call: Call<Model>, t: Throwable) {
+                onFail()
             }
         })
     }
