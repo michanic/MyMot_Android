@@ -14,9 +14,9 @@ class ConfigStorage(context: Context) {
     var exteptedWords = emptyList<String>()
     var aboutText = ""
 
-    var placements = mutableMapOf<Int, String>()
-    var coolingTypes = mutableMapOf<Int, String>()
-    var driveTypes = mutableMapOf<Int, String>()
+    var placements = mapOf<Int, String>()
+    var coolingTypes = mapOf<Int, String>()
+    var driveTypes = mapOf<Int, String>()
 
     init {
         settings = context.getSharedPreferences(PREFS_NAME, 0)

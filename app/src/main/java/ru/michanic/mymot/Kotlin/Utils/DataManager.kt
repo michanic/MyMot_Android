@@ -14,7 +14,8 @@ class DataManager {
     init {
         Realm.init(MyMotApplication.appContext)
         val configuration = RealmConfiguration.Builder()
-            .schemaVersion(0)
+            .schemaVersion(1) // меняем на +1 при каждом изменении свойств в БД
+            .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(configuration)
 

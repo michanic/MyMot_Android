@@ -34,5 +34,5 @@ interface ApiInterface {
     fun loadModelDetails(@Query("id") modelId: Int): Call<ModelDetails?>?
 
     @POST("catalog1.php?type=property_enums")
-    fun loadPropertyEnums(@Query("id") modelId: Int): Call<Model>
+    fun loadPropertyEnums(): Call<PropertyEnums?>
 }

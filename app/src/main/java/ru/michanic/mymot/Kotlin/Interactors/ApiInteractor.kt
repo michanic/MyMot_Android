@@ -30,14 +30,18 @@ class ApiInteractor {
 
     fun loadData(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         dataManager.cleanAdverts()
-        loadExteptedWords({
-            loadAboutText({
-                loadRegions({
-                    loadVolumes({
-                        loadClasses({
-                            loadModels({
-                                dataManager.assignCategories()
-                                onSuccess()
+        loadPropertyEnums({
+            loadExteptedWords({
+                loadAboutText({
+                    loadRegions({
+                        loadVolumes({
+                            loadClasses({
+                                loadModels({
+                                    dataManager.assignCategories()
+                                    onSuccess()
+                                }, {
+                                    onFail()
+                                })
                             }, {
                                 onFail()
                             })
@@ -56,6 +60,7 @@ class ApiInteractor {
         }, {
             onFail()
         })
+
     }
 
 
@@ -227,7 +232,6 @@ class ApiInteractor {
     }
 
     fun loadModelDetails(modelId: Int, onSuccess: ((ModelDetails?) -> Unit), onFail: (() -> Unit)) {
-
         apiInterface.loadModelDetails(modelId)?.enqueue(object : Callback<ModelDetails?> {
             override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
                 onSuccess(response.body())
@@ -241,19 +245,24 @@ class ApiInteractor {
     }
 
     fun loadPropertyEnums(
-        modelId: Int,
-        onSuccess: ((Model) -> Unit),
+        onSuccess: (() -> Unit),
         onFail: (() -> Unit)
     ) {
-        apiInterface.loadPropertyEnums(modelId).enqueue(object : Callback<Model> {
-            override fun onResponse(call: Call<Model>, response: Response<Model?>) {
-                MyMotApplication.configStorage?.placements =
-                    (response.body()?.cylyndersCount ?: "") as MutableMap<Int, String>
-                onSuccess(Model())
-                Log.e("qwert", "")
+        apiInterface.loadPropertyEnums().enqueue(object : Callback<PropertyEnums?> {
+            override fun onResponse(call: Call<PropertyEnums?>, response: Response<PropertyEnums?>) {
+                val emptyMap = mapOf<Int, String>()
+                val placements = response.body()?.placements?.map { e -> e.key.toInt() to e.value }?.toMap()
+                MyMotApplication.configStorage?.placements = placements ?: emptyMap
+
+                val coolingTypes = response.body()?.cooling_types?.map { e -> e.key.toInt() to e.value }?.toMap()
+                MyMotApplication.configStorage?.coolingTypes = coolingTypes ?: emptyMap
+
+                val driveTypes = response.body()?.drive_types?.map { e -> e.key.toInt() to e.value }?.toMap()
+                MyMotApplication.configStorage?.driveTypes = driveTypes ?: emptyMap
+                onSuccess()
             }
 
-            override fun onFailure(call: Call<Model>, t: Throwable) {
+            override fun onFailure(call: Call<PropertyEnums?>, t: Throwable) {
                 onFail()
             }
         })
