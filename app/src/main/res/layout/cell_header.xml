@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="Все мотоциклы"
         android:textSize="22sp"
-        android:textColor="@color/textGray"
+        android:textColor="@color/textPrimary"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="30dp"

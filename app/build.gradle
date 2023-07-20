@@ -10,8 +10,8 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 32
-        versionCode 201
-        versionName "2.01"
+        versionCode 203
+        versionName "2.03"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -72,4 +74,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-scalars:${retrofitVersion}"
 
+    //Preference
+    implementation "androidx.preference:preference-ktx:1.1.1"
+
+    //ImageSlider
+    implementation 'com.github.3lyan:slider-gallery-zoom:1.1.0'
+    implementation 'me.relex:circleindicator:2.1.6'
 }

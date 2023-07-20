@@ -2,6 +2,7 @@ package ru.michanic.mymot.Kotlin
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import ru.michanic.mymot.Kotlin.Utils.ConfigStorage
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 import ru.michanic.mymot.Kotlin.Utils.NetworkService
@@ -28,6 +29,7 @@ class MyMotApplication : Application() {
             configStorage = appContext?.let { ConfigStorage(it) }
             searchManager = SearchManager()
             networkService = NetworkService()
+            AppCompatDelegate.setDefaultNightMode(configStorage?.colorMode ?: 0)
         }
     }
 }

@@ -2,6 +2,8 @@ package ru.michanic.mymot.Kotlin.Utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import ru.michanic.mymot.Kotlin.Models.SearchFilterConfig
 import ru.michanic.mymot.Kotlin.MyMotApplication
@@ -95,6 +97,45 @@ class ConfigStorage(context: Context) {
     val csrfToken: String?
         get() = settings.getString(CSRF_TOKEN, "")
 
+    fun saveColorModeIndex(mode: Int) {
+        val editor = settings.edit()
+        editor.putInt(COLOR_MODE, mode)
+        editor.commit()
+    }
+
+    val colorModeIndex: Int
+        get() = settings.getInt(COLOR_MODE, 0)
+
+    val colorMode: Int
+        get() {
+            var modeIndex = AppCompatDelegate.MODE_NIGHT_NO
+            when (colorModeIndex) {
+                1 -> {
+                    modeIndex = AppCompatDelegate.MODE_NIGHT_YES
+                }
+                2 -> {
+                    if (Build.VERSION.SDK_INT >= 29)
+                        modeIndex = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    else
+                        modeIndex = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                }
+            }
+            return  modeIndex
+        }
+
+    fun saveCurrentTab(index: Int, title: String) {
+        val editor = settings.edit()
+        editor.putInt(CURRENT_TAB_INDEX, index)
+        editor.putString(CURRENT_TAB_TITLE, title)
+        editor.commit()
+    }
+
+    val currentTabIndex: Int
+        get() = settings.getInt(CURRENT_TAB_INDEX, 0)
+
+    val currentTabTitle: String?
+        get() = settings.getString(CURRENT_TAB_TITLE, "Каталог")
+
     companion object {
         private const val PREFS_NAME = "MyMotPreferences"
         private const val LOCATION_ID = "search_location_id"
@@ -103,5 +144,8 @@ class ConfigStorage(context: Context) {
         private const val PRICE_FROM = "search_price_from"
         private const val PRICE_FOR = "search_price_for"
         private const val CSRF_TOKEN = "autoru_csrf_token"
+        private const val COLOR_MODE = "color_mode"
+        private const val CURRENT_TAB_INDEX = "current_tab_index"
+        private const val CURRENT_TAB_TITLE = "current_tab_title"
     }
 }
