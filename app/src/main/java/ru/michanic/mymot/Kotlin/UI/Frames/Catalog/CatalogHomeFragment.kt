@@ -2,23 +2,23 @@ package ru.michanic.mymot.Kotlin.UI.Frames.Catalog
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.michanic.mymot.Kotlin.Extensions.Font
+import ru.michanic.mymot.Kotlin.Protocols.ClickListener
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByClassActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByManufacturerActivity
 import ru.michanic.mymot.Kotlin.UI.Activities.CatalogByVolumeActivity
 import ru.michanic.mymot.Kotlin.UI.Adapters.ClassesSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.ManufacturersSliderAdapter
 import ru.michanic.mymot.Kotlin.UI.Adapters.VolumessSliderAdapter
-import ru.michanic.mymot.Kotlin.Protocols.ClickListener
-import ru.michanic.mymot.R
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import ru.michanic.mymot.R
 
 class CatalogHomeFragment : Fragment() {
     override fun onCreateView(

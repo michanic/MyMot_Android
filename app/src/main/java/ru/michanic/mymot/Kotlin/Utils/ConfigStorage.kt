@@ -124,7 +124,7 @@ class ConfigStorage(context: Context) {
                         modeIndex = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
                 }
             }
-            return  modeIndex
+            return modeIndex
         }
 
     fun saveCurrentTab(index: Int, title: String) {

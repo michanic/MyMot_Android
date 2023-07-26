@@ -87,7 +87,10 @@ class ApiInteractor {
     private fun loadAboutText(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
         Log.e("loadData", "loadAboutText")
         apiInterface.loadAboutText()?.enqueue(object : Callback<AppPageText?> {
-            override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
+            override fun onResponse(
+                call: Call<AppPageText?>,
+                response: Response<AppPageText?>
+            ) {
                 MyMotApplication.configStorage?.aboutText = response.body()?.text ?: ""
                 onSuccess()
                 Log.e("loadData", "about loaded")
@@ -135,11 +138,11 @@ class ApiInteractor {
                     onSuccess()
                 }
 
-            override fun onFailure(call: Call<List<Location?>?>, t: Throwable) {
-                onFail()
-                Log.e("response", t.toString())
-            }
-        })
+                override fun onFailure(call: Call<List<Location?>?>, t: Throwable) {
+                    onFail()
+                    Log.e("response", t.toString())
+                }
+            })
     }
 
     private fun loadVolumes(onSuccess: (() -> Unit), onFail: (() -> Unit)) {
@@ -231,9 +234,16 @@ class ApiInteractor {
         })
     }
 
-    fun loadModelDetails(modelId: Int, onSuccess: ((ModelDetails?) -> Unit), onFail: (() -> Unit)) {
+    fun loadModelDetails(
+        modelId: Int,
+        onSuccess: ((ModelDetails?) -> Unit),
+        onFail: (() -> Unit)
+    ) {
         apiInterface.loadModelDetails(modelId)?.enqueue(object : Callback<ModelDetails?> {
-            override fun onResponse(call: Call<ModelDetails?>, response: Response<ModelDetails?>) {
+            override fun onResponse(
+                call: Call<ModelDetails?>,
+                response: Response<ModelDetails?>
+            ) {
                 onSuccess(response.body())
             }
 
@@ -270,7 +280,10 @@ class ApiInteractor {
 
     fun loadAgreementText(result: ((String?) -> Unit)) {
         apiInterface.loadAgreementText()?.enqueue(object : Callback<AppPageText?> {
-            override fun onResponse(call: Call<AppPageText?>, response: Response<AppPageText?>) {
+            override fun onResponse(
+                call: Call<AppPageText?>,
+                response: Response<AppPageText?>
+            ) {
                 result(response.body()?.text)
             }
 
