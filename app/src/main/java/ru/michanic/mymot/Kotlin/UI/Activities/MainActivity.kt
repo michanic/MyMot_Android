@@ -25,6 +25,7 @@ class MainActivity : UniversalActivity() {
     private lateinit var navView: BottomNavigationView
     private var searchIcon: MenuItem? = null
     private var filterIcon: MenuItem? = null
+    private var sortIcon: MenuItem? = null
     private var searchResultsView: PinnedSectionListView? = null
     private var searchResultsAdapter: SectionItemsListAdapter? = null
     private val dataManager = DataManager()
@@ -45,6 +46,7 @@ class MainActivity : UniversalActivity() {
                 fragment = CatalogHomeFragment()
                 showSearchIcon(false)
                 showFilterIcon(false)
+                showSortIcon(true)
             }
             /*R.id.navigation_search -> {
                 fragment = SearchHomeFragment()
@@ -83,8 +85,10 @@ class MainActivity : UniversalActivity() {
         menuInflater.inflate(R.menu.search_filter_menu, menu)
         val searchIcon = menu.findItem(R.id.search_icon)
         filterIcon = menu.findItem(R.id.filter_icon)
+        sortIcon = menu.findItem(R.id.sort_icon)
         showSearchIcon(false)
         showFilterIcon(false)
+        showSortIcon(true)
         val searchView = searchIcon.getActionView() as SearchView
         searchView.queryHint = "Модель или объем"
         searchView.maxWidth = Int.MAX_VALUE
@@ -119,6 +123,12 @@ class MainActivity : UniversalActivity() {
     private fun showFilterIcon(show: Boolean) {
         if (filterIcon != null) {
             filterIcon?.isVisible = show
+        }
+    }
+
+    private fun showSortIcon(show: Boolean) {
+        if (sortIcon != null) {
+            sortIcon?.isVisible = show
         }
     }
 
