@@ -25,11 +25,12 @@ class MainActivity : UniversalActivity() {
     private lateinit var navView: BottomNavigationView
     private var searchIcon: MenuItem? = null
     private var filterIcon: MenuItem? = null
-    private var sortIcon: MenuItem? = null
+    private var catalogFilterIcon: MenuItem? = null
     private var searchResultsView: PinnedSectionListView? = null
     private var searchResultsAdapter: SectionItemsListAdapter? = null
     private val dataManager = DataManager()
     private val configStorage = MyMotApplication.configStorage
+
 
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -39,14 +40,16 @@ class MainActivity : UniversalActivity() {
 
     private fun setCurrentTab(): Boolean {
         var fragment: Fragment? = null
-        setNavigationTitle(configStorage?.currentTabTitle ?: resources.getString(R.string.title_catalog))
+        setNavigationTitle(
+            configStorage?.currentTabTitle ?: resources.getString(R.string.title_catalog)
+        )
         var currentTabIndex: Int = configStorage?.currentTabIndex ?: 0
         when (currentTabIndex) {
             R.id.navigation_catalog, 0 -> {
                 fragment = CatalogHomeFragment()
                 showSearchIcon(false)
                 showFilterIcon(false)
-                showSortIcon(true)
+                showCatalogFilterIcon(true)
             }
             /*R.id.navigation_search -> {
                 fragment = SearchHomeFragment()
@@ -58,6 +61,7 @@ class MainActivity : UniversalActivity() {
                 showSearchIcon(false)
                 showFilterIcon(false)
             }
+
             R.id.navigation_info -> {
                 fragment = InfoHomeFragment()
                 showSearchIcon(false)
@@ -84,11 +88,11 @@ class MainActivity : UniversalActivity() {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.search_filter_menu, menu)
         val searchIcon = menu.findItem(R.id.search_icon)
-        filterIcon = menu.findItem(R.id.filter_icon)
-        sortIcon = menu.findItem(R.id.sort_icon)
+        filterIcon = menu.findItem(R.id.adverts_filter_icon)
+        catalogFilterIcon = menu.findItem(R.id.catalog_filter_icon)
         showSearchIcon(false)
         showFilterIcon(false)
-        showSortIcon(true)
+        showCatalogFilterIcon(true)
         val searchView = searchIcon.getActionView() as SearchView
         searchView.queryHint = "Модель или объем"
         searchView.maxWidth = Int.MAX_VALUE
@@ -107,9 +111,10 @@ class MainActivity : UniversalActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.filter_icon) {
-            val filterActivity = Intent(applicationContext, FilterActivity::class.java)
-            startActivity(filterActivity)
+        if (item.itemId == R.id.catalog_filter_icon) {
+            val catalogFilterActivity =
+                Intent(applicationContext, CatalogFilterActivity::class.java)
+            startActivity(catalogFilterActivity)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -126,9 +131,9 @@ class MainActivity : UniversalActivity() {
         }
     }
 
-    private fun showSortIcon(show: Boolean) {
-        if (sortIcon != null) {
-            sortIcon?.isVisible = show
+    private fun showCatalogFilterIcon(show: Boolean) {
+        if (catalogFilterIcon != null) {
+            catalogFilterIcon?.isVisible = show
         }
     }
 
@@ -169,7 +174,8 @@ class MainActivity : UniversalActivity() {
                             Intent(applicationContext, SearchResultsActivity::class.java)
                         startActivity(searchResultsActivity)*/
                         // раньше вызывался поиск объявлений по выбранной модели
-                        val catalogModelActivity = Intent(applicationContext, CatalogModelActivity::class.java)
+                        val catalogModelActivity =
+                            Intent(applicationContext, CatalogModelActivity::class.java)
                         catalogModelActivity.putExtra("modelId", model?.id ?: 0)
                         startActivity(catalogModelActivity)
                     }

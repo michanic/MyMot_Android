@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/search_icon"
         android:title="Поиск"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
 
     <item
-        android:id="@+id/filter_icon"
+        android:id="@+id/adverts_filter_icon"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_navigation_filter"
         android:title="Фильтр" />
 
     <item
-        android:id="@+id/sort_icon"
-        android:icon="@drawable/ic_sort"
+        android:id="@+id/catalog_filter_icon"
+        android:icon="@drawable/ic_navigation_filter"
         android:title="Сортировка"
         app:showAsAction="always" />
 

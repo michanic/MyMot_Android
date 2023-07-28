@@ -117,6 +117,7 @@ class ConfigStorage(context: Context) {
                 1 -> {
                     modeIndex = AppCompatDelegate.MODE_NIGHT_YES
                 }
+
                 2 -> {
                     if (Build.VERSION.SDK_INT >= 29)
                         modeIndex = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
