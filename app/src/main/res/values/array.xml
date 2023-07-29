@@ -16,8 +16,8 @@
     </array>
 
     <array name="initial_slider_prm_power">
-        <item>10</item>
-        <item>200</item>
+        <item>1000</item>
+        <item>20000</item>
     </array>
 
     <array name="initial_slider_seat_height">
