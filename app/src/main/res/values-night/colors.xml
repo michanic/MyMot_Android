@@ -13,4 +13,5 @@
     <color name="bgTabLayoutFavourites">#B3000102</color>
     <color name="selectedTab">#FFFFFF</color>
     <color name="colorIndicator">#000000</color>
+    <color name="checkedIconTint">#FFFFFF</color>
 </resources>

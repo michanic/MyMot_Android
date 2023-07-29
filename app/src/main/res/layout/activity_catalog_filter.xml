@@ -450,22 +450,25 @@
             app:layout_constraintTop_toBottomOf="@+id/cooling_type_tv">
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Воздушное" />
+                android:text="Воздушное"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Жидкостное" />
+                android:text="Жидкостное"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Воздушно-масляное" />
+                android:text="Воздушно-масляное"
+                app:checkedIconTint="@color/checkedIconTint" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -497,22 +500,25 @@
             app:layout_constraintTop_toBottomOf="@+id/drive_type_tv">
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Цепь" />
+                android:text="Цепь"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Кардан" />
+                android:text="Кардан"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Ремень" />
+                android:text="Ремень"
+                app:checkedIconTint="@color/checkedIconTint" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -544,30 +550,32 @@
             app:layout_constraintTop_toBottomOf="@+id/cylinder_layout_tv">
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="Рядный" />
+                android:text="Рядный"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="V-образный" />
+                android:text="V-образный"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:text="L-образный" />
+                android:text="L-образный"
+                app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-
                 android:layout_height="48dp"
-                android:text="Оппозитный" />
+                android:text="Оппозитный"
+                app:checkedIconTint="@color/checkedIconTint" />
 
         </com.google.android.material.chip.ChipGroup>
 
