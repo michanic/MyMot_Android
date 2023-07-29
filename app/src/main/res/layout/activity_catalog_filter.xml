@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/filter"
+    android:id="@+id/scroll_activity_catalog_filter"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -26,13 +25,13 @@
 
         <EditText
             android:id="@+id/years_release_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,12 +39,12 @@
 
         <EditText
             android:id="@+id/years_release_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,9 +57,9 @@
             android:id="@+id/years_release_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="1"
             android:valueFrom="1980"
             android:valueTo="2023"
@@ -82,19 +81,19 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Рабочий объем двигателя (см³) :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_years_release" />
 
         <EditText
             android:id="@+id/engine_displacement_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +101,12 @@
 
         <EditText
             android:id="@+id/engine_displacement_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -119,9 +118,9 @@
             android:id="@+id/engine_displacement_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="10"
             android:valueFrom="50"
             android:valueTo="2000"
@@ -143,19 +142,19 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Мощность двигателя (л.с.) :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_engine_displacement" />
 
         <EditText
             android:id="@+id/max_power_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -163,12 +162,12 @@
 
         <EditText
             android:id="@+id/max_power_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -180,9 +179,9 @@
             android:id="@+id/max_power_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="10"
             android:valueFrom="10"
             android:valueTo="200"
@@ -204,19 +203,19 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Обороты двигателя (об/мин.) :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_max_power" />
 
         <EditText
             android:id="@+id/engine_rpm_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -224,12 +223,12 @@
 
         <EditText
             android:id="@+id/engine_rpm_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -241,9 +240,9 @@
             android:id="@+id/engine_prm_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="100"
             android:valueFrom="1000"
             android:valueTo="20000"
@@ -265,19 +264,19 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Высота по седлу (мм.) :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_engine_prm" />
 
         <EditText
             android:id="@+id/seat_height_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -285,16 +284,16 @@
 
         <EditText
             android:id="@+id/seat_height_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintHorizontal_bias="0.907"
             app:layout_constraintStart_toEndOf="@+id/engine_rpm_of_et"
             app:layout_constraintTop_toBottomOf="@+id/seat_height_tv" />
 
@@ -302,9 +301,9 @@
             android:id="@+id/seat_height_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="10"
             android:valueFrom="400"
             android:valueTo="900"
@@ -326,19 +325,19 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Снаряженная масса (кг.) :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator_seat_height" />
 
         <EditText
             android:id="@+id/curb_weight_of_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_edit_text_of"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="от : "
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
@@ -346,12 +345,12 @@
 
         <EditText
             android:id="@+id/curb_weight_to_et"
-            android:layout_width="170dp"
+            android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@color/colorPrimary"
             android:inputType="number"
-            android:padding="4dp"
+            android:padding="@dimen/padding_edit_text"
             android:text="до : "
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -364,7 +363,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_top_slider"
             android:layout_marginEnd="6dp"
             android:stepSize="10"
             android:valueFrom="100"
@@ -387,7 +386,7 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Количество цилиндров :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/separator_curb_weight" />
 
@@ -396,13 +395,13 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:hint="1"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toEndOf="@id/cylinder_count_tv"
             app:layout_constraintTop_toBottomOf="@id/separator_curb_weight" />
 
@@ -410,9 +409,9 @@
             android:id="@+id/cylinder_count_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="@dimen/margin_start_and_end_slider"
+            android:layout_marginTop="@dimen/margin_top_slider"
+            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             android:stepSize="1"
             android:valueFrom="1"
             android:valueTo="6"
@@ -434,7 +433,7 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Тип охлаждения :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_cylinder_count" />
 
@@ -442,31 +441,29 @@
             android:id="@+id/cooling_type_chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginTop="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginStart="@dimen/margin_start_chip_group"
+            android:layout_marginTop="@dimen/margin_top_chip_group"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cooling_type_tv">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Воздушное"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Жидкостное"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Воздушно-масляное"
                 app:checkedIconTint="@color/checkedIconTint" />
 
@@ -486,7 +483,7 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Тип привода :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_cooling_type" />
 
@@ -494,29 +491,29 @@
             android:id="@+id/drive_type_chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_chip_group"
+            android:layout_marginTop="@dimen/margin_top_chip_group"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drive_type_tv">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Цепь"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Кардан"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Ремень"
                 app:checkedIconTint="@color/checkedIconTint" />
 
@@ -536,7 +533,7 @@
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
             android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
             android:text="Расположение цилиндров :"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/separator_drive_type" />
 
@@ -544,36 +541,36 @@
             android:id="@+id/cylinder_layout_chip_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="@dimen/margin_start_chip_group"
+            android:layout_marginTop="@dimen/margin_top_chip_group"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cylinder_layout_tv">
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Рядный"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="V-образный"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="L-образный"
                 app:checkedIconTint="@color/checkedIconTint" />
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/height_chip_catalog_filter"
                 android:text="Оппозитный"
                 app:checkedIconTint="@color/checkedIconTint" />
 

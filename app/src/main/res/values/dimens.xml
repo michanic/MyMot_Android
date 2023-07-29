@@ -5,4 +5,13 @@
     <dimen name="margin_start_tv_catalog_filter">12dp</dimen>
     <dimen name="margin_top_tv_catalog_filter">6dp</dimen>
     <dimen name="text_size_tv_catalog_filter">18sp</dimen>
+    <dimen name="width_edit_text">170dp</dimen>
+    <dimen name="margin_start_edit_text_of">6dp</dimen>
+    <dimen name="margin_top_edit_text">6dp</dimen>
+    <dimen name="padding_edit_text">4dp</dimen>
+    <dimen name="margin_start_and_end_slider">6dp</dimen>
+    <dimen name="margin_top_slider">4dp</dimen>
+    <dimen name="height_chip_catalog_filter">48dp</dimen>
+    <dimen name="margin_start_chip_group">12dp</dimen>
+    <dimen name="margin_top_chip_group">6dp</dimen>
 </resources>
