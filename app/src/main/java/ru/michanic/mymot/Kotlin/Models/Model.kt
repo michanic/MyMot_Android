@@ -20,7 +20,7 @@ open class Model : RealmObject() {
     private var volume_value = 0f
     var volume_id = 0
 
-    var cylyndersCount: Int = 0
+    var cylynders_count: Int = 0
     var cylyndersPlacement: Int = 0
     var cooling: Int = 0
     var power: String? = null

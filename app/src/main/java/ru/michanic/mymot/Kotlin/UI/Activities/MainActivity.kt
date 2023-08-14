@@ -152,7 +152,8 @@ class MainActivity : UniversalActivity() {
         if (searchText.length < 1) {
             searchResultsView?.visibility = View.GONE
         } else {
-            val models = dataManager.searchModelsByName(searchText)
+            //val models = dataManager.searchModelsByName(searchText)
+            val models = dataManager.searchByParameters()
             if (models.size > 0) {
                 val items: MutableList<SectionModelItem?> = ArrayList()
                 for (model in models) {

@@ -95,11 +95,17 @@ class DataManager {
         )
     }
 
-    fun searchByParameters(parameters: String?): List<Model> {
+    fun searchByParameters(): List<Model> {
+        val cylyntersCount: Int = 4
+        val coolingTypeId: Int = 36
+
         return realm.copyFromRealm(
             realm.where(
                 Model::class.java
-            ).contains("cylyndersCount", parameters, Case.INSENSITIVE).findAll().sort("sort")
+            )
+                .equalTo("cylynders_count", cylyntersCount)
+                .equalTo("cooling", coolingTypeId)
+                .findAll().sort("sort")
         )
     }
 
