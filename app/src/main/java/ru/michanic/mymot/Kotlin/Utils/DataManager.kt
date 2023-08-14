@@ -95,6 +95,14 @@ class DataManager {
         )
     }
 
+    fun searchByParameters(parameters: String?): List<Model> {
+        return realm.copyFromRealm(
+            realm.where(
+                Model::class.java
+            ).contains("cylyndersCount", parameters, Case.INSENSITIVE).findAll().sort("sort")
+        )
+    }
+
     fun getCategoryById(id: Int): Category? {
         return realm.where(Category::class.java).equalTo("id", id).findFirst()
     }

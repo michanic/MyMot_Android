@@ -105,7 +105,7 @@ class SearchResultsActivity : UniversalActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.filter_icon) {
+        if (item.itemId == R.id.adverts_filter_icon) {
             val filterActivity = Intent(applicationContext, FilterActivity::class.java)
             filterActivity.putExtra("goBackOnSearch", true)
             startActivity(filterActivity)

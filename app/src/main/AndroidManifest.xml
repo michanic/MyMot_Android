@@ -33,6 +33,7 @@
         <activity android:name=".Kotlin.UI.Activities.VideoViewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Kotlin.UI.Activities.AdvertActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Kotlin.UI.Activities.FilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Kotlin.UI.Activities.CatalogFilterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Kotlin.UI.Activities.FilterRegionsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Kotlin.UI.Activities.FilterModelsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".Kotlin.UI.Activities.SearchResultsActivity" android:screenOrientation="portrait"/>
