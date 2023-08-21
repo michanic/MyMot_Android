@@ -5,6 +5,7 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmList
+import io.realm.kotlin.where
 import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.MyMotApplication
 
@@ -95,18 +96,18 @@ class DataManager {
         )
     }
 
-    fun searchByParameters(): List<Model> {
-        val cylyntersCount: Int = 4
-        val coolingTypeId: Int = 36
-
-        return realm.copyFromRealm(
-            realm.where(
-                Model::class.java
-            )
-                .equalTo("cylynders_count", cylyntersCount)
-                .equalTo("cooling", coolingTypeId)
-                .findAll().sort("sort")
+    fun searchByParameters(parameters: CatalogFilterParameters): List<Model> {
+        var searchResults = realm.where(
+            Model::class.java
         )
+        if (parameters.cylyndersCount != null) {
+            searchResults = searchResults.equalTo("cylynders_count", parameters.cylyndersCount)
+        }
+        if (parameters.coolingType != null) {
+            searchResults = searchResults.equalTo("cooling", parameters.coolingType)
+        }
+
+        return realm.copyFromRealm(searchResults.findAll().sort("sort"))
     }
 
     fun getCategoryById(id: Int): Category? {

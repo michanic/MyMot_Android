@@ -11,6 +11,7 @@ import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.halfbit.pinnedsection.PinnedSectionListView
+import ru.michanic.mymot.Kotlin.Models.CatalogFilterParameters
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
@@ -152,8 +153,21 @@ class MainActivity : UniversalActivity() {
         if (searchText.length < 1) {
             searchResultsView?.visibility = View.GONE
         } else {
+            val parameters = CatalogFilterParameters(
+                2,
+                null,
+                36,
+                null,
+                50,
+                80,
+                700,
+                900,
+                150,
+                220
+            )
+
             //val models = dataManager.searchModelsByName(searchText)
-            val models = dataManager.searchByParameters()
+            val models = dataManager.searchByParameters(parameters)
             if (models.size > 0) {
                 val items: MutableList<SectionModelItem?> = ArrayList()
                 for (model in models) {
