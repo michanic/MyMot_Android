@@ -4,17 +4,17 @@
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/bgItemSearchResult"
     android:paddingLeft="10dp">
 
-    <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        card_view:cardUseCompatPadding="true"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="1dp">
+        card_view:cardElevation="1dp"
+        card_view:cardUseCompatPadding="true">
 
         <ImageView
             android:id="@+id/cell_image"
@@ -30,13 +30,13 @@
         android:id="@+id/model_title"
         android:layout_width="wrap_content"
         android:layout_height="22dp"
-        android:text="Model"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/card_view"
         android:layout_toRightOf="@+id/card_view"
         android:gravity="center_vertical"
+        android:text="Model"
         android:textColor="@color/textPrimary"
         android:textSize="17sp" />
 
@@ -83,7 +83,5 @@
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="15dp"
             app:srcCompat="@drawable/ic_arrow_right" />
-    </FrameLayout>>
-
-
+    </FrameLayout>
 </RelativeLayout>
