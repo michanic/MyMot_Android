@@ -9,6 +9,7 @@
     <color name="textPrimaryLight">#FFFAFA</color>
     <color name="colorSectionBack">#B3000102</color>
     <color name="bgFavouriteModels">#3C3A3A</color>
+    <color name="bgItemSearchResult">#3C3A3A</color>
     <color name="colorFavouriteInactive">#000000</color>
     <color name="bgTabLayoutFavourites">#B3000102</color>
     <color name="selectedTab">#FFFFFF</color>

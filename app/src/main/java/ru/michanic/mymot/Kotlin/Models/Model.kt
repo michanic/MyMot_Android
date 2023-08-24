@@ -21,10 +21,10 @@ open class Model : RealmObject() {
     var volume_id = 0
 
     var cylynders_count: Int = 0
-    var cylyndersPlacement: Int = 0
+    var cylynders_placement_type: Int = 0
     var cooling: Int = 0
     var power: String? = null
-    var driveType: Int = 0
+    var drive_type: Int = 0
     var seatHeight: String? = null
     var wetWeight: String? = null
 

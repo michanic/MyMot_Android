@@ -157,7 +157,7 @@ class MainActivity : UniversalActivity() {
                 2,
                 null,
                 36,
-                null,
+                24,
                 50,
                 80,
                 700,

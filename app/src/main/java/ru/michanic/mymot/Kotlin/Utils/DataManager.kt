@@ -106,7 +106,13 @@ class DataManager {
         if (parameters.coolingType != null) {
             searchResults = searchResults.equalTo("cooling", parameters.coolingType)
         }
-
+        if (parameters.cylyndersPlacementType != null) {
+            searchResults =
+                searchResults.equalTo("cylynders_placement_type", parameters.cylyndersPlacementType)
+        }
+        if (parameters.driveType != null) {
+            searchResults = searchResults.equalTo("drive_type", parameters.driveType)
+        }
         return realm.copyFromRealm(searchResults.findAll().sort("sort"))
     }
 
