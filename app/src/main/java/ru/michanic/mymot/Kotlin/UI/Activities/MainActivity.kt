@@ -154,12 +154,12 @@ class MainActivity : UniversalActivity() {
             searchResultsView?.visibility = View.GONE
         } else {
             val parameters = CatalogFilterParameters(
-                2,
                 null,
-                36,
-                24,
-                50,
-                80,
+                null,
+                null,
+                null,
+                145,
+                155,
                 700,
                 900,
                 150,

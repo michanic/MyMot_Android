@@ -47,4 +47,20 @@ open class Model : RealmObject() {
 
     val autoruSearchName: String
         get() = manufacturer?.code + "/" + code + "/"
+
+    fun havePower(min: Int, max: Int): Boolean {
+        val powerString = power ?: ""
+        powerString.split("#").forEach { // разбиваем на строки варианты мощностей
+            val powerString = it.split("|").first().replace(',', '.') // разбиваем на подстроки и берем само значение
+            if (powerString.count() > 0) { // проверяем чтобы было не пустое, иначе выводим в лог, чтобы было видно где забыли добавить
+                val powerValue = powerString.toDouble()
+                if (powerValue >= min.toDouble() && powerValue <= max.toDouble()) { // проверяем чтобы оказалось в нужном диапазоне
+                    return  true
+                }
+            } else {
+                println("NEED POWER VALUE: " + name + ": " + powerString)
+            }
+        }
+        return false
+    }
 }

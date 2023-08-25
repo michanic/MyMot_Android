@@ -113,7 +113,11 @@ class DataManager {
         if (parameters.driveType != null) {
             searchResults = searchResults.equalTo("drive_type", parameters.driveType)
         }
-        return realm.copyFromRealm(searchResults.findAll().sort("sort"))
+        var resultList = realm.copyFromRealm(searchResults.findAll().sort("sort"))
+
+        resultList = resultList.filter { it.havePower(parameters.minPower, parameters.maxPower)}
+
+        return resultList
     }
 
     fun getCategoryById(id: Int): Category? {
