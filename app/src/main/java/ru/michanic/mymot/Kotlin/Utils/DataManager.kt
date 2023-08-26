@@ -115,7 +115,22 @@ class DataManager {
         }
         var resultList = realm.copyFromRealm(searchResults.findAll().sort("sort"))
 
-        resultList = resultList.filter { it.havePower(parameters.minPower, parameters.maxPower)}
+        resultList = resultList.filter { it.havePower(parameters.minPower, parameters.maxPower) }
+
+        resultList =
+            resultList.filter {
+                it.haveSeatHeight(
+                    parameters.minSeatHeight,
+                    parameters.maxSeatHeight
+                )
+            }
+
+        resultList = resultList.filter {
+            it.haveWeight(
+                parameters.minWeight,
+                parameters.maxWeight
+            )
+        }
 
         return resultList
     }

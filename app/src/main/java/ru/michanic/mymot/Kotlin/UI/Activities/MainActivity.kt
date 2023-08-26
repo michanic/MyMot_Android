@@ -158,12 +158,12 @@ class MainActivity : UniversalActivity() {
                 null,
                 null,
                 null,
-                145,
-                155,
-                700,
-                900,
-                150,
-                220
+                55,
+                65,
+                850,
+                880,
+                230,
+                240
             )
 
             //val models = dataManager.searchModelsByName(searchText)
