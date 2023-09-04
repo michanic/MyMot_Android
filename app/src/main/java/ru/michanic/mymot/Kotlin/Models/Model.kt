@@ -1,9 +1,11 @@
 package ru.michanic.mymot.Kotlin.Models
 
 import android.util.Log
+import android.widget.Toast
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
+import kotlin.collections.ArrayList
 
 open class Model : RealmObject() {
     @PrimaryKey
@@ -40,14 +42,33 @@ open class Model : RealmObject() {
         get() = first_year.toString() + " - " + if (last_year == 0) "настоящее время" else last_year
     val avitoSearchName: String
         get() = manufacturer?.name?.lowercase(Locale.getDefault()) + "+" + name?.replace(
-            " ",
-            "+"
+            " ", "+"
         )?.lowercase(
             Locale.getDefault()
         )
 
     val autoruSearchName: String
         get() = manufacturer?.code + "/" + code + "/"
+
+    fun minMaxPower(): Pair<Double, Double> {
+        val powerString = power ?: ""
+        var minPower = 0.0
+        var maxPower = 0.0
+        var powers: MutableList<Double> = mutableListOf()
+        powerString.split("#").forEach {
+            val powerString = it.split("|").first().replace(',', '.')
+            if (powerString.count() >= 0) {
+                val list = listOf(1.1,2.3,22.2,333.6,44.1,34.2)
+                    maxPower = list.maxOrNull()!!
+                    minPower = list.minOrNull()!!
+                    Log.i("powerMinMax", "$minPower + $maxPower")
+            } else {
+                println("NEED POWER VALUE: " + name + ": " + powerString)
+            }
+        }
+        return Pair(maxPower,minPower)
+    }
+
 
     fun havePower(min: Int, max: Int): Boolean {
         val powerString = power ?: ""
@@ -57,7 +78,8 @@ open class Model : RealmObject() {
             if (powerString.count() > 0) { // проверяем чтобы было не пустое, иначе выводим в лог, чтобы было видно где забыли добавить
                 val powerValue = powerString.toDouble()
                 if (powerValue >= min.toDouble() && powerValue <= max.toDouble()) { // проверяем чтобы оказалось в нужном диапазоне
-                    Log.i("asd", powerValue.toString())
+                    Log.i("power", "$min + $max")
+                    minMaxPower()
                     return true
                 }
             } else {
@@ -70,12 +92,11 @@ open class Model : RealmObject() {
     fun haveSeatHeight(min: Int, max: Int): Boolean {
         val seatHeightString = seat_height ?: ""
         seatHeightString.split("#").forEach {
-            val seatHeightString = it.split("|").first()
-                .replace(',', '.')
+            val seatHeightString = it.split("|").first().replace(',', '.')
             if (seatHeightString.count() > 0) {
                 val seatHeightValue = seatHeightString.toDouble()
                 if (seatHeightValue >= min.toDouble() && seatHeightValue <= max.toDouble()) {
-                    Log.i("asd", name + seatHeightValue.toString())
+                    Log.i("seatHeightValue", "$min + $max")
                     return true
                 }
             } else {
@@ -88,11 +109,11 @@ open class Model : RealmObject() {
     fun haveWeight(min: Int, max: Int): Boolean {
         val weightString = wet_weight ?: ""
         weightString.split("#").forEach() {
-            val weightString = it.split("|").first()
-                .replace(',', '.')
+            val weightString = it.split("|").first().replace(',', '.')
             if (weightString.count() > 0) {
                 val weightValue = weightString.toDouble()
                 if (weightValue >= min.toDouble() && weightValue <= max.toDouble()) {
+                    Log.i("weightValue", "$min + $max")
                     return true
                 }
             } else {

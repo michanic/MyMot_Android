@@ -18,6 +18,9 @@ class ConfigStorage(context: Context) {
     var coolingTypes = mapOf<Int, String>()
     var driveTypes = mapOf<Int, String>()
 
+    var minPower: Double? = null
+    var maxPower: Double? = null
+
     init {
         settings = context.getSharedPreferences(PREFS_NAME, 0)
     }
