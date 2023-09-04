@@ -13,6 +13,7 @@ open class Manufacturer : RealmObject() {
     var name: String? = null
     private var sort = 0
 
+
     var models: RealmList<Model>? = null
     val avitoSearchName: String?
         get() = name?.replace(" ", "%20")?.lowercase(Locale.getDefault())

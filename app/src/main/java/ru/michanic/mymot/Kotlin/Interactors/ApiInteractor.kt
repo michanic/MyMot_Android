@@ -11,6 +11,7 @@ import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.ApiInterface
 import ru.michanic.mymot.Kotlin.Protocols.Const
+import ru.michanic.mymot.Kotlin.Utils.ConfigStorage
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 
 class ApiInteractor {
