@@ -13,6 +13,8 @@ import ru.michanic.mymot.Kotlin.Protocols.ApiInterface
 import ru.michanic.mymot.Kotlin.Protocols.Const
 import ru.michanic.mymot.Kotlin.Utils.ConfigStorage
 import ru.michanic.mymot.Kotlin.Utils.DataManager
+import kotlin.math.max
+import kotlin.math.min
 
 class ApiInteractor {
 
@@ -23,6 +25,7 @@ class ApiInteractor {
     private val apiInterface = retrofit.create(ApiInterface::class.java)
     private val realm: Realm
     private val dataManager = DataManager()
+    private val configStorage = MyMotApplication.configStorage
 
     init {
         Realm.init(MyMotApplication.appContext)
@@ -72,7 +75,7 @@ class ApiInteractor {
                 call: Call<List<String?>?>,
                 response: Response<List<String?>?>,
             ) {
-                MyMotApplication.configStorage?.exteptedWords =
+                configStorage?.exteptedWords =
                     response.body()?.filterNotNull() ?: emptyList()
                 onSuccess()
                 Log.e("loadData", "words loaded")
@@ -92,7 +95,7 @@ class ApiInteractor {
                 call: Call<AppPageText?>,
                 response: Response<AppPageText?>
             ) {
-                MyMotApplication.configStorage?.aboutText = response.body()?.text ?: ""
+                configStorage?.aboutText = response.body()?.text ?: ""
                 onSuccess()
                 Log.e("loadData", "about loaded")
             }
@@ -197,6 +200,8 @@ class ApiInteractor {
             ) {
                 val favoriteModels = dataManager.favouriteModelIDs
                 val volumes = dataManager.volumes
+                var minPower: Double = 1000.0
+                var maxPower: Double = 0.0
                 realm.beginTransaction()
                 for (manufacturer in response.body() ?: emptyList()) {
                     manufacturer?.name?.let { Log.e("manufacturer", it) }
@@ -220,12 +225,24 @@ class ApiInteractor {
                         }
                         model.isFavourite = favoriteModels.contains(model.id)
                         model.manufacturer = manufacturer
+                        val powerRange = model.minMaxPower()
+                        //println(model.name + " " + powerRange.first + "/" + powerRange.second + " current: " + minPower + "/" + maxPower)
+                        if (powerRange.first != null) {
+                            minPower = min(minPower, powerRange.first!!)
+                        }
+                        if (powerRange.second != null) {
+                            maxPower = max(maxPower, powerRange.second!!)
+                        }
+
                         realm.copyToRealmOrUpdate(model)
                     }
                 }
                 realm.commitTransaction()
+                configStorage?.minPower = minPower
+                configStorage?.maxPower = maxPower
                 onSuccess()
                 Log.e("loadData", "models loaded")
+                Log.e("loadData", "minPower: " + minPower + " maxPower: " + maxPower)
             }
 
             override fun onFailure(call: Call<List<Manufacturer?>?>, t: Throwable) {
@@ -263,13 +280,13 @@ class ApiInteractor {
             override fun onResponse(call: Call<PropertyEnums?>, response: Response<PropertyEnums?>) {
                 val emptyMap = mapOf<Int, String>()
                 val placements = response.body()?.placements?.map { e -> e.key.toInt() to e.value }?.toMap()
-                MyMotApplication.configStorage?.placements = placements ?: emptyMap
+                configStorage?.placements = placements ?: emptyMap
 
                 val coolingTypes = response.body()?.cooling_types?.map { e -> e.key.toInt() to e.value }?.toMap()
-                MyMotApplication.configStorage?.coolingTypes = coolingTypes ?: emptyMap
+                configStorage?.coolingTypes = coolingTypes ?: emptyMap
 
                 val driveTypes = response.body()?.drive_types?.map { e -> e.key.toInt() to e.value }?.toMap()
-                MyMotApplication.configStorage?.driveTypes = driveTypes ?: emptyMap
+                configStorage?.driveTypes = driveTypes ?: emptyMap
                 onSuccess()
             }
 

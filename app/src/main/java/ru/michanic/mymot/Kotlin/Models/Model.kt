@@ -50,23 +50,18 @@ open class Model : RealmObject() {
     val autoruSearchName: String
         get() = manufacturer?.code + "/" + code + "/"
 
-    fun minMaxPower(): Pair<Double, Double> {
+    fun minMaxPower(): Pair<Double?, Double?> {
         val powerString = power ?: ""
-        var minPower = 0.0
-        var maxPower = 0.0
         var powers: MutableList<Double> = mutableListOf()
         powerString.split("#").forEach {
             val powerString = it.split("|").first().replace(',', '.')
             if (powerString.count() >= 0) {
-                val list = listOf(1.1,2.3,22.2,333.6,44.1,34.2)
-                    maxPower = list.maxOrNull()!!
-                    minPower = list.minOrNull()!!
-                    Log.i("powerMinMax", "$minPower + $maxPower")
+                powers.add(powerString.toDouble())
             } else {
                 println("NEED POWER VALUE: " + name + ": " + powerString)
             }
         }
-        return Pair(maxPower,minPower)
+        return Pair(powers.minOrNull(), powers.maxOrNull())
     }
 
 
@@ -78,8 +73,6 @@ open class Model : RealmObject() {
             if (powerString.count() > 0) { // проверяем чтобы было не пустое, иначе выводим в лог, чтобы было видно где забыли добавить
                 val powerValue = powerString.toDouble()
                 if (powerValue >= min.toDouble() && powerValue <= max.toDouble()) { // проверяем чтобы оказалось в нужном диапазоне
-                    Log.i("power", "$min + $max")
-                    minMaxPower()
                     return true
                 }
             } else {
