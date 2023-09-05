@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import de.halfbit.pinnedsection.PinnedSectionListView
 import ru.michanic.mymot.Kotlin.Models.CatalogFilterParameters
-import ru.michanic.mymot.Kotlin.Models.Model
 import ru.michanic.mymot.Kotlin.Models.SectionModelItem
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.UI.Adapters.SectionItemsListAdapter
@@ -159,12 +158,12 @@ class MainActivity : UniversalActivity() {
                 null,
                 null,
                 null,
-                149,
-                150,
+                10,
+                310,
                 645,
-                998,
-                83,
-                434
+                999,
+                70,
+                437
             )
 
             //val models = dataManager.searchModelsByName(searchText)

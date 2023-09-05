@@ -11,7 +11,6 @@ import ru.michanic.mymot.Kotlin.Models.*
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.Kotlin.Protocols.ApiInterface
 import ru.michanic.mymot.Kotlin.Protocols.Const
-import ru.michanic.mymot.Kotlin.Utils.ConfigStorage
 import ru.michanic.mymot.Kotlin.Utils.DataManager
 import kotlin.math.max
 import kotlin.math.min
@@ -202,6 +201,10 @@ class ApiInteractor {
                 val volumes = dataManager.volumes
                 var minPower: Double = 1000.0
                 var maxPower: Double = 0.0
+                var minSeatHeight: Double = 1000.0
+                var maxSeatHeight: Double = 0.0
+                var minWetWeight: Double = 1000.0
+                var maxWetWeight: Double = 0.0
                 realm.beginTransaction()
                 for (manufacturer in response.body() ?: emptyList()) {
                     manufacturer?.name?.let { Log.e("manufacturer", it) }
@@ -234,15 +237,39 @@ class ApiInteractor {
                             maxPower = max(maxPower, powerRange.second!!)
                         }
 
+                        val seatHeightRange = model.minMaxSeatHeight()
+                        if (seatHeightRange.first != null) {
+                            minSeatHeight = min(minSeatHeight, seatHeightRange.first!!)
+                        }
+                        if (seatHeightRange.second != null) {
+                            maxSeatHeight = max(maxSeatHeight, seatHeightRange.second!!)
+                        }
+
+                        val wetWeightRange = model.minMaxWetWeight()
+                        if (wetWeightRange.first != null) {
+                            minWetWeight = min(minWetWeight, wetWeightRange.first!!)
+                        }
+                        if (wetWeightRange.second != null)
+                            maxWetWeight = max(maxWetWeight, wetWeightRange.second!!)
+
                         realm.copyToRealmOrUpdate(model)
                     }
                 }
                 realm.commitTransaction()
                 configStorage?.minPower = minPower
                 configStorage?.maxPower = maxPower
+                configStorage?.minSeatHeight = minSeatHeight
+                configStorage?.maxSeatHeight = maxSeatHeight
+                configStorage?.minWetWeight = minWetWeight
+                configStorage?.maxWetWeight = maxWetWeight
                 onSuccess()
                 Log.e("loadData", "models loaded")
-                Log.e("loadData", "minPower: " + minPower + " maxPower: " + maxPower)
+                Log.e("loadDataPower", "minPower: $minPower maxPower: $maxPower")
+                Log.e(
+                    "loadDataSeatHeight",
+                    "minSeatHeight: $minSeatHeight maxSeatHeight: $maxSeatHeight"
+                )
+                Log.e("loadDataWetWeight", "minWetWeight $minWetWeight maxWetWeight: $maxWetWeight")
             }
 
             override fun onFailure(call: Call<List<Manufacturer?>?>, t: Throwable) {
@@ -277,15 +304,21 @@ class ApiInteractor {
         onFail: (() -> Unit)
     ) {
         apiInterface.loadPropertyEnums().enqueue(object : Callback<PropertyEnums?> {
-            override fun onResponse(call: Call<PropertyEnums?>, response: Response<PropertyEnums?>) {
+            override fun onResponse(
+                call: Call<PropertyEnums?>,
+                response: Response<PropertyEnums?>
+            ) {
                 val emptyMap = mapOf<Int, String>()
-                val placements = response.body()?.placements?.map { e -> e.key.toInt() to e.value }?.toMap()
+                val placements =
+                    response.body()?.placements?.map { e -> e.key.toInt() to e.value }?.toMap()
                 configStorage?.placements = placements ?: emptyMap
 
-                val coolingTypes = response.body()?.cooling_types?.map { e -> e.key.toInt() to e.value }?.toMap()
+                val coolingTypes =
+                    response.body()?.cooling_types?.map { e -> e.key.toInt() to e.value }?.toMap()
                 configStorage?.coolingTypes = coolingTypes ?: emptyMap
 
-                val driveTypes = response.body()?.drive_types?.map { e -> e.key.toInt() to e.value }?.toMap()
+                val driveTypes =
+                    response.body()?.drive_types?.map { e -> e.key.toInt() to e.value }?.toMap()
                 configStorage?.driveTypes = driveTypes ?: emptyMap
                 onSuccess()
             }

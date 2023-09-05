@@ -20,6 +20,10 @@ class ConfigStorage(context: Context) {
 
     var minPower: Double? = null
     var maxPower: Double? = null
+    var minSeatHeight: Double? = null
+    var maxSeatHeight: Double? = null
+    var minWetWeight: Double? = null
+    var maxWetWeight: Double? = null
 
     init {
         settings = context.getSharedPreferences(PREFS_NAME, 0)

@@ -34,7 +34,6 @@ class CatalogFilterActivity : UniversalActivity() {
         cylinderCount()
         engineDisplacement()
         maxPower()
-        enginePrm()
         seatHeight()
         curbWeight()
     }
@@ -42,48 +41,40 @@ class CatalogFilterActivity : UniversalActivity() {
     private fun yearsRelease() {
         binding.yearsReleaseSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.yearsReleaseSlider.values
-            binding.yearsReleaseOfEt.setText("от : ${values[0].toInt()}")
-            binding.yearsReleaseToEt.setText("до : ${values[1].toInt()}")
+            binding.yearsReleaseOfEt.setText("${values[0].toInt()}")
+            binding.yearsReleaseToEt.setText("${values[1].toInt()}")
         }
     }
 
     private fun engineDisplacement() {
         binding.engineDisplacementSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.engineDisplacementSlider.values
-            binding.engineDisplacementOfEt.setText("от : ${values[0].toInt()}")
-            binding.engineDisplacementToEt.setText("до : ${values[1].toInt()}")
+            binding.engineDisplacementOfEt.setText("${values[0].toInt()}")
+            binding.engineDisplacementToEt.setText("${values[1].toInt()}")
         }
     }
 
     private fun maxPower() {
         binding.maxPowerSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.maxPowerSlider.values
-            binding.maxPowerOfEt.setText("от : ${values[0].toInt()}")
-            binding.maxPowerToEt.setText("до : ${values[1].toInt()}")
-        }
-    }
-
-    private fun enginePrm() {
-        binding.enginePrmSlider.addOnChangeListener { slider, value, fromUser ->
-            val values = binding.enginePrmSlider.values
-            binding.engineRpmOfEt.setText("от : ${values[0].toInt()}")
-            binding.engineRpmToEt.setText("до : ${values[1].toInt()}")
+            binding.maxPowerOfEt.setText("${values[0].toInt()}")
+            binding.maxPowerToEt.setText("${values[1].toInt()}")
         }
     }
 
     private fun seatHeight() {
         binding.seatHeightSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.seatHeightSlider.values
-            binding.seatHeightOfEt.setText("от : ${values[0].toInt()}")
-            binding.seatHeightToEt.setText("до : ${values[1].toInt()}")
+            binding.seatHeightOfEt.setText("${values[0].toInt()}")
+            binding.seatHeightToEt.setText("${values[1].toInt()}")
         }
     }
 
     private fun curbWeight() {
         binding.curbWeightSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.curbWeightSlider.values
-            binding.curbWeightOfEt.setText("от : ${values[0].toInt()}")
-            binding.curbWeightToEt.setText("до : ${values[1].toInt()}")
+            binding.curbWeightOfEt.setText("${values[0].toInt()}")
+            binding.curbWeightToEt.setText("${values[1].toInt()}")
         }
     }
 
