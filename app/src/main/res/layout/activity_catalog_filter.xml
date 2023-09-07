@@ -30,10 +30,11 @@
             android:layout_marginStart="@dimen/margin_start_edit_text_of"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="от : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="от : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/years_release_tv" />
 
@@ -43,10 +44,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="до : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="до : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toEndOf="@+id/years_release_of_et"
@@ -92,10 +94,11 @@
             android:layout_marginStart="@dimen/margin_start_edit_text_of"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="от : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="от : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/engine_displacement_tv" />
 
@@ -105,10 +108,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="до : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="до : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toEndOf="@+id/engine_displacement_of_et"
@@ -136,7 +140,7 @@
             app:layout_constraintTop_toBottomOf="@+id/engine_displacement_slider" />
 
         <TextView
-            android:id="@+id/max_power_tv"
+            android:id="@+id/power_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
@@ -147,113 +151,52 @@
             app:layout_constraintTop_toBottomOf="@+id/separator_engine_displacement" />
 
         <EditText
-            android:id="@+id/max_power_of_et"
+            android:id="@+id/power_of_et"
             android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_edit_text_of"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="от : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="от : "
-
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/max_power_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/power_tv" />
 
         <EditText
-            android:id="@+id/max_power_to_et"
+            android:id="@+id/power_to_et"
             android:layout_width="@dimen/width_edit_text"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="до : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="до : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toEndOf="@+id/max_power_of_et"
-            app:layout_constraintTop_toBottomOf="@+id/max_power_tv" />
+            app:layout_constraintStart_toEndOf="@+id/power_of_et"
+            app:layout_constraintTop_toBottomOf="@+id/power_tv" />
 
         <com.google.android.material.slider.RangeSlider
-            android:id="@+id/max_power_slider"
+            android:id="@+id/power_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_start_and_end_slider"
             android:layout_marginTop="@dimen/margin_top_slider"
             android:layout_marginEnd="@dimen/margin_start_and_end_slider"
             app:labelBehavior="gone"
-            app:layout_constraintTop_toBottomOf="@id/max_power_of_et"
-            app:values="@array/initial_slider_max_power" />
+            app:layout_constraintTop_toBottomOf="@id/power_of_et" />
 
         <View
-            android:id="@+id/separator_max_power"
+            android:id="@+id/separator_power"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/separatorGray"
-            app:layout_constraintTop_toBottomOf="@+id/max_power_slider" />
-
-        <TextView
-            android:id="@+id/engine_rpm_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_tv_catalog_filter"
-            android:layout_marginTop="@dimen/margin_top_tv_catalog_filter"
-            android:text="Обороты двигателя (об/мин.) :"
-            android:textSize="@dimen/text_size_tv_catalog_filter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separator_max_power" />
-
-        <EditText
-            android:id="@+id/engine_rpm_of_et"
-            android:layout_width="@dimen/width_edit_text"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_edit_text_of"
-            android:layout_marginTop="@dimen/margin_top_edit_text"
-            android:background="@drawable/edit_text_corner"
-            android:inputType="number"
-            android:padding="@dimen/padding_edit_text"
-            android:text="от : "
-            android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/engine_rpm_tv" />
-
-        <EditText
-            android:id="@+id/engine_rpm_to_et"
-            android:layout_width="@dimen/width_edit_text"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_top_edit_text"
-            android:background="@drawable/edit_text_corner"
-            android:inputType="number"
-            android:padding="@dimen/padding_edit_text"
-            android:text="до : "
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.9"
-            app:layout_constraintStart_toEndOf="@+id/engine_rpm_of_et"
-            app:layout_constraintTop_toBottomOf="@+id/engine_rpm_tv" />
-
-        <com.google.android.material.slider.RangeSlider
-            android:id="@+id/engine_prm_slider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_start_and_end_slider"
-            android:layout_marginTop="@dimen/margin_top_slider"
-            android:layout_marginEnd="@dimen/margin_start_and_end_slider"
-            android:stepSize="100"
-            android:valueFrom="1000"
-            android:valueTo="20000"
-            app:labelBehavior="gone"
-            app:layout_constraintTop_toBottomOf="@id/engine_rpm_of_et"
-            app:values="@array/initial_slider_prm_power" />
-
-        <View
-            android:id="@+id/separator_engine_prm"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/separatorGray"
-            app:layout_constraintTop_toBottomOf="@+id/engine_prm_slider" />
+            app:layout_constraintTop_toBottomOf="@+id/power_slider" />
 
         <TextView
             android:id="@+id/seat_height_tv"
@@ -264,7 +207,7 @@
             android:text="Высота по седлу (мм.) :"
             android:textSize="@dimen/text_size_tv_catalog_filter"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/separator_engine_prm" />
+            app:layout_constraintTop_toBottomOf="@+id/separator_power" />
 
         <EditText
             android:id="@+id/seat_height_of_et"
@@ -273,10 +216,11 @@
             android:layout_marginStart="@dimen/margin_start_edit_text_of"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="от : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="от : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seat_height_tv" />
 
@@ -286,13 +230,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="до : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="до : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.907"
-            app:layout_constraintStart_toEndOf="@+id/engine_rpm_of_et"
+            app:layout_constraintStart_toEndOf="@+id/power_of_et"
             app:layout_constraintTop_toBottomOf="@+id/seat_height_tv" />
 
         <com.google.android.material.slider.RangeSlider
@@ -302,12 +247,8 @@
             android:layout_marginStart="@dimen/margin_start_and_end_slider"
             android:layout_marginTop="@dimen/margin_top_slider"
             android:layout_marginEnd="@dimen/margin_start_and_end_slider"
-            android:stepSize="10"
-            android:valueFrom="400"
-            android:valueTo="900"
             app:labelBehavior="gone"
-            app:layout_constraintTop_toBottomOf="@+id/seat_height_of_et"
-            app:values="@array/initial_slider_seat_height" />
+            app:layout_constraintTop_toBottomOf="@+id/seat_height_of_et" />
 
         <View
             android:id="@+id/separator_seat_height"
@@ -334,10 +275,11 @@
             android:layout_marginStart="@dimen/margin_start_edit_text_of"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="от : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="от : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/curb_weight_tv" />
 
@@ -347,10 +289,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_edit_text"
             android:background="@drawable/edit_text_corner"
+            android:hint="до : "
             android:inputType="number"
             android:padding="@dimen/padding_edit_text"
-            android:text="до : "
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toEndOf="@+id/curb_weight_of_et"
@@ -363,12 +306,8 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="@dimen/margin_top_slider"
             android:layout_marginEnd="6dp"
-            android:stepSize="10"
-            android:valueFrom="100"
-            android:valueTo="700"
             app:labelBehavior="gone"
-            app:layout_constraintTop_toBottomOf="@+id/curb_weight_of_et"
-            app:values="@array/initial_slider_curb_weight" />
+            app:layout_constraintTop_toBottomOf="@+id/curb_weight_of_et" />
 
         <View
             android:id="@+id/separator_curb_weight"

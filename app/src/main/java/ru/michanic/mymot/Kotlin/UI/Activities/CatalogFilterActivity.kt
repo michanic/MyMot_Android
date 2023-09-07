@@ -2,22 +2,11 @@ package ru.michanic.mymot.Kotlin.UI.Activities
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import ru.michanic.mymot.Kotlin.MyMotApplication
 import ru.michanic.mymot.databinding.ActivityCatalogFilterBinding
 
 
 class CatalogFilterActivity : UniversalActivity() {
-
-    var cylynders_count: Int = 0
-    var cylynders_placement_type: Int = 0
-    var cooling: Int = 0
-    var power: String? = null
-    var drive_type: Int = 0
-    var seat_height: String? = null
-    var wet_weight: String? = null
-    var max = Double
-    var min = Double
 
     lateinit var binding: ActivityCatalogFilterBinding
 
@@ -30,15 +19,15 @@ class CatalogFilterActivity : UniversalActivity() {
         setNavigationTitle("Фильтр")
         goBackOnSearch = intent.getBooleanExtra("goBackOnSearch", false)
 
-        yearsRelease()
-        cylinderCount()
-        engineDisplacement()
-        maxPower()
-        seatHeight()
-        curbWeight()
+        setupYearsReleaseSlider()
+        setupEngineDisplacementSlider()
+        setupCountCylinderSlider()
+        setupPowerSlider()
+        setupSeatHeightSlider()
+        setupCurbWeightSlider()
     }
 
-    private fun yearsRelease() {
+    private fun setupYearsReleaseSlider() {
         binding.yearsReleaseSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.yearsReleaseSlider.values
             binding.yearsReleaseOfEt.setText("${values[0].toInt()}")
@@ -46,7 +35,7 @@ class CatalogFilterActivity : UniversalActivity() {
         }
     }
 
-    private fun engineDisplacement() {
+    private fun setupEngineDisplacementSlider() {
         binding.engineDisplacementSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.engineDisplacementSlider.values
             binding.engineDisplacementOfEt.setText("${values[0].toInt()}")
@@ -54,23 +43,37 @@ class CatalogFilterActivity : UniversalActivity() {
         }
     }
 
-    private fun maxPower() {
+    private fun setupPowerSlider() {
         val from: Double = 5.0
-        val to: Double = 305.0
+        val to: Double = 400.0
         val currentFrom: Double = 100.0
-        val currentFor: Double = 200.0
-        binding.maxPowerSlider.valueFrom = from.toFloat()
-        binding.maxPowerSlider.valueTo = to.toFloat()
-        binding.maxPowerSlider.setValues(currentFrom.toFloat(), currentFor.toFloat())
+        val currentTo: Double = 200.0
 
-        binding.maxPowerSlider.addOnChangeListener { slider, value, fromUser ->
-            val values = binding.maxPowerSlider.values
-            binding.maxPowerOfEt.setText("${values[0].toInt()}")
-            binding.maxPowerToEt.setText("${values[1].toInt()}")
+        with(binding.powerSlider) {
+            valueFrom = from.toFloat()
+            valueTo = to.toFloat()
+            setValues(currentFrom.toFloat(), currentTo.toFloat())
+        }
+
+        binding.powerSlider.addOnChangeListener { slider, value, fromUser ->
+            val values = binding.powerSlider.values
+            binding.powerOfEt.setText("${values[0].toInt()}")
+            binding.powerToEt.setText("${values[1].toInt()}")
         }
     }
 
-    private fun seatHeight() {
+    private fun setupSeatHeightSlider() {
+        val from: Double = 600.0
+        val to: Double = 1000.0
+        val currentFrom: Double = 700.0
+        val currentTo: Double = 800.0
+
+        with(binding.seatHeightSlider) {
+            valueFrom = from.toFloat()
+            valueTo = to.toFloat()
+            setValues(currentFrom.toFloat(), currentTo.toFloat())
+        }
+
         binding.seatHeightSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.seatHeightSlider.values
             binding.seatHeightOfEt.setText("${values[0].toInt()}")
@@ -78,7 +81,18 @@ class CatalogFilterActivity : UniversalActivity() {
         }
     }
 
-    private fun curbWeight() {
+    private fun setupCurbWeightSlider() {
+        val from: Double = 60.0
+        val to: Double = 450.0
+        val currentFrom: Double = 100.0
+        val currentTo: Double = 300.0
+
+        with(binding.curbWeightSlider) {
+            valueFrom = from.toFloat()
+            valueTo = to.toFloat()
+            setValues(currentFrom.toFloat(), currentTo.toFloat())
+        }
+
         binding.curbWeightSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.curbWeightSlider.values
             binding.curbWeightOfEt.setText("${values[0].toInt()}")
@@ -87,7 +101,7 @@ class CatalogFilterActivity : UniversalActivity() {
     }
 
 
-    private fun cylinderCount() {
+    private fun setupCountCylinderSlider() {
         binding.cylinderCountSlider.addOnChangeListener { slider, value, fromUser ->
             binding.cylinderCountSliderTv.text = value.toInt().toString()
         }

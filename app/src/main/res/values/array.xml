@@ -10,26 +10,6 @@
         <item>2000</item>
     </array>
 
-    <array name="initial_slider_max_power">
-        <item>10</item>
-        <item>200</item>
-    </array>
-
-    <array name="initial_slider_prm_power">
-        <item>1000</item>
-        <item>20000</item>
-    </array>
-
-    <array name="initial_slider_seat_height">
-        <item>400</item>
-        <item>900</item>
-    </array>
-
-    <array name="initial_slider_curb_weight">
-        <item>100</item>
-        <item>700</item>
-    </array>
-
     <array name="initial_slider_cylinder_count">
         <item>1</item>
         <item>6</item>
