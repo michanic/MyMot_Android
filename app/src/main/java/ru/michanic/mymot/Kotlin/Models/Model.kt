@@ -1,11 +1,9 @@
 package ru.michanic.mymot.Kotlin.Models
 
 import android.util.Log
-import android.widget.Toast
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
 open class Model : RealmObject() {
     @PrimaryKey
@@ -55,13 +53,41 @@ open class Model : RealmObject() {
         var powers: MutableList<Double> = mutableListOf()
         powerString.split("#").forEach {
             val powerString = it.split("|").first().replace(',', '.')
-            if (powerString.count() >= 0) {
+            if (powerString.isNotEmpty()) {
                 powers.add(powerString.toDouble())
             } else {
-                println("NEED POWER VALUE: " + name + ": " + powerString)
+                println("NEED POWER VALUE: $name: $powerString")
             }
         }
         return Pair(powers.minOrNull(), powers.maxOrNull())
+    }
+
+    fun minMaxSeatHeight(): Pair<Double?, Double?> {
+        val seatHeightString = seat_height ?: ""
+        var seatHeight: MutableList<Double> = mutableListOf()
+        seatHeightString.split("#").forEach {
+            val seatHeightString = it.split("|").first().replace(',', '.')
+            if (seatHeightString.isNotEmpty()) {
+                seatHeight.add(seatHeightString.toDouble())
+            } else {
+                println("NEED SEAT HEIGHT VALUE: $name: $seatHeightString")
+            }
+        }
+        return Pair(seatHeight.minOrNull(), seatHeight.maxOrNull())
+    }
+
+    fun minMaxWetWeight(): Pair<Double?, Double?> {
+        val wetWeightString = wet_weight ?: ""
+        var wetWeight: MutableList<Double> = mutableListOf()
+        wetWeightString.split("#").forEach {
+            val seatHeightString = it.split("|").first().replace(',', '.')
+            if (seatHeightString.isNotEmpty()) {
+                wetWeight.add(seatHeightString.toDouble())
+            } else {
+                println("NEED WET WEIGHT VALUE: $name: $wetWeightString")
+            }
+        }
+        return Pair(wetWeight.minOrNull(), wetWeight.maxOrNull())
     }
 
 
@@ -70,13 +96,13 @@ open class Model : RealmObject() {
         powerString.split("#").forEach { // разбиваем на строки варианты мощностей
             val powerString = it.split("|").first()
                 .replace(',', '.') // разбиваем на подстроки и берем само значение
-            if (powerString.count() > 0) { // проверяем чтобы было не пустое, иначе выводим в лог, чтобы было видно где забыли добавить
+            if (powerString.isNotEmpty()) { // проверяем чтобы было не пустое, иначе выводим в лог, чтобы было видно где забыли добавить
                 val powerValue = powerString.toDouble()
                 if (powerValue >= min.toDouble() && powerValue <= max.toDouble()) { // проверяем чтобы оказалось в нужном диапазоне
                     return true
                 }
             } else {
-                println("NEED POWER VALUE: " + name + ": " + powerString)
+                println("NEED POWER VALUE: $name: $powerString")
             }
         }
         return false
@@ -86,14 +112,14 @@ open class Model : RealmObject() {
         val seatHeightString = seat_height ?: ""
         seatHeightString.split("#").forEach {
             val seatHeightString = it.split("|").first().replace(',', '.')
-            if (seatHeightString.count() > 0) {
+            if (seatHeightString.isNotEmpty()) {
                 val seatHeightValue = seatHeightString.toDouble()
                 if (seatHeightValue >= min.toDouble() && seatHeightValue <= max.toDouble()) {
                     Log.i("seatHeightValue", "$min + $max")
                     return true
                 }
             } else {
-                println("NEED SEAT HEIGHT VALUE: " + name + ": " + seatHeightString)
+                println("NEED SEAT HEIGHT VALUE: $name: $seatHeightString")
             }
         }
         return false
@@ -103,14 +129,14 @@ open class Model : RealmObject() {
         val weightString = wet_weight ?: ""
         weightString.split("#").forEach() {
             val weightString = it.split("|").first().replace(',', '.')
-            if (weightString.count() > 0) {
+            if (weightString.isNotEmpty()) {
                 val weightValue = weightString.toDouble()
                 if (weightValue >= min.toDouble() && weightValue <= max.toDouble()) {
                     Log.i("weightValue", "$min + $max")
                     return true
                 }
             } else {
-                println("NEED SEAT WEIGHT VALUE: " + name + ": " + weightString)
+                println("NEED WET WEIGHT VALUE: $name: $weightString")
             }
         }
         return false
