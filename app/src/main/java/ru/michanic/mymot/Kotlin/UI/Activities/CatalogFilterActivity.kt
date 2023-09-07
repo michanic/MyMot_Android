@@ -56,6 +56,14 @@ class CatalogFilterActivity : UniversalActivity() {
     }
 
     private fun maxPower() {
+        val from: Double = 5.0
+        val to: Double = 305.0
+        val currentFrom: Double = 100.0
+        val currentFor: Double = 200.0
+        binding.maxPowerSlider.valueFrom = from.toFloat()
+        binding.maxPowerSlider.valueTo = to.toFloat()
+        binding.maxPowerSlider.setValues(currentFrom.toFloat(), currentFor.toFloat())
+
         binding.maxPowerSlider.addOnChangeListener { slider, value, fromUser ->
             val values = binding.maxPowerSlider.values
             binding.maxPowerOfEt.setText("от : ${values[0].toInt()}")

@@ -183,9 +183,6 @@
             android:layout_marginStart="@dimen/margin_start_and_end_slider"
             android:layout_marginTop="@dimen/margin_top_slider"
             android:layout_marginEnd="@dimen/margin_start_and_end_slider"
-            android:stepSize="10"
-            android:valueFrom="10"
-            android:valueTo="200"
             app:labelBehavior="gone"
             app:layout_constraintTop_toBottomOf="@id/max_power_of_et"
             app:values="@array/initial_slider_max_power" />
